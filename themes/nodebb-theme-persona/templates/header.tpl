@@ -13,6 +13,34 @@
         };
     </script>
 
+  
+    <script>
+      function changeHTML() {
+        // toggle background color to mimic latex typset effect
+        // this is because changing the html could potentially cause the observer to go
+        // into an infinite loop
+        if (document.querySelector("body").style.backgroundColor === "red")
+          document.querySelector("body").style.backgroundColor = "white";
+        else
+          document.querySelector("body").style.backgroundColor = "red";
+        document.querySelector("head").innerHTML += "<div></div>";
+      }
+
+      let debouncer = null;
+      let skipNext = false;
+      const observer = new MutationObserver(function (mutations) {
+        if (skipNext) return console.log("SKIPPING!", (skipNext = false)?"":"");
+        if (debouncer) clearTimeout(debouncer);
+        debouncer = setTimeout(() => {
+          console.log("FIRE!")
+          changeHTML();
+          skipNext = true;
+          clearTimeout(debouncer);
+        }, 100);
+      });
+      observer.observe(document.querySelector("html"), { childList: true, subtree: true });
+    </script>
+
     {{{if useCustomHTML}}}
     {{customHTML}}
     {{{end}}}
