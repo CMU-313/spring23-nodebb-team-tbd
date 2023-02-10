@@ -1,0 +1,36 @@
+{
+  "name": "nodebb-plugin-poll",
+  "version": "3.0.3",
+  "description": "NodeBB Poll Plugin",
+  "main": "library.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Schamper/nodebb-plugin-poll"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "poll"
+  ],
+  "author": "Schamper <mrwafflewaffle@aim.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Schamper/nodebb-plugin-poll/issues"
+  },
+  "dependencies": {
+    "async": "^3.2.0",
+    "cron": "^1.8.2"
+  },
+  "nbbpm": {
+    "compatibility": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4"
+  }
+}
