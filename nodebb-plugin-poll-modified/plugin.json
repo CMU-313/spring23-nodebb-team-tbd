@@ -1,0 +1,53 @@
+{
+  "id": "nodebb-plugin-poll",
+  "name": "Poll",
+  "description": "NodeBB Poll Plugin",
+  "url": "https://github.com/Schamper/nodebb-plugin-poll",
+  "library": "library.js",
+  "hooks": [
+    { "hook": "static:app.load", "method": "load" },
+    { "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
+    { "hook": "filter:composer.formatting", "method": "registerFormatting" },
+    { "hook": "static:privileges.categories.init", "method": "addPrivilege" },
+    { "hook": "filter:categories.copyPrivilegesFrom", "method": "copyPrivilegesFrom" },
+    { "hook": "filter:topic.post", "method": "hooks.filter.topicPost" },
+    { "hook": "filter:parse.raw", "method": "hooks.filter.parseRaw", "priority": 1 },
+    { "hook": "filter:post.create", "method": "hooks.filter.postCreate" },
+    { "hook": "filter:post.edit", "method": "hooks.filter.postEdit" },
+
+    { "hook": "action:post.delete", "method": "hooks.action.postDelete" },
+    { "hook": "action:post.restore", "method": "hooks.action.postRestore" },
+    { "hook": "action:topic.delete", "method": "hooks.action.topicDelete" },
+    { "hook": "action:topic.restore", "method": "hooks.action.topicRestore" }
+  ],
+  "staticDirs": {
+    "public": "public",
+    "vendor": "vendor"
+  },
+  "scss": [
+    "public/scss/style.scss"
+  ],
+  "scripts": [
+    "public/js/poll/main.js",
+    "public/js/poll/sockets.js",
+    "public/js/poll/creator.js",
+    "public/js/poll/view.js"
+  ],
+  "modules": {
+    "../admin/plugins/poll.js": "public/js/admin.js",
+    "poll/serializer.js": "public/js/poll/serializer.js",
+    "dayjs.js": "vendor/dayjs.min.js",
+    "flatpickr.js": "vendor/flatpickr.min.js",
+    "flatpickr.i10n.js": "vendor/flatpickr.l10n.js"
+  },
+  "css": [
+    "vendor/flatpickr.min.css"
+  ],
+  "templates": "templates",
+  "languages": "languages",
+  "upgrades": [
+    "upgrades/give_categories_poll_create_privs_to_reg_users.js",
+    "upgrades/convert_poll_id_voters_and_options_votes_to_sorted_sets.js",
+    "upgrades/fix_incorrect_poll_privilege.js"
+  ]
+}
