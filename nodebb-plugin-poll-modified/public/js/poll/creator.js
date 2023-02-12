@@ -211,9 +211,6 @@
 						if (prevOption.prevAll('input').length !== 0) {
 							prevOption.remove();
 						}
-							
-					
-					
 					});
 
 				var currentLocale = Translator.getLanguage();
