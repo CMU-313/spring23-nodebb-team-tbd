@@ -106,7 +106,8 @@ module.exports = {
 						], next);
 					});
 				});
-			}, callback);
+			},
+			callback);
 		});
 	},
 };
