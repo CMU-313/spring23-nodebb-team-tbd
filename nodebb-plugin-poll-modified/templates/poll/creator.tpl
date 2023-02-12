@@ -16,6 +16,7 @@
         <input type="text" name="options" id="pollInputOptions" class="form-control mb-2"/>
         <!-- ENDIF poll.options.length -->
         <button type="button" id="pollAddOption" class="btn btn-primary btn-sm btn-block">[[poll:options_add]]</button>
+        <button type="button" id="pollRemoveOption" class="btn btn-primary btn-sm btn-block">Remove option</button>
     </div>
 
     <hr>

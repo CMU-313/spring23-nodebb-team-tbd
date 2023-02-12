@@ -191,6 +191,31 @@
 						}
 					});
 
+				// Add option remover
+				modal.find('#pollRemoveOption')
+					.off('click')
+					.on('click', function (e) {
+						var el = $(e.currentTarget);
+						var AddOption = el.prev();
+						var prevOption = AddOption.prev();
+
+						if (el.prevAll('input').length <= 0) {
+							clearErrors();
+							require(['translator'], function (translator) {
+								translator.translate('[[poll:error.max_options]]', function (text) {
+									error(text.replace('%d', 0));
+								});
+							});
+							return false;
+						}
+						if (prevOption.prevAll('input').length !== 0) {
+							prevOption.remove();
+						}
+							
+					
+					
+					});
+
 				var currentLocale = Translator.getLanguage();
 				var flatpickrInstance = flatpickr('.flatpickr', {
 					enableTime: true,
