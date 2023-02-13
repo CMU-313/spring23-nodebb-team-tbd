@@ -63,8 +63,7 @@ function find_compiled_js() {
                 },
                 rules: {
                     "no-use-before-define": "off",
-                    "@typescript-eslint/no-use-before-define": "error",
-                    'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix'],			
+                    "@typescript-eslint/no-use-before-define": "error",			
                 }
             }
         ]
