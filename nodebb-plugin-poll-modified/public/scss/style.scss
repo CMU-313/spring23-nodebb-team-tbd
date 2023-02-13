@@ -1,0 +1,33 @@
+// Hide poll button in composer on reply
+.composer.reply .poll, .composer.reply .ql-poll {
+  display: none;
+}
+
+.poll-view {
+  h2, h3 {
+    margin-top: 0;
+  }
+
+  .card-title {
+    display: inline-block;
+  }
+
+  .btn-group {
+    display: block;
+    a {
+      color: inherit;
+    }
+  }
+}
+
+.poll-result-progressbar {
+  min-width: 2em;
+}
+
+.poll-result-details:hover {
+  text-decoration: none;
+}
+
+.poll-creator {
+  z-index: 11000 !important;
+}
