@@ -19,6 +19,15 @@
         <button type="button" id="pollRemoveOption" class="btn btn-primary btn-sm btn-block">Remove option</button>
     </div>
 
+    <div class="mb-3">
+        <label for="pollInputViewType">Choose which poll view you would like to display:</label>
+        <select name="pollInputViewType" id="pollInputViewType">
+            <option value="horizontal">Horizontal Bar Graph</option>
+            <option value="vertical">Vertical Bar Graph</option>
+        </select>
+        
+    </div>
+
     <hr>
 
     <div class="mb-3">
