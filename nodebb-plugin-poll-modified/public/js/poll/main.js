@@ -2,14 +2,14 @@
 
 window.Poll = {};
 
-(function (Poll) {
+(function () {
 	window.Poll.alertError = function (message) {
 		require(['alerts'], function (alerts) {
 			alerts.error(message);
 		});
 	};
 
-	require('./serializer')(window.utils);
+	require('poll/serializer')(window.utils);
 	$(window).on('action:topic.loading', function () {
 		if (ajaxify.data.posts.length > 0 && ajaxify.data.posts[0].hasOwnProperty('pollId')) {
 			getPoll(ajaxify.data.posts[0].pollId);
