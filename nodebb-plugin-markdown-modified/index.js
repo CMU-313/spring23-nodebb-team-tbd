@@ -282,7 +282,7 @@ const Markdown = {
 			{ name: 'list', className: 'fa fa-list-ul', title: '[[modules:composer.formatting.list]]' },
 			{ name: 'strikethrough', className: 'fa fa-strikethrough', title: '[[modules:composer.formatting.strikethrough]]' },
 			{ name: 'code', className: 'fa fa-code', title: '[[modules:composer.formatting.code]]' },
-			{ name: 'latex', className: 'fa fa-calculator', title: '[[modules:composer.formatting.latex]]' },
+			{ name: 'latex', className: 'fa fa-calculator', title: 'Latex' },
 			{ name: 'link', className: 'fa fa-link', title: '[[modules:composer.formatting.link]]' },
 			{ name: 'picture-o', className: 'fa fa-picture-o', title: '[[modules:composer.formatting.picture]]' },
 		];
