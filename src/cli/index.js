@@ -192,6 +192,18 @@ program
                 throw e;
             }
         }
+
+        exec(
+            "cd nodebb-plugin-poll-modified && npm link && cd .. && npm link nodebb-plugin-poll-modified",
+            function (error, stdout, stderr) {
+                console.log("stdout: " + stdout);
+                console.log("stderr: " + stderr);
+                if (error !== null) {
+                    console.log("exec error: " + error);
+                }
+            }
+        );
+
         require("./setup").setup(initConfig);
     });
 
@@ -225,22 +237,12 @@ program
             global.env = "development";
         }
 
-        exec(
-            "cd nodebb-plugin-poll-modified && npm link && cd .. && npm link nodebb-plugin-poll-modified && ./nodebb activate nodebb-plugin-poll-modified",
-            function (error, stdout, stderr) {
-                console.log("stdout: " + stdout);
-                console.log("stderr: " + stderr);
-                if (error !== null) {
-                    console.log("exec error: " + error);
-                }
-            }
-        );
-
         require("./manage").build(targets.length ? targets : true, options);
     })
     .on("--help", () => {
         require("../meta/aliases").buildTargets();
     });
+
 program
     .command("activate [plugin]")
     .description(
