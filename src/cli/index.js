@@ -193,7 +193,7 @@ program
             }
         }
 
-        exec(
+        /*exec(
             "cd nodebb-plugin-poll-modified && npm link && cd .. && npm link nodebb-plugin-poll-modified",
             function (error, stdout, stderr) {
                 console.log("stdout: " + stdout);
@@ -202,7 +202,7 @@ program
                     console.log("exec error: " + error);
                 }
             }
-        );
+        );*/
 
         require("./setup").setup(initConfig);
     });
