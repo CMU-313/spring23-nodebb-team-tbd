@@ -2,7 +2,6 @@
     <div class="card" style="color: {poll.settings.color}">
         <div class="card-header">
             <h3 class="card-title">{poll.settings.title}</h3>
-            <h3 class="card-title">Horizontal: {poll.settings.horizontal}</h3>
             <div class="btn-group float-end hidden">
                 <a href="#" class="poll-button-edit">
                     <span class="fa fa-pencil"></span>
