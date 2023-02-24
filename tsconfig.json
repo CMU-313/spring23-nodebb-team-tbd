@@ -7,7 +7,6 @@
     "esModuleInterop": true,
   },
   "include": [
-    "nodebb-plugin-markdown-modified/public/js/*",
     "public/src/**/*",
     "src/**/*", 
     "test/**/*",
