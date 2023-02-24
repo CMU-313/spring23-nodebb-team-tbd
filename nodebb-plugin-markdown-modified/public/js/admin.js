@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals define, $, socket, bootbox */
-
 define('admin/plugins/markdown', ['settings', 'alerts'], function (Settings, alerts) {
 	var Markdown = {};
 
