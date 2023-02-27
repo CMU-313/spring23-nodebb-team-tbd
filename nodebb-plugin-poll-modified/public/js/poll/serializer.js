@@ -1,10 +1,12 @@
-'use strict';
+"use strict";
 
 module.exports = function (utils) {
 	var Serializer = {};
 
-	var pollRegex = /(?:(?:\[poll(?<settings>.*?)\])(?:\\n|\n|<br \/>)(?<content>(?:-.+?(?:\\n|\n|<br \/>))+)(?:\[\/poll\]))/g;
-	var settingsRegex = /(?<key>.+?)=(?:"|&quot;|&#92;)(?<value>.+?)(?:"|&quot;|&#92;)/g;
+	var pollRegex =
+		/(?:(?:\[poll(?<settings>.*?)\])(?:\\n|\n|<br \/>)(?<content>(?:-.+?(?:\\n|\n|<br \/>))+)(?:\[\/poll\]))/g;
+	var settingsRegex =
+		/(?<key>.+?)=(?:"|&quot;|&#92;)(?<value>.+?)(?:"|&quot;|&#92;)/g;
 	var settingsValidators = {
 		title: {
 			test: function (value) {
@@ -27,12 +29,12 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value === true ? 1 : 0;
+				return value === "true" || value === true ? 1 : 0;
 			},
 		},
 		end: {
 			test: function (value) {
-				return (!isNaN(value) && parseInt(value, 10) > Date.now());
+				return !isNaN(value) && parseInt(value, 10) > Date.now();
 			},
 			parse: function (value) {
 				return parseInt(value, 10);
@@ -43,7 +45,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value === true ? 1 : 0;
+				return value === "true" || value === true ? 1 : 0;
 			},
 		},
 		color: {
@@ -62,7 +64,7 @@ module.exports = function (utils) {
 	};
 
 	Serializer.removeMarkup = function (content, replace) {
-		return content.replace(pollRegex, replace || '');
+		return content.replace(pollRegex, replace || "");
 	};
 
 	Serializer.hasMarkup = function (content) {
@@ -72,6 +74,7 @@ module.exports = function (utils) {
 	};
 
 	Serializer.serialize = function (post, config) {
+		console.log("Serializing function");
 		pollRegex.lastIndex = 0;
 		var match = pollRegex.exec(post);
 
@@ -86,24 +89,24 @@ module.exports = function (utils) {
 	};
 
 	Serializer.deserialize = function (poll, config) {
-		console.log('Deserializing function');
+		console.log("Deserializing function");
 		console.trace();
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
-		return '[poll' + settings + ']\n' + options + '\n[/poll]';
+		return "[poll" + settings + "]\n" + options + "\n[/poll]";
 	};
 
 	function serializeOptions(raw, config) {
 		// Depending on composer, the line breaks can either be \n or <br /> so handle both
 		var pollOptions = [];
 		var rawOptions = raw.split(/(?:\\n|\n|<br \/>)/);
-		rawOptions.map(raw => utils.stripHTMLTags(raw));
+		rawOptions.map((raw) => utils.stripHTMLTags(raw));
 		var maxOptions = parseInt(config.limits.maxOptions, 10);
 
 		rawOptions.forEach(function (option) {
 			if (option.length) {
-				option = option.split('-').slice(1).join('-').trim();
+				option = option.split("-").slice(1).join("-").trim();
 
 				if (option.length) {
 					pollOptions.push(option);
@@ -121,63 +124,74 @@ module.exports = function (utils) {
 	function deserializeOptions(options, config) {
 		var maxOptions = config.limits.maxOptions;
 
-		options = options.map(function (option) {
-			return utils.stripHTMLTags(option).trim();
-		}).filter(function (option) {
-			return option.length;
-		});
+		options = options
+			.map(function (option) {
+				return utils.stripHTMLTags(option).trim();
+			})
+			.filter(function (option) {
+				return option.length;
+			});
 
 		if (options.length > maxOptions) {
 			options = options.slice(0, maxOptions - 1);
 		}
 
-		return options.length ? '- ' + options.join('\n- ') : '';
+		return options.length ? "- " + options.join("\n- ") : "";
 	}
 
 	function serializeSettings(raw, config) {
-		console.log('Serializing settings', raw, config);
+		console.log("Serializing settings", raw, config);
 		var settings = {};
 
 		Object.keys(config.defaults).forEach(function (key) {
 			settings[key] = config.defaults[key];
 		});
 
-		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, '&#92;');
+		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, "&#92;");
 		let match;
-		while ((match = settingsRegex.exec(stripped)) !== null) { // eslint-disable-line no-cond-assign
+		while ((match = settingsRegex.exec(stripped)) !== null) {
+			// eslint-disable-line no-cond-assign
 			var key = match.groups.key.trim();
 			var value = match.groups.value.trim();
 
-			if (key.length && value.length && settingsValidators.hasOwnProperty(key)) {
+			if (
+				key.length &&
+				value.length &&
+				settingsValidators.hasOwnProperty(key)
+			) {
 				if (settingsValidators[key].test(value)) {
 					settings[key] = settingsValidators[key].parse(value);
 				}
 			}
 		}
-		console.log('Serialized: ', settings);
+		console.log("Serialized: ", settings);
 		return settings;
 	}
 
 	function deserializeSettings(settings, config) {
-		console.log('Deserializing settings', settings, config);
-		var deserialized = '';
+		console.log("Deserializing settings", settings, config);
+		var deserialized = "";
 
 		for (var k in settings) {
 			if (settings.hasOwnProperty(k) && config.defaults.hasOwnProperty(k)) {
 				var key = utils.stripHTMLTags(k).trim();
 				var value = utils.stripHTMLTags(settings[k]).trim();
-				if (key.length && value.length && settingsValidators.hasOwnProperty(key)) {
+				if (
+					key.length &&
+					value.length &&
+					settingsValidators.hasOwnProperty(key)
+				) {
 					if (settingsValidators[key].test(value)) {
-						deserialized += ' ' + key + '="' + value + '"';
+						deserialized += " " + key + '="' + value + '"';
 					}
 				}
 			}
 		}
-		console.log('Deserialized: ', deserialized);
+		console.log("Deserialized: ", deserialized);
 		return deserialized;
 	}
 
-	if (typeof window !== 'undefined') {
+	if (typeof window !== "undefined") {
 		window.Poll.serializer = Serializer;
 	}
 	return Serializer;
