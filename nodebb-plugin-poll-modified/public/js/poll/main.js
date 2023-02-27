@@ -2,13 +2,14 @@
 
 window.Poll = {};
 
-(function () {
+(function (Poll) {
 	window.Poll.alertError = function (message) {
 		require(['alerts'], function (alerts) {
 			alerts.error(message);
 		});
 	};
 
+	// eslint-disable-next-line
 	require('poll/serializer')(window.utils);
 	$(window).on('action:topic.loading', function () {
 		if (ajaxify.data.posts.length > 0 && ajaxify.data.posts[0].hasOwnProperty('pollId')) {

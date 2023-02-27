@@ -12,7 +12,8 @@ const { paths } = require('../constants');
 
 try {
     fs.accessSync(paths.currentPackage, fs.constants.R_OK); // throw on missing package.json
-    try { // handle missing node_modules/ directory
+    try {
+        // handle missing node_modules/ directory
         fs.accessSync(paths.nodeModules, fs.constants.R_OK);
     } catch (e) {
         if (e.code === 'ENOENT') {
@@ -22,15 +23,27 @@ try {
             throw e;
         }
     }
-    fs.accessSync(path.join(paths.nodeModules, 'semver/package.json'), fs.constants.R_OK);
+    fs.accessSync(
+        path.join(paths.nodeModules, 'semver/package.json'),
+        fs.constants.R_OK
+    );
 
     const semver = require('semver');
     const defaultPackage = require('../../install/package.json');
 
     const checkVersion = function (packageName) {
-        const { version } = JSON.parse(fs.readFileSync(path.join(paths.nodeModules, packageName, 'package.json'), 'utf8'));
-        if (!semver.satisfies(version, defaultPackage.dependencies[packageName])) {
-            const e = new TypeError(`Incorrect dependency version: ${packageName}`);
+        const { version } = JSON.parse(
+            fs.readFileSync(
+                path.join(paths.nodeModules, packageName, 'package.json'),
+                'utf8'
+            )
+        );
+        if (
+            !semver.satisfies(version, defaultPackage.dependencies[packageName])
+        ) {
+            const e = new TypeError(
+                `Incorrect dependency version: ${packageName}`
+            );
             e.code = 'DEP_WRONG_VERSION';
             throw e;
         }
@@ -90,8 +103,13 @@ nconf.argv(opts).env({
 prestart.setupWinston();
 
 // Alternate configuration file support
-const configFile = path.resolve(paths.baseDir, nconf.get('config') || 'config.json');
-const configExists = file.existsSync(configFile) || (nconf.get('url') && nconf.get('secret') && nconf.get('database'));
+const configFile = path.resolve(
+    paths.baseDir,
+    nconf.get('config') || 'config.json'
+);
+const configExists =
+    file.existsSync(configFile) ||
+    (nconf.get('url') && nconf.get('secret') && nconf.get('database'));
 
 prestart.loadConfig(configFile);
 prestart.versionCheck();
@@ -163,8 +181,12 @@ program
             try {
                 initConfig = JSON.parse(initConfig);
             } catch (e) {
-                console.warn(chalk.red('Invalid JSON passed as initial config value.'));
-                console.log('If you meant to pass in an initial config value, please try again.\n');
+                console.warn(
+                    chalk.red('Invalid JSON passed as initial config value.')
+                );
+                console.log(
+                    'If you meant to pass in an initial config value, please try again.\n'
+                );
 
                 throw e;
             }
@@ -174,8 +196,13 @@ program
 
 program
     .command('install [plugin]')
-    .description('Launch the NodeBB web installer for configuration setup or install a plugin')
-    .option('-f, --force', 'Force plugin installation even if it may be incompatible with currently installed NodeBB version')
+    .description(
+        'Launch the NodeBB web installer for configuration setup or install a plugin'
+    )
+    .option(
+        '-f, --force',
+        'Force plugin installation even if it may be incompatible with currently installed NodeBB version'
+    )
     .action((plugin, options) => {
         if (plugin) {
             require('./manage').install(plugin, options);
@@ -186,7 +213,9 @@ program
 
 program
     .command('build [targets...]')
-    .description(`Compile static assets ${chalk.red('(JS, CSS, templates, languages)')}`)
+    .description(
+        `Compile static assets ${chalk.red('(JS, CSS, templates, languages)')}`
+    )
     .option('-s, --series', 'Run builds in series without extra processes')
     .option('-w, --webpack', 'Bundle assets with webpack', true)
     .action((targets, options) => {
@@ -194,14 +223,18 @@ program
             process.env.NODE_ENV = 'development';
             global.env = 'development';
         }
+
         require('./manage').build(targets.length ? targets : true, options);
     })
     .on('--help', () => {
         require('../meta/aliases').buildTargets();
     });
+
 program
     .command('activate [plugin]')
-    .description('Activate a plugin for the next startup of NodeBB (nodebb-plugin- prefix is optional)')
+    .description(
+        'Activate a plugin for the next startup of NodeBB (nodebb-plugin- prefix is optional)'
+    )
     .action((plugin) => {
         require('./manage').activate(plugin);
     });
@@ -213,7 +246,9 @@ program
     .description('List all installed plugins');
 program
     .command('events [count]')
-    .description('Outputs the most recent administrative events recorded by NodeBB')
+    .description(
+        'Outputs the most recent administrative events recorded by NodeBB'
+    )
     .action((count) => {
         require('./manage').listEvents(count);
     });
@@ -237,7 +272,11 @@ resetCommand
     .action((options) => {
         const valid = ['theme', 'plugin', 'widgets', 'settings', 'all'].some(x => options[x]);
         if (!valid) {
-            console.warn(`\n${chalk.red('No valid options passed in, so nothing was reset.')}`);
+            console.warn(
+                `\n${chalk.red(
+                    'No valid options passed in, so nothing was reset.'
+                )}`
+            );
             resetCommand.help();
         }
 
@@ -251,26 +290,33 @@ resetCommand
     });
 
 // user
-program
-    .addCommand(require('./user')());
+program.addCommand(require('./user')());
 
 // upgrades
 program
     .command('upgrade [scripts...]')
-    .description('Run NodeBB upgrade scripts and ensure packages are up-to-date, or run a particular upgrade script')
+    .description(
+        'Run NodeBB upgrade scripts and ensure packages are up-to-date, or run a particular upgrade script'
+    )
     .option('-m, --package', 'Update package.json from defaults', false)
     .option('-i, --install', 'Bringing base dependencies up to date', false)
     .option('-p, --plugins', 'Check installed plugins for updates', false)
     .option('-s, --schema', 'Update NodeBB data store schema', false)
     .option('-b, --build', 'Rebuild assets', false)
     .on('--help', () => {
-        console.log(`\n${[
-            'When running particular upgrade scripts, options are ignored.',
-            'By default all options are enabled. Passing any options disables that default.',
-            '\nExamples:',
-            `  Only package and dependency updates: ${chalk.yellow('./nodebb upgrade -mi')}`,
-            `  Only database update: ${chalk.yellow('./nodebb upgrade -s')}`,
-        ].join('\n')}`);
+        console.log(
+            `\n${[
+                'When running particular upgrade scripts, options are ignored.',
+                'By default all options are enabled. Passing any options disables that default.',
+                '\nExamples:',
+                `  Only package and dependency updates: ${chalk.yellow(
+                    './nodebb upgrade -mi'
+                )}`,
+                `  Only database update: ${chalk.yellow(
+                    './nodebb upgrade -s'
+                )}`,
+            ].join('\n')}`
+        );
     })
     .action((scripts, options) => {
         if (program.opts().dev) {
