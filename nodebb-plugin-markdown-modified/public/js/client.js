@@ -266,7 +266,7 @@
 				parentNode.addClass('markdown-highlight');
 
 				// Default language if set in ACP
-				if (!Array.prototype.some.call(block.classList, (className) => className.startsWith('language-')) && config.markdown.defaultHighlightLanguage) {
+				if (!Array.prototype.some.call(block.classList, className => className.startsWith('language-')) && config.markdown.defaultHighlightLanguage) {
 					block.classList.add(`language-${config.markdown.defaultHighlightLanguage}`);
 				}
 
@@ -277,7 +277,8 @@
 					if (className.indexOf('language-') === 0) {
 						className = className.slice(9);
 					}
-					return config.markdown.highlightLinesLanguageList.includes(className) || config.markdown.highlightLinesLanguageList.includes(className);
+					return config.markdown.highlightLinesLanguageList.includes(className) ||
+						config.markdown.highlightLinesLanguageList.includes(className);
 				}).some(Boolean)) {
 					$(block).attr('data-lines', 1);
 					window.hljs.lineNumbersBlock(block);

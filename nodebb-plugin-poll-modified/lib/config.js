@@ -28,6 +28,8 @@ const pluginId = pluginInfo.id.replace('nodebb-plugin-', '');
 			maxvotes: 1,
 			disallowVoteUpdate: 0,
 			end: 0,
+			horizontal: false,
+			color: '#ff0000',
 		},
 	};
 
