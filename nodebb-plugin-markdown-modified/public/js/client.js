@@ -277,8 +277,8 @@
 					if (className.indexOf('language-') === 0) {
 						className = className.slice(9);
 					}
-					// eslint-disable-next-line max-len
-					return config.markdown.highlightLinesLanguageList.includes(className) || config.markdown.highlightLinesLanguageList.includes(className);
+					return config.markdown.highlightLinesLanguageList.includes(className) ||
+						config.markdown.highlightLinesLanguageList.includes(className);
 				}).some(Boolean)) {
 					$(block).attr('data-lines', 1);
 					window.hljs.lineNumbersBlock(block);

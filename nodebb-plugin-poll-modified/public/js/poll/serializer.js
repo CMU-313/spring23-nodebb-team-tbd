@@ -38,6 +38,22 @@ module.exports = function (utils) {
 				return parseInt(value, 10);
 			},
 		},
+		horizontal: {
+			test: function (value) {
+				return /true|false/.test(value);
+			},
+			parse: function (value) {
+				return value === 'true' || value === true ? 1 : 0;
+			},
+		},
+		color: {
+			test: function (value) {
+				return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value);
+			},
+			parse: function (value) {
+				return value;
+			},
+		},
 	};
 
 	Serializer.canSerialize = function (post) {
@@ -70,6 +86,8 @@ module.exports = function (utils) {
 	};
 
 	Serializer.deserialize = function (poll, config) {
+		console.log('Deserializing function');
+		console.trace();
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
@@ -117,6 +135,7 @@ module.exports = function (utils) {
 	}
 
 	function serializeSettings(raw, config) {
+		console.log('Serializing settings', raw, config);
 		var settings = {};
 
 		Object.keys(config.defaults).forEach(function (key) {
@@ -135,18 +154,18 @@ module.exports = function (utils) {
 				}
 			}
 		}
-
+		console.log('Serialized: ', settings);
 		return settings;
 	}
 
 	function deserializeSettings(settings, config) {
+		console.log('Deserializing settings', settings, config);
 		var deserialized = '';
 
 		for (var k in settings) {
 			if (settings.hasOwnProperty(k) && config.defaults.hasOwnProperty(k)) {
 				var key = utils.stripHTMLTags(k).trim();
 				var value = utils.stripHTMLTags(settings[k]).trim();
-
 				if (key.length && value.length && settingsValidators.hasOwnProperty(key)) {
 					if (settingsValidators[key].test(value)) {
 						deserialized += ' ' + key + '="' + value + '"';
@@ -154,7 +173,7 @@ module.exports = function (utils) {
 				}
 			}
 		}
-
+		console.log('Deserialized: ', deserialized);
 		return deserialized;
 	}
 
