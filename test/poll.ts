@@ -99,7 +99,6 @@ describe('Creating poll and (de)serializing...', () => {
 
         it('should return null if type is not correct', (done) => {
             const pollString = '[2\n[/poll]';
-            
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
             const config = Config.defaults;
