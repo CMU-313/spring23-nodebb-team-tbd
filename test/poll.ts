@@ -11,12 +11,7 @@ describe('Creating poll and (de)serializing...', () => {
         const config = Config.defaults;
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        const samePollString: string = serializer.deserialize(
-            // eslint-disable-next-line max-len
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            serializer.serialize(pollString, config),
-            config
-        );
+        const samePollString: string = serializer.deserialize(serializer.serialize(pollString, config), config);
         if (samePollString === pollString) done();
         else done(new Error(`Polls are not the same:\n${pollString}\nvs\n${samePollString}`));
     });
