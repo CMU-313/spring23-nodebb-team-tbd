@@ -1,10 +1,8 @@
 import * as Config from 'nodebb-plugin-poll-modified/lib/config';
+import serializer from 'nodebb-plugin-poll-modified/public/js/poll/serializer';
 
-import * as serializer from 'nodebb-plugin-poll-modified/public/js/poll/serializer';
-
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-serializer(require.main.require('./src/utils'));
-
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+const Serializer = serializer(require.main.require('./src/utils'));
 
 describe('Creating poll and (de)serializing...', () => {
     it('deserialize should undo serialize', (done) => {
@@ -13,7 +11,7 @@ describe('Creating poll and (de)serializing...', () => {
         const config = Config.defaults;
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        const samePollString: string = serializer.deserialize(serializer.serialize(pollString, config), config);
+        const samePollString: string = Serializer.deserialize(Serializer.serialize(pollString, config), config);
         if (samePollString === pollString) done();
         else done(new Error(`Polls are not the same:\n${pollString}\nvs\n${samePollString}`));
     });
@@ -24,7 +22,7 @@ describe('Creating poll and (de)serializing...', () => {
         const config = Config.defaults;
         // eslint-disable-next-line max-len
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-        const samePollConfig = serializer.serialize(serializer.deserialize(pollConfig, config), config);
+        const samePollConfig = Serializer.serialize(Serializer.deserialize(pollConfig, config), config);
 
         // Check if the two are the same using JSON.stringify
         if (JSON.stringify(samePollConfig) === JSON.stringify(pollConfig)) done();
@@ -39,7 +37,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollConfig: string = serializer.serialize(pollString, config);
+            const pollConfig: string = Serializer.serialize(pollString, config);
             const answer = { options: ['op1', 'op2'], settings: { title: 'Test-title', maxvotes: 69, disallowVoteUpdate: false, end: 0, horizontal: true, color: '#ff00ff' } };
 
             // Check if the two are the same using JSON.stringify
@@ -54,7 +52,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollConfig: string = serializer.serialize(pollString, config);
+            const pollConfig: string = Serializer.serialize(pollString, config);
             // should fall back onto default color
             const answer = { options: ['op1', 'op2'], settings: { title: 'Test-title', maxvotes: 69, disallowVoteUpdate: false, end: 0, horizontal: true, color: '#ff0000' } };
 
@@ -70,7 +68,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollConfig: string = serializer.serialize(pollString, config);
+            const pollConfig: string = Serializer.serialize(pollString, config);
             // should fall back onto default horizontal
             const answer = { options: ['op1', 'op2'], settings: { title: 'Test-title', maxvotes: 69, disallowVoteUpdate: false, end: 0, horizontal: false, color: '#ff00ff' } };
 
@@ -86,7 +84,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollConfig: string = serializer.serialize(pollString, config);
+            const pollConfig: string = Serializer.serialize(pollString, config);
             // should fall back onto default horizontal and color
             const answer = { options: ['op1', 'op2'], settings: { title: 'Test-title', maxvotes: 69, disallowVoteUpdate: false, end: 0, horizontal: false, color: '#ff0000' } };
 
@@ -102,7 +100,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollConfig: string = serializer.serialize(pollString, config);
+            const pollConfig: string = Serializer.serialize(pollString, config);
             const answer = null;
 
             // Check if the two are the same using JSON.stringify
@@ -119,7 +117,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollString: string = serializer.deserialize(pollConfig, config);
+            const pollString: string = Serializer.deserialize(pollConfig, config);
             const answer = '[poll title="Test-title" maxvotes="69" disallowVoteUpdate="false" horizontal="true" color="#ff00ff"]\n- op1\n- op2\n[/poll]';
 
             if (answer === pollString) done();
@@ -133,7 +131,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollString: string = serializer.deserialize(pollConfig, config);
+            const pollString: string = Serializer.deserialize(pollConfig, config);
             const answer = '[poll title="Test-title" maxvotes="69" disallowVoteUpdate="false" horizontal="true"]\n- op1\n- op2\n[/poll]';
 
             if (answer === pollString) done();
@@ -147,7 +145,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollString: string = serializer.deserialize(pollConfig, config);
+            const pollString: string = Serializer.deserialize(pollConfig, config);
             const answer = '[poll title="Test-title" maxvotes="69" disallowVoteUpdate="false" color="#ff00ff"]\n- op1\n- op2\n[/poll]';
 
             if (answer === pollString) done();
@@ -161,7 +159,7 @@ describe('Creating poll and (de)serializing...', () => {
             const config = Config.defaults;
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
-            const pollString: string = serializer.deserialize(pollConfig, config);
+            const pollString: string = Serializer.deserialize(pollConfig, config);
             const answer = '[poll title="Test-title" maxvotes="69" disallowVoteUpdate="false"]\n- op1\n- op2\n[/poll]';
 
             if (answer === pollString) done();
@@ -176,7 +174,7 @@ describe('Creating poll and (de)serializing...', () => {
                 const config = Config.defaults;
                 // eslint-disable-next-line max-len
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-                serializer.deserialize(pollConfig, config);
+                Serializer.deserialize(pollConfig, config);
                 done(new Error('Should have failed'));
             } catch (e) {
                 done();
