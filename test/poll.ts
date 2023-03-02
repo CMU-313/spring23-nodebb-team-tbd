@@ -1,4 +1,3 @@
-const assert = require("assert");
 const serializer = require("../nodebb-plugin-poll-modified/public/js/poll/serializer.js")(require.main.require('./src/utils'));
 const Config = require("../nodebb-plugin-poll-modified/lib/config.js");
 
