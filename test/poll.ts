@@ -2,7 +2,9 @@ import * as Config from 'nodebb-plugin-poll-modified/lib/config';
 
 import * as serializer from 'nodebb-plugin-poll-modified/public/js/poll/serializer';
 
-require.main.require('./src/utils');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+serializer(require.main.require('./src/utils'));
+
 
 describe('Creating poll and (de)serializing...', () => {
     it('deserialize should undo serialize', (done) => {

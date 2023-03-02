@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Config = __importStar(require("nodebb-plugin-poll-modified/lib/config"));
 const serializer = __importStar(require("nodebb-plugin-poll-modified/public/js/poll/serializer"));
-require.main.require('./src/utils');
+serializer(require.main.require('./src/utils'));
 describe('Creating poll and (de)serializing...', () => {
     it('deserialize should undo serialize', (done) => {
         const pollString = '[poll title="Test-title" maxvotes="69" disallowVoteUpdate="false" horizontal="true" color="#ff00ff"]\n- op1\n- op2\n[/poll]';
