@@ -29,7 +29,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value == true ? true : false;
+				return value === 'true' || value === true;
 			},
 		},
 		end: {
@@ -45,7 +45,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value == true ? true : false;
+				return value === 'true' || value === true;
 			},
 		},
 		color: {
@@ -91,19 +91,19 @@ module.exports = function (utils) {
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
-		return '[poll" + settings + "]\n' + options + '\n[/poll]';
+		return '[poll' + settings + ']\n' + options + '\n[/poll]';
 	};
 
 	function serializeOptions(raw, config) {
 		// Depending on composer, the line breaks can either be \n or <br /> so handle both
 		var pollOptions = [];
 		var rawOptions = raw.split(/(?:\\n|\n|<br \/>)/);
-		rawOptions.map(raw) => utils.stripHTMLTags(raw);
+		rawOptions.map(raw => utils.stripHTMLTags(raw));
 		var maxOptions = parseInt(config.limits.maxOptions, 10);
 
 		rawOptions.forEach(function (option) {
 			if (option.length) {
-				option = option.split("-").slice(1).join("-").trim();
+				option = option.split('-').slice(1).join('-').trim();
 
 				if (option.length) {
 					pollOptions.push(option);
@@ -133,7 +133,7 @@ module.exports = function (utils) {
 			options = options.slice(0, maxOptions - 1);
 		}
 
-		return options.length ? "- " + options.join("\n- ") : "";
+		return options.length ? '- ' + options.join('\n- ') : '';
 	}
 
 	function serializeSettings(raw, config) {
@@ -143,10 +143,9 @@ module.exports = function (utils) {
 			settings[key] = config.defaults[key];
 		});
 
-		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, "&#92;");
-		let match;
-		while ((match = settingsRegex.exec(stripped)) !== null) {
-			// eslint-disable-line no-cond-assign
+		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, '&#92;');
+		let match = settingsRegex.exec(stripped);
+		while (match !== null) {
 			var key = match.groups.key.trim();
 			var value = match.groups.value.trim();
 
@@ -159,12 +158,13 @@ module.exports = function (utils) {
 					settings[key] = settingsValidators[key].parse(value);
 				}
 			}
+			match = settingsRegex.exec(stripped);
 		}
 		return settings;
 	}
 
 	function deserializeSettings(settings, config) {
-		var deserialized = "";
+		var deserialized = '';
 
 		for (var k in settings) {
 			if (settings.hasOwnProperty(k) && config.defaults.hasOwnProperty(k)) {
@@ -176,15 +176,15 @@ module.exports = function (utils) {
 					settingsValidators.hasOwnProperty(key)
 				) {
 					if (settingsValidators[key].test(value)) {
-						deserialized += " " + key + '="' + value + '"';
-					} 
-				} 
-			} 
+						deserialized += ' ' + key + '="' + value + '"';
+					}
+				}
+			}
 		}
 		return deserialized;
 	}
 
-	if (typeof window !== "undefined") {
+	if (typeof window !== 'undefined') {
 		window.Poll.serializer = Serializer;
 	}
 	return Serializer;
