@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = function (utils) {
 	var Serializer = {};
@@ -29,7 +29,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === "true" || value === true ? true : false;
+				return value === 'true' || value == true ? true : false;
 			},
 		},
 		end: {
@@ -45,7 +45,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === "true" || value === true ? true : false;
+				return value === 'true' || value == true ? true : false;
 			},
 		},
 		color: {
@@ -64,7 +64,7 @@ module.exports = function (utils) {
 	};
 
 	Serializer.removeMarkup = function (content, replace) {
-		return content.replace(pollRegex, replace || "");
+		return content.replace(pollRegex, replace || '');
 	};
 
 	Serializer.hasMarkup = function (content) {
@@ -91,14 +91,14 @@ module.exports = function (utils) {
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
-		return "[poll" + settings + "]\n" + options + "\n[/poll]";
+		return '[poll" + settings + "]\n' + options + '\n[/poll]';
 	};
 
 	function serializeOptions(raw, config) {
 		// Depending on composer, the line breaks can either be \n or <br /> so handle both
 		var pollOptions = [];
 		var rawOptions = raw.split(/(?:\\n|\n|<br \/>)/);
-		rawOptions.map((raw) => utils.stripHTMLTags(raw));
+		rawOptions.map(raw) => utils.stripHTMLTags(raw);
 		var maxOptions = parseInt(config.limits.maxOptions, 10);
 
 		rawOptions.forEach(function (option) {
