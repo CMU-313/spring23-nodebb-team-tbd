@@ -3,8 +3,10 @@
 module.exports = function (utils) {
 	var Serializer = {};
 
-	var pollRegex = /(?:(?:\[poll(?<settings>.*?)\])(?:\\n|\n|<br \/>)(?<content>(?:-.+?(?:\\n|\n|<br \/>))+)(?:\[\/poll\]))/g;
-	var settingsRegex = /(?<key>.+?)=(?:"|&quot;|&#92;)(?<value>.+?)(?:"|&quot;|&#92;)/g;
+	var pollRegex =
+		/(?:(?:\[poll(?<settings>.*?)\])(?:\\n|\n|<br \/>)(?<content>(?:-.+?(?:\\n|\n|<br \/>))+)(?:\[\/poll\]))/g;
+	var settingsRegex =
+		/(?<key>.+?)=(?:"|&quot;|&#92;)(?<value>.+?)(?:"|&quot;|&#92;)/g;
 	var settingsValidators = {
 		title: {
 			test: function (value) {
@@ -27,12 +29,12 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value === true ? 1 : 0;
+				return value === 'true' || value === true;
 			},
 		},
 		end: {
 			test: function (value) {
-				return (!isNaN(value) && parseInt(value, 10) > Date.now());
+				return !isNaN(value) && parseInt(value, 10) > Date.now();
 			},
 			parse: function (value) {
 				return parseInt(value, 10);
@@ -43,7 +45,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === 'true' || value === true ? 1 : 0;
+				return value === 'true' || value === true;
 			},
 		},
 		color: {
@@ -86,8 +88,6 @@ module.exports = function (utils) {
 	};
 
 	Serializer.deserialize = function (poll, config) {
-		console.log('Deserializing function');
-		console.trace();
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
@@ -121,11 +121,13 @@ module.exports = function (utils) {
 	function deserializeOptions(options, config) {
 		var maxOptions = config.limits.maxOptions;
 
-		options = options.map(function (option) {
-			return utils.stripHTMLTags(option).trim();
-		}).filter(function (option) {
-			return option.length;
-		});
+		options = options
+			.map(function (option) {
+				return utils.stripHTMLTags(option).trim();
+			})
+			.filter(function (option) {
+				return option.length;
+			});
 
 		if (options.length > maxOptions) {
 			options = options.slice(0, maxOptions - 1);
@@ -135,7 +137,6 @@ module.exports = function (utils) {
 	}
 
 	function serializeSettings(raw, config) {
-		console.log('Serializing settings', raw, config);
 		var settings = {};
 
 		Object.keys(config.defaults).forEach(function (key) {
@@ -143,37 +144,43 @@ module.exports = function (utils) {
 		});
 
 		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, '&#92;');
-		let match;
-		while ((match = settingsRegex.exec(stripped)) !== null) { // eslint-disable-line no-cond-assign
+		let match = settingsRegex.exec(stripped);
+		while (match !== null) {
 			var key = match.groups.key.trim();
 			var value = match.groups.value.trim();
 
-			if (key.length && value.length && settingsValidators.hasOwnProperty(key)) {
+			if (
+				key.length &&
+				value.length &&
+				settingsValidators.hasOwnProperty(key)
+			) {
 				if (settingsValidators[key].test(value)) {
 					settings[key] = settingsValidators[key].parse(value);
 				}
 			}
+			match = settingsRegex.exec(stripped);
 		}
-		console.log('Serialized: ', settings);
 		return settings;
 	}
 
 	function deserializeSettings(settings, config) {
-		console.log('Deserializing settings', settings, config);
 		var deserialized = '';
 
 		for (var k in settings) {
 			if (settings.hasOwnProperty(k) && config.defaults.hasOwnProperty(k)) {
 				var key = utils.stripHTMLTags(k).trim();
 				var value = utils.stripHTMLTags(settings[k]).trim();
-				if (key.length && value.length && settingsValidators.hasOwnProperty(key)) {
+				if (
+					key.length &&
+					value.length &&
+					settingsValidators.hasOwnProperty(key)
+				) {
 					if (settingsValidators[key].test(value)) {
 						deserialized += ' ' + key + '="' + value + '"';
 					}
 				}
 			}
 		}
-		console.log('Deserialized: ', deserialized);
 		return deserialized;
 	}
 
