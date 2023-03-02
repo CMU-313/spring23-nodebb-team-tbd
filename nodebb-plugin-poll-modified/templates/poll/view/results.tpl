@@ -6,6 +6,7 @@
 </style>
 <script>
 {
+    // The switching code is implemented in Javascript because the template file does not support such complex conditionals
     let horizontal = `    
         <strong>{poll.options.title}</strong>
         <small class="pull-right">

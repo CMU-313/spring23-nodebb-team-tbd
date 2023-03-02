@@ -29,7 +29,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === "true" || value === true ? 1 : 0;
+				return value === "true" || value === true ? true : false;
 			},
 		},
 		end: {
@@ -45,7 +45,7 @@ module.exports = function (utils) {
 				return /true|false/.test(value);
 			},
 			parse: function (value) {
-				return value === "true" || value === true ? 1 : 0;
+				return value === "true" || value === true ? true : false;
 			},
 		},
 		color: {
@@ -74,7 +74,6 @@ module.exports = function (utils) {
 	};
 
 	Serializer.serialize = function (post, config) {
-		console.log("Serializing function");
 		pollRegex.lastIndex = 0;
 		var match = pollRegex.exec(post);
 
@@ -89,8 +88,6 @@ module.exports = function (utils) {
 	};
 
 	Serializer.deserialize = function (poll, config) {
-		console.log("Deserializing function");
-		console.trace();
 		var options = deserializeOptions(poll.options, config);
 		var settings = deserializeSettings(poll.settings, config);
 
@@ -140,7 +137,6 @@ module.exports = function (utils) {
 	}
 
 	function serializeSettings(raw, config) {
-		console.log("Serializing settings", raw, config);
 		var settings = {};
 
 		Object.keys(config.defaults).forEach(function (key) {
@@ -164,12 +160,10 @@ module.exports = function (utils) {
 				}
 			}
 		}
-		console.log("Serialized: ", settings);
 		return settings;
 	}
 
 	function deserializeSettings(settings, config) {
-		console.log("Deserializing settings", settings, config);
 		var deserialized = "";
 
 		for (var k in settings) {
@@ -183,11 +177,10 @@ module.exports = function (utils) {
 				) {
 					if (settingsValidators[key].test(value)) {
 						deserialized += " " + key + '="' + value + '"';
-					}
-				}
-			}
+					} 
+				} 
+			} 
 		}
-		console.log("Deserialized: ", deserialized);
 		return deserialized;
 	}
 
