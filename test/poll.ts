@@ -1,5 +1,6 @@
-import serializer from 'nodebb-plugin-poll-modified/public/js/poll/serializer';
-import Config from 'nodebb-plugin-poll-modified/lib/config';
+import * as Config from 'nodebb-plugin-poll-modified/lib/config';
+
+import * as serializer from 'nodebb-plugin-poll-modified/public/js/poll/serializer';
 
 require.main.require('./src/utils');
 
