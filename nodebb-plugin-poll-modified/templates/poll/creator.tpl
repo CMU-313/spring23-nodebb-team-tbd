@@ -30,8 +30,7 @@
 
     <div class="mb-3">
         <label class="form-label" for="poll.color">Poll color</label>
-        <input type="text" name="poll.color" id="poll.color" value="#ff0000"
-               placeholder="Color in hex format" class="form-control">
+        <input type="color" id="poll.color" name="poll.color" value="#2687F4"/>
     </div>
 
     <hr>
