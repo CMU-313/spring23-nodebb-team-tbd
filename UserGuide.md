@@ -17,7 +17,11 @@ Features:
 - Poll renders horizontally or vertically dpeending on which option is chosen
 - Users can click **To Voting** in order to update their vote if box is checked to allow users to update their vote. Otherwise, **To Voting** button does not appear.
 ###### Automated Tests
-You should also provide a link/description of where your added automated tests can be found, along with a description of what is being tested and why you believe the tests are sufficient for covering the changes that you have made
+The automated tests can be found in test/poll.ts. These tests make sure the serializer and deserializer for the poll option button are correctly
+translating the user inputs to the rendered format. The tests verify that the serializer undos the deserializer and vice versa,
+they ensure that the serializer accepts the fields available for user selection, and they make sure various combinations of the input fields
+are rendered correctly. These tests are sufficient in covering the changes we have made because they demonstrate that our added options
+are being translated through the serializer so they can be rendered. The rendered format is user tested because it is a visual component.
 
 ## LaTeX
 - Any posts or replies can include LaTeX formulas, with classic LaTeX syntax like using double dollar signs ($$) to enter math mode, \sum for summation, etc.
@@ -28,4 +32,5 @@ Features:
 - Preview box should update to display LaTeX code accurately
 - Published posts should accurately display LaTeX formulas
 ###### Automated Tests
-You should also provide a link/description of where your added automated tests can be found, along with a description of what is being tested and why you believe the tests are sufficient for covering the changes that you have made
+We were unable to test the LaTeX feature with automated tests because of the format in which the LaTeX code is generated and rendered.
+It is sufficient to test this feature with user tests though, because it is a visual component.
