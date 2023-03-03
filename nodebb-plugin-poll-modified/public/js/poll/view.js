@@ -228,7 +228,7 @@
 		this.pollData.options.forEach(function (option) {
 			var el = this.dom.resultsPanel.find('[data-poll-option-id=' + option.id + ']');
 			el.find('.poll-result-votecount span').text(option.voteCount);
-			el.find(".tbd_vertical_progressbar").css('top', (100 - option.percentage) + '%');
+			el.find('.tbd_vertical_progressbar').css('top', (100 - option.percentage) + '%');
 			el.find('.poll-result-progressbar').css('width', option.percentage + '%')
 				.find('span.percent').text(option.percentage);
 		}, this);
