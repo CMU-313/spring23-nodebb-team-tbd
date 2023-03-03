@@ -24,7 +24,7 @@
     let vertical = `
         <div style="display: flex; align-items: flex-end; margin-right: 20px; float: left;">
             <div class="progress progress-bar-vertical" style="width: 20px; min-height: 100px; ">
-                <div id="my_progress_bar" class="progress-bar" style="width: 20px; height: {poll.options.percentage}%; position: relative; top: calc(100% - {poll.options.percentage}%);">
+                <div id="my_progress_bar" class="progress-bar tbd_vertical_progressbar" style="width: 20px; height: 100%; position: relative; top: calc(100% - {poll.options.percentage}%);">
                 </div>
             </div><br>
             <strong>{poll.options.title}&nbsp</strong>
