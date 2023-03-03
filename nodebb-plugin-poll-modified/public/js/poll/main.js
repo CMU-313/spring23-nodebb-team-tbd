@@ -2,7 +2,7 @@
 
 window.Poll = {};
 
-(function (Poll) {
+(function () {
 	window.Poll.alertError = function (message) {
 		require(['alerts'], function (alerts) {
 			alerts.error(message);
@@ -27,10 +27,13 @@ window.Poll = {};
 		pollId = parseInt(pollId, 10);
 
 		if (!isNaN(pollId)) {
+			// eslint-disable-next-line no-undef
 			Poll.sockets.getPoll({ pollId: pollId }, function (err, pollData) {
 				if (err) {
+					// eslint-disable-next-line no-undef
 					return Poll.alertError(err.message);
 				}
+				// eslint-disable-next-line no-undef
 				Poll.view.load(pollData);
 			});
 		}
