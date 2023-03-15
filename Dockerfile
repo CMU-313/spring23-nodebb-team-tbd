@@ -14,6 +14,8 @@ USER node
 RUN npm install --only=prod && \
     npm cache clean --force
 
+RUN rm -r ./node_modules/nodebb-plugin-poll-modified
+COPY --chown=node:node ./nodebb-plugin-poll-modified ./node_modules/
 COPY --chown=node:node . /usr/src/app
 
 ENV NODE_ENV=production \
