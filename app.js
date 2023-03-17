@@ -30,7 +30,7 @@ nconf.argv().env({
 const winston = require('winston');
 const path = require('path');
 
-const file = require('./src/file');
+const file = require('./lib/file');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 global.env = process.env.NODE_ENV || 'production';
@@ -40,7 +40,7 @@ const configFile = path.resolve(__dirname, nconf.any(['config', 'CONFIG']) || 'c
 
 const configExists = file.existsSync(configFile) || (nconf.get('url') && nconf.get('secret') && nconf.get('database'));
 
-const prestart = require('./src/prestart');
+const prestart = require('./lib/prestart');
 
 prestart.loadConfig(configFile);
 prestart.setupWinston();
@@ -56,13 +56,13 @@ if (!process.send) {
 }
 
 if (nconf.get('setup') || nconf.get('install')) {
-    require('./src/cli/setup').setup();
+    require('./lib/cli/setup').setup();
 } else if (!configExists) {
     require('./install/web').install(nconf.get('port'));
 } else if (nconf.get('upgrade')) {
-    require('./src/cli/upgrade').upgrade(true);
+    require('./lib/cli/upgrade').upgrade(true);
 } else if (nconf.get('reset')) {
-    require('./src/cli/reset').reset({
+    require('./lib/cli/reset').reset({
         theme: nconf.get('t'),
         plugin: nconf.get('p'),
         widgets: nconf.get('w'),
@@ -70,13 +70,13 @@ if (nconf.get('setup') || nconf.get('install')) {
         all: nconf.get('a'),
     });
 } else if (nconf.get('activate')) {
-    require('./src/cli/manage').activate(nconf.get('activate'));
+    require('./lib/cli/manage').activate(nconf.get('activate'));
 } else if (nconf.get('plugins') && typeof nconf.get('plugins') !== 'object') {
-    require('./src/cli/manage').listPlugins();
+    require('./lib/cli/manage').listPlugins();
 } else if (nconf.get('build')) {
-    require('./src/cli/manage').build(nconf.get('build'));
+    require('./lib/cli/manage').build(nconf.get('build'));
 } else if (nconf.get('events')) {
-    require('./src/cli/manage').listEvents();
+    require('./lib/cli/manage').listEvents();
 } else {
-    require('./src/start').start();
+    require('./lib/start').start();
 }
