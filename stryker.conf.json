@@ -8,9 +8,6 @@
     "progress"
   ],
   "testRunner": "command",
-  "commandRunner": {
-    "command": "npm run mocha"
-  },
   "mochaOptions": {},
   "coverageAnalysis": "off",
   "mutate": [
