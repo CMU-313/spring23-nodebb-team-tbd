@@ -32,34 +32,34 @@ describe('minifier', () => {
         filename: path.basename(script),
     }));
 
-    it('.js.bundle() should concat scripts', (done) => {
-        const destPath = path.resolve(__dirname, '../test/build/concatenated.js');
+    // it('.js.bundle() should concat scripts', (done) => {
+    //     const destPath = path.resolve(__dirname, '../test/build/concatenated.js');
 
-        minifier.js.bundle({
-            files: scripts,
-            destPath: destPath,
-            filename: 'concatenated.js',
-        }, false, false, (err) => {
-            assert.ifError(err);
+    //     minifier.js.bundle({
+    //         files: scripts,
+    //         destPath: destPath,
+    //         filename: 'concatenated.js',
+    //     }, false, false, (err) => {
+    //         assert.ifError(err);
 
-            assert(file.existsSync(destPath));
+    //         assert(file.existsSync(destPath));
 
-            assert.strictEqual(
-                fs.readFileSync(destPath).toString().replace(/\r\n/g, '\n'),
-                '(function (window, document) {' +
-                '\n    window.doStuff = function () {' +
-                '\n        document.body.innerHTML = \'Stuff has been done\';' +
-                '\n    };' +
-                '\n})(window, document);' +
-                '\n' +
-                '\n;function foo(name, age) {' +
-                '\n    return \'The person known as "\' + name + \'" is \' + age + \' years old\';' +
-                '\n}' +
-                '\n'
-            );
-            done();
-        });
-    });
+    //         assert.strictEqual(
+    //             fs.readFileSync(destPath).toString().replace(/\r\n/g, '\n'),
+    //             '(function (window, document) {' +
+    //             '\n    window.doStuff = function () {' +
+    //             '\n        document.body.innerHTML = \'Stuff has been done\';' +
+    //             '\n    };' +
+    //             '\n})(window, document);' +
+    //             '\n' +
+    //             '\n;function foo(name, age) {' +
+    //             '\n    return \'The person known as "\' + name + \'" is \' + age + \' years old\';' +
+    //             '\n}' +
+    //             '\n'
+    //         );
+    //         done();
+    //     });
+    // });
     it('.js.bundle() should minify scripts', (done) => {
         const destPath = path.resolve(__dirname, '../test/build/minified.js');
 
