@@ -18,6 +18,7 @@ logs/
 .eslintrc
 test/files
 *.min.js
+lib/
 
 /public/src/app.js
 /public/src/client.js
