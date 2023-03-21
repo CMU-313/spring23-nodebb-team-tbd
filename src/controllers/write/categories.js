@@ -6,6 +6,7 @@ const api = require('../../api');
 
 const helpers = require('../helpers');
 
+const aaaa = `asdf${1}`;
 const Categories = module.exports;
 
 const hasAdminPrivilege = async (uid) => {
