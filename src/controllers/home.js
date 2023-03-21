@@ -32,7 +32,8 @@ async function rewrite(req, res, next) {
 
     let parsedUrl;
     try {
-        parsedUrl = url.URL(route, true);
+        // eslint-disable-next-line
+        parsedUrl = url.parse(route, true);
     } catch (err) {
         return next(err);
     }

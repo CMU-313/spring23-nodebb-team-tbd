@@ -344,7 +344,8 @@ Controllers.outgoing = function (req, res, next) {
         'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher',
         'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn', 'tel', 'fax', 'xmpp', 'webcal',
     ];
-    const parsed = require('url').URL(url);
+    // eslint-disable-next-line
+    const parsed = require('url').parse(url);
 
     if (!url || !parsed.protocol || !allowedProtocols.includes(parsed.protocol.slice(0, -1))) {
         return next();

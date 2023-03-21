@@ -84,7 +84,8 @@ module.exports = function (Posts) {
         while (current !== null) {
             if (current[1]) {
                 try {
-                    parsed = url.URL(current[1]);
+                    // eslint-disable-next-line
+                    parsed = url.parse(current[1]);
                     if (!parsed.protocol) {
                         if (current[1].startsWith('/')) {
                             // Internal link

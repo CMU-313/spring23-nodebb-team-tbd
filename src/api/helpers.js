@@ -26,7 +26,8 @@ exports.buildReqObject = (req, payload) => {
     const referer = headers.referer || '';
 
     if (!host) {
-        host = url.URL(referer).host || '';
+        // eslint-disable-next-line
+        host = url.parse(referer).host || '';
     }
 
     return {

@@ -11,8 +11,8 @@ if (relativePath === undefined) {
     nconf.file({
         file: path.resolve(__dirname, nconf.any(['config', 'CONFIG']) || 'config.json'),
     });
-
-    const urlObject = url.URL(nconf.get('url'));
+    // eslint-disable-next-line
+    const urlObject = url.parse(nconf.get('url'));
     relativePath = urlObject.pathname !== '/' ? urlObject.pathname.replace(/\/+$/, '') : '';
 }
 

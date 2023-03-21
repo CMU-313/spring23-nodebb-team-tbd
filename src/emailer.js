@@ -55,7 +55,8 @@ const smtpSettingsChanged = (config) => {
 
 const getHostname = () => {
     const configUrl = nconf.get('url');
-    const parsed = url.URL(configUrl);
+    // eslint-disable-next-line
+    const parsed = url.parse(configUrl);
     return parsed.hostname;
 };
 

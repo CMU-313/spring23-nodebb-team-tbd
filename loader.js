@@ -150,7 +150,8 @@ function getPorts() {
         console.log('[cluster] url is undefined, please check your config.json');
         process.exit();
     }
-    const urlObject = url.URL(_url);
+    // eslint-disable-next-line
+    const urlObject = url.parse(_url);
     let port = nconf.get('PORT') || nconf.get('port') || urlObject.port || 4567;
     if (!Array.isArray(port)) {
         port = [port];
