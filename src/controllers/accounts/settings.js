@@ -34,7 +34,7 @@ settingsController.get = async function (req, res, next) {
     }
 
     const data = await plugins.hooks.fire('filter:user.customSettings', {
-        settings: settings,
+        settings,
         customSettings: [],
         uid: req.uid,
     });
@@ -101,7 +101,7 @@ settingsController.get = async function (req, res, next) {
     ];
 
     userData.upvoteNotifFreq = notifFreqOptions.map(
-        name => ({ name: name, selected: name === userData.settings.upvoteNotifFreq })
+        name => ({ name, selected: name === userData.settings.upvoteNotifFreq })
     );
 
     userData.categoryWatchState = { [userData.settings.categoryWatchState]: true };
@@ -192,7 +192,7 @@ async function getNotificationSettings(userData) {
     }
     const results = await plugins.hooks.fire('filter:user.notificationTypes', {
         types: notifications.baseTypes.slice(),
-        privilegedTypes: privilegedTypes,
+        privilegedTypes,
     });
 
     function modifyType(type) {

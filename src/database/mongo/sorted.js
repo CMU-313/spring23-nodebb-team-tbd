@@ -84,7 +84,7 @@ module.exports = function (module) {
 
         let result = [];
         async function doQuery(_key, fields, skip, limit) {
-            return await module.client.collection('objects').find({ ...query, ...{ _key: _key } }, { projection: fields })
+            return await module.client.collection('objects').find({ ...query, ...{ _key } }, { projection: fields })
                 .sort({ score: sort })
                 .skip(skip)
                 .limit(limit)
@@ -210,7 +210,7 @@ module.exports = function (module) {
                 },
                 {
                     _key: key,
-                    score: score,
+                    score,
                     value: reverse ? { $gt: value } : { $lt: value },
                 },
             ],
@@ -264,7 +264,7 @@ module.exports = function (module) {
             return null;
         }
         value = helpers.valueToString(value);
-        const result = await module.client.collection('objects').findOne({ _key: key, value: value }, { projection: { _id: 0, _key: 0, value: 0 } });
+        const result = await module.client.collection('objects').findOne({ _key: key, value }, { projection: { _id: 0, _key: 0, value: 0 } });
         return result ? result.score : null;
     };
 
@@ -273,7 +273,7 @@ module.exports = function (module) {
             return [];
         }
         value = helpers.valueToString(value);
-        const result = await module.client.collection('objects').find({ _key: { $in: keys }, value: value }, { projection: { _id: 0, value: 0 } }).toArray();
+        const result = await module.client.collection('objects').find({ _key: { $in: keys }, value }, { projection: { _id: 0, value: 0 } }).toArray();
         const map = {};
         result.forEach((item) => {
             if (item) {
@@ -310,7 +310,7 @@ module.exports = function (module) {
         }
         value = helpers.valueToString(value);
         const result = await module.client.collection('objects').findOne({
-            _key: key, value: value,
+            _key: key, value,
         }, {
             projection: { _id: 0, value: 1 },
         });
@@ -347,7 +347,7 @@ module.exports = function (module) {
         }
         value = helpers.valueToString(value);
         const results = await module.client.collection('objects').find({
-            _key: { $in: keys }, value: value,
+            _key: { $in: keys }, value,
         }, {
             projection: { _id: 0, _key: 1, value: 1 },
         }).toArray();
@@ -378,7 +378,7 @@ module.exports = function (module) {
         }
         const data = await module.client.collection('objects').find({
             _key: arrayOfKeys ? { $in: keys } : keys[0],
-        }, { projection: projection }).toArray();
+        }, { projection }).toArray();
 
         if (!arrayOfKeys) {
             return [data.map(item => item.value)];
@@ -403,7 +403,7 @@ module.exports = function (module) {
         try {
             const result = await module.client.collection('objects').findOneAndUpdate({
                 _key: key,
-                value: value,
+                value,
             }, {
                 $inc: data,
             }, {

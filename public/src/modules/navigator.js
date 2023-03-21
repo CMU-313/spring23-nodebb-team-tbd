@@ -374,7 +374,7 @@ define('navigator', ['forum/pagination', 'components', 'hooks', 'alerts'], funct
     };
 
     navigator.update = function (threshold) {
-        /*
+    /*
             The "threshold" is defined as the distance from the top of the page to
             a spot where a user is expecting to begin reading.
         */
@@ -643,4 +643,3 @@ define('navigator', ['forum/pagination', 'components', 'hooks', 'alerts'], funct
 
     return navigator;
 });
-

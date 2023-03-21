@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('share', ['hooks'], function (hooks) {
     const module = {};
 
@@ -10,8 +9,8 @@ define('share', ['hooks'], function (hooks) {
         function openShare(url, urlToPost, width, height) {
             window.open(url + encodeURIComponent(baseUrl + config.relative_path + urlToPost), '_blank', 'width=' + width + ',height=' + height + ',scrollbars=no,status=no');
             hooks.fire('action:share.open', {
-                url: url,
-                urlToPost: urlToPost,
+                url,
+                urlToPost,
             });
             return false;
         }
@@ -39,7 +38,7 @@ define('share', ['hooks'], function (hooks) {
             return openShare('https://www.facebook.com/sharer/sharer.php?u=', getPostUrl($(this)), 626, 436);
         });
 
-        hooks.fire('action:share.addHandlers', { openShare: openShare });
+        hooks.fire('action:share.addHandlers', { openShare });
     };
 
     function addHandler(selector, callback) {

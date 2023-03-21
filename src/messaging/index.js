@@ -1,6 +1,5 @@
 'use strict';
 
-
 const validator = require('validator');
 
 const db = require('../database');
@@ -57,8 +56,8 @@ Messaging.getMessages = async (params) => {
 
 async function canGet(hook, callerUid, uid) {
     const data = await plugins.hooks.fire(hook, {
-        callerUid: callerUid,
-        uid: uid,
+        callerUid,
+        uid,
         canGet: parseInt(callerUid, 10) === parseInt(uid, 10),
     });
 
@@ -68,12 +67,12 @@ async function canGet(hook, callerUid, uid) {
 Messaging.parse = async (message, fromuid, uid, roomId, isNew) => {
     const parsed = await plugins.hooks.fire('filter:parse.raw', String(message || ''));
     let messageData = {
-        message: message,
-        parsed: parsed,
-        fromuid: fromuid,
-        uid: uid,
-        roomId: roomId,
-        isNew: isNew,
+        message,
+        parsed,
+        fromuid,
+        uid,
+        roomId,
+        isNew,
         parsedMessage: parsed,
     };
 
@@ -132,8 +131,8 @@ Messaging.getRecentChats = async (callerUid, uid, start, stop) => {
     return await plugins.hooks.fire('filter:messaging.getRecentChats', {
         rooms: ref.rooms,
         nextStart: ref.nextStart,
-        uid: uid,
-        callerUid: callerUid,
+        uid,
+        callerUid,
     });
 };
 
@@ -160,7 +159,7 @@ Messaging.getTeaser = async (uid, roomId) => {
         teaser.content = validator.escape(String(teaser.content));
     }
 
-    const payload = await plugins.hooks.fire('filter:messaging.getTeaser', { teaser: teaser });
+    const payload = await plugins.hooks.fire('filter:messaging.getTeaser', { teaser });
     return payload.teaser;
 };
 
@@ -171,7 +170,7 @@ Messaging.getLatestUndeletedMessage = async (uid, roomId) => {
     let mids;
 
     while (!done) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         mids = await db.getSortedSetRevRange(`uid:${uid}:chat:room:${roomId}:mids`, index, index);
         if (mids.length) {
             const states = await Messaging.getMessageFields(mids[0], ['deleted', 'system']);
@@ -223,8 +222,8 @@ Messaging.canMessageUser = async (uid, toUid) => {
     }
 
     await plugins.hooks.fire('static:messaging.canMessageUser', {
-        uid: uid,
-        toUid: toUid,
+        uid,
+        toUid,
     });
 };
 
@@ -248,8 +247,8 @@ Messaging.canMessageRoom = async (uid, roomId) => {
     }
 
     await plugins.hooks.fire('static:messaging.canMessageRoom', {
-        uid: uid,
-        roomId: roomId,
+        uid,
+        roomId,
     });
 };
 
@@ -280,7 +279,7 @@ Messaging.hasPrivateChat = async (uid, withUid) => {
     let index = 0;
     let roomId = 0;
     while (index < roomIds.length && !roomId) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const count = await Messaging.getUserCountInRoom(roomIds[index]);
         if (count === 2) {
             roomId = roomIds[index];

@@ -49,7 +49,7 @@ Events._types = {
     },
     move: {
         icon: 'fa-arrow-circle-right',
-        // text: '[[topic:moved-from-by]]',
+    // text: '[[topic:moved-from-by]]',
     },
     'post-queue': {
         icon: 'fa-history',
@@ -132,7 +132,7 @@ async function modifyEvent({ tid, uid, eventIds, timestamps, events }) {
     if (meta.config.topicBacklinks !== 1) {
         events = events.filter(event => event.type !== 'backlink');
     } else {
-        // remove backlinks that we dont have read permission
+    // remove backlinks that we dont have read permission
         const backlinkPids = events.filter(e => e.type === 'backlink')
             .map(e => e.href.split('/').pop());
         const pids = await privileges.posts.filter('topics:read', backlinkPids, uid);

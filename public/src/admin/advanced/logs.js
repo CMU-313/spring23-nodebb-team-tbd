@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/advanced/logs', ['alerts'], function (alerts) {
     const Logs = {};
 

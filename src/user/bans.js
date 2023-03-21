@@ -12,8 +12,8 @@ module.exports = function (User) {
     User.bans = {};
 
     User.bans.ban = async function (uid, until, reason) {
-        // "until" (optional) is unix timestamp in milliseconds
-        // "reason" (optional) is a string
+    // "until" (optional) is unix timestamp in milliseconds
+    // "reason" (optional) is a string
         until = until || 0;
         reason = reason || '';
 
@@ -26,7 +26,7 @@ module.exports = function (User) {
 
         const banKey = `uid:${uid}:ban:${now}`;
         const banData = {
-            uid: uid,
+            uid,
             timestamp: now,
             expire: until > now ? until : 0,
         };
@@ -54,9 +54,9 @@ module.exports = function (User) {
 
         const data = {
             subject: `[[email:banned.subject, ${siteTitle}]]`,
-            username: username,
+            username,
             until: until ? (new Date(until)).toUTCString().replace(/,/g, '\\,') : false,
-            reason: reason,
+            reason,
         };
         await emailer.send('banned', uid, data).catch(err => winston.error(`[emailer.send] ${err.stack}`));
 
@@ -107,7 +107,7 @@ module.exports = function (User) {
     };
 
     User.bans.unbanIfExpired = async function (uids) {
-        // loading user data will unban if it has expired -barisu
+    // loading user data will unban if it has expired -barisu
         const userData = await User.getUsersFields(uids, ['banned:expire']);
         return User.bans.calcExpiredFromUserData(userData);
     };

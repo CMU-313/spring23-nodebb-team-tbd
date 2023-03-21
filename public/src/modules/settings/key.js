@@ -182,7 +182,6 @@ define('settings/key', function () {
         return key;
     }
 
-
     const SettingsKey = {
         types: ['key'],
         use: function () {

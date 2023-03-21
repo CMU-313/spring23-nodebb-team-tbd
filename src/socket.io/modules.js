@@ -180,7 +180,7 @@ SocketModules.chats.markRead = async function (socket, roomId) {
     ]);
 
     Messaging.pushUnreadCount(socket.uid);
-    server.in(`uid_${socket.uid}`).emit('event:chats.markedAsRead', { roomId: roomId });
+    server.in(`uid_${socket.uid}`).emit('event:chats.markedAsRead', { roomId });
 
     if (!uidsInRoom.includes(String(socket.uid))) {
         return;

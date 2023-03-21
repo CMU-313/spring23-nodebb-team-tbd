@@ -82,8 +82,8 @@ modsController.flags.list = async function (req, res) {
 
     const [flagsData, analyticsData, selectData] = await Promise.all([
         flags.list({
-            filters: filters,
-            sort: sort,
+            filters,
+            sort,
             uid: req.uid,
             query: req.query,
         }),
@@ -95,8 +95,8 @@ modsController.flags.list = async function (req, res) {
         flags: flagsData.flags,
         analytics: analyticsData,
         selectedCategory: selectData.selectedCategory,
-        hasFilter: hasFilter,
-        filters: filters,
+        hasFilter,
+        filters,
         expanded: !!(filters.assignee || filters.reporterId || filters.targetUid),
         sort: sort || 'newest',
         title: '[[pages:flags]]',
@@ -160,7 +160,7 @@ modsController.postQueue = async function (req, res, next) {
     const page = parseInt(req.query.page, 10) || 1;
     const postsPerPage = 20;
 
-    let postData = await posts.getQueuedPosts({ id: id });
+    let postData = await posts.getQueuedPosts({ id });
     const [isAdmin, isGlobalMod, moderatedCids, categoriesData] = await Promise.all([
         user.isAdministrator(req.uid),
         user.isGlobalModerator(req.uid),
@@ -174,7 +174,7 @@ modsController.postQueue = async function (req, res, next) {
 
     ({ posts: postData } = await plugins.hooks.fire('filter:post-queue.get', {
         posts: postData,
-        req: req,
+        req,
     }));
 
     const pageCount = Math.max(1, Math.ceil(postData.length / postsPerPage));
@@ -184,12 +184,12 @@ modsController.postQueue = async function (req, res, next) {
     const crumbs = [{ text: '[[pages:post-queue]]', url: id ? '/post-queue' : undefined }];
     if (id && postData.length) {
         const text = postData[0].data.tid ? '[[post-queue:reply]]' : '[[post-queue:topic]]';
-        crumbs.push({ text: text });
+        crumbs.push({ text });
     }
     res.render('post-queue', {
         title: '[[pages:post-queue]]',
         posts: postData,
-        isAdmin: isAdmin,
+        isAdmin,
         canAccept: isAdmin || isGlobalMod || !!moderatedCids.length,
         ...categoriesData,
         allCategoriesUrl: `post-queue${helpers.buildQueryString(req.query, 'cid', '')}`,

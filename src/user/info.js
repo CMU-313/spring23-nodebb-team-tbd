@@ -10,7 +10,7 @@ const utils = require('../utils');
 
 module.exports = function (User) {
     User.getLatestBanInfo = async function (uid) {
-        // Simply retrieves the last record of the user's ban, even if they've been unbanned since then.
+    // Simply retrieves the last record of the user's ban, even if they've been unbanned since then.
         const record = await db.getSortedSetRevRange(`uid:${uid}:bans:timestamp`, 0, 0);
         if (!record.length) {
             throw new Error('no-ban-info');
@@ -19,7 +19,7 @@ module.exports = function (User) {
         const expire = parseInt(banInfo.expire, 10);
         const expire_readable = utils.toISOString(expire);
         return {
-            uid: uid,
+            uid,
             timestamp: banInfo.timestamp,
             banned_until: expire,
             expiry: expire, /* backward compatible alias */
@@ -59,9 +59,9 @@ module.exports = function (User) {
         ]);
 
         return {
-            flags: flags,
-            bans: bans,
-            mutes: mutes,
+            flags,
+            bans,
+            mutes,
         };
     };
 

@@ -14,12 +14,12 @@ define('categorySelector', [
 
         options.states = options.states || ['watching', 'notwatching', 'ignoring'];
         options.template = 'partials/category-selector';
-        hooks.fire('action:category.selector.options', { el: el, options: options });
+        hooks.fire('action:category.selector.options', { el, options });
 
         categorySearch.init(el, options);
 
         const selector = {
-            el: el,
+            el,
             selectedCategory: null,
         };
         el.on('click', '[data-cid]', function () {
@@ -34,7 +34,7 @@ define('categorySelector', [
         selector.selectCategory = function (cid) {
             const categoryEl = selector.el.find('[data-cid="' + cid + '"]');
             selector.selectedCategory = {
-                cid: cid,
+                cid,
                 name: categoryEl.attr('data-name'),
             };
 

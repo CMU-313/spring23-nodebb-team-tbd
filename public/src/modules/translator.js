@@ -7,9 +7,9 @@ define('translator', ['jquery', 'utils'], function (jQuery, utils) {
         return new Promise(function (resolve, reject) {
             jQuery.getJSON([config.asset_base_url, 'language', language, namespace].join('/') + '.json?' + config['cache-buster'], function (data) {
                 const payload = {
-                    language: language,
-                    namespace: namespace,
-                    data: data,
+                    language,
+                    namespace,
+                    data,
                 };
                 require(['hooks'], function (hooks) {
                     hooks.fire('action:translator.loadClient', payload);

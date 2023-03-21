@@ -51,13 +51,11 @@ define('forum/header', [
             });
         });
 
-
         $('#search-form').tooltip({
             placement: 'bottom',
             trigger: 'hover',
             title: $('#search-button i').attr('title'),
         });
-
 
         $('#user_dropdown').tooltip({
             placement: 'bottom',

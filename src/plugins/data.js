@@ -74,7 +74,7 @@ function parseLicense(packageData) {
             text: licenseData.licenseText,
         };
     } catch (e) {
-        // No license matched
+    // No license matched
         return null;
     }
 }
@@ -83,7 +83,6 @@ Data.getActive = async function () {
     const pluginPaths = await Data.getPluginPaths();
     return await Promise.all(pluginPaths.map(p => Data.loadPluginInfo(p)));
 };
-
 
 Data.getStaticDirectories = async function (pluginData) {
     const validMappedPath = /^[\w\-_]+$/;
@@ -135,7 +134,6 @@ Data.getStaticDirectories = async function (pluginData) {
     return staticDirs;
 };
 
-
 Data.getFiles = async function (pluginData, type) {
     if (!Array.isArray(pluginData[type]) || !pluginData[type].length) {
         return;
@@ -172,7 +170,6 @@ async function resolveModulePath(basePath, modulePath) {
     return await resolveModulePath(dirPath, modulePath);
 }
 
-
 Data.getScripts = async function getScripts(pluginData, target) {
     target = (target === 'client') ? 'scripts' : 'acpScripts';
 
@@ -184,7 +181,7 @@ Data.getScripts = async function getScripts(pluginData, target) {
     const scripts = [];
 
     for (const filePath of input) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const modulePath = await resolveModulePath(pluginData.path, filePath);
         if (modulePath) {
             scripts.push(modulePath);
@@ -195,7 +192,6 @@ Data.getScripts = async function getScripts(pluginData, target) {
     }
     return scripts;
 };
-
 
 Data.getModules = async function getModules(pluginData) {
     if (!pluginData.modules || !pluginData.hasOwnProperty('modules')) {

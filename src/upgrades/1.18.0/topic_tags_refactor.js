@@ -11,7 +11,7 @@ module.exports = {
 
         async function getTopicsTags(tids) {
             return await db.getSetsMembers(
-                tids.map(tid => `topic:${tid}:tags`),
+                tids.map(tid => `topic:${tid}:tags`)
             );
         }
 
@@ -19,19 +19,19 @@ module.exports = {
             const tags = await getTopicsTags(tids);
 
             const topicsWithTags = tids.map((tid, i) => {
-                const topic = { tid: tid };
+                const topic = { tid };
                 topic.tags = tags[i];
                 return topic;
             }).filter(t => t && t.tags.length);
 
             await db.setObjectBulk(
-                topicsWithTags.map(t => [`topic:${t.tid}`, { tags: t.tags.join(',') }]),
+                topicsWithTags.map(t => [`topic:${t.tid}`, { tags: t.tags.join(',') }])
             );
             await db.deleteAll(tids.map(tid => `topic:${tid}:tags`));
             progress.incr(tids.length);
         }, {
             batch: 500,
-            progress: progress,
+            progress,
         });
     },
 };

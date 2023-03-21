@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/infinitescroll', ['hooks', 'alerts'], function (hooks, alerts) {
     const scroll = {};
     let callback;
@@ -22,6 +21,7 @@ define('forum/infinitescroll', ['hooks', 'alerts'], function (hooks, alerts) {
         $(window).off('scroll', startScrollTimeout).on('scroll', startScrollTimeout);
 
         if ($body.height() <= $(window).height()) {
+            // eslint-disable-next-line
             callback(1);
         }
     };
@@ -69,7 +69,7 @@ define('forum/infinitescroll', ['hooks', 'alerts'], function (hooks, alerts) {
         }
         loadingMore = true;
 
-        const hookData = { method: method, data: data };
+        const hookData = { method, data };
         hooks.fire('action:infinitescroll.loadmore', hookData);
 
         socket.emit(hookData.method, hookData.data, function (err, data) {
@@ -89,7 +89,7 @@ define('forum/infinitescroll', ['hooks', 'alerts'], function (hooks, alerts) {
         }
         loadingMore = true;
         const url = config.relative_path + '/api' + location.pathname.replace(new RegExp('^' + config.relative_path), '');
-        const hookData = { url: url, data: data };
+        const hookData = { url, data };
         hooks.fire('action:infinitescroll.loadmore.xhr', hookData);
 
         $.get(url, data, function (data) {

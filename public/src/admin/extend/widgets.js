@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/extend/widgets', [
     'bootbox',
     'alerts',
@@ -119,9 +118,9 @@ define('admin/extend/widgets', [
                 });
 
                 saveData.push({
-                    template: template,
-                    location: location,
-                    widgets: widgets,
+                    template,
+                    location,
+                    widgets,
                 });
             });
 

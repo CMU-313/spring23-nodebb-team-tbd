@@ -1,10 +1,8 @@
 'use strict';
 
-
 const assert = require('assert');
 const nconf = require('nconf');
 const db = require('./mocks/databasemock');
-
 
 describe('Test database', () => {
     it('should work', () => {
@@ -56,7 +54,6 @@ describe('Test database', () => {
             }
         });
     });
-
 
     require('./database/keys');
     require('./database/list');

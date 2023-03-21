@@ -22,10 +22,10 @@ module.exports = function (Categories) {
         const keys = cids.map(cid => `category:${cid}`);
         const categories = await db.getObjects(keys, fields);
         const result = await plugins.hooks.fire('filter:category.getFields', {
-            cids: cids,
-            categories: categories,
-            fields: fields,
-            keys: keys,
+            cids,
+            categories,
+            fields,
+            keys,
         });
         result.categories.forEach(category => modifyCategory(category, fields));
         return result.categories;

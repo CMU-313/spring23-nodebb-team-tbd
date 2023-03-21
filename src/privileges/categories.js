@@ -97,11 +97,11 @@ privsCategories.get = async function (cid, uid) {
 
     return await plugins.hooks.fire('filter:privileges.categories.get', {
         ...privData,
-        cid: cid,
-        uid: uid,
+        cid,
+        uid,
         editable: isAdminOrMod,
         view_deleted: isAdminOrMod || privData['posts:view_deleted'],
-        isAdminOrMod: isAdminOrMod,
+        isAdminOrMod,
     });
 };
 
@@ -186,7 +186,7 @@ privsCategories.filterUids = async function (privilege, cid, uids) {
 privsCategories.give = async function (privileges, cid, members) {
     await helpers.giveOrRescind(groups.join, privileges, cid, members);
     plugins.hooks.fire('action:privileges.categories.give', {
-        privileges: privileges,
+        privileges,
         cids: Array.isArray(cid) ? cid : [cid],
         members: Array.isArray(members) ? members : [members],
     });
@@ -195,7 +195,7 @@ privsCategories.give = async function (privileges, cid, members) {
 privsCategories.rescind = async function (privileges, cid, members) {
     await helpers.giveOrRescind(groups.leave, privileges, cid, members);
     plugins.hooks.fire('action:privileges.categories.rescind', {
-        privileges: privileges,
+        privileges,
         cids: Array.isArray(cid) ? cid : [cid],
         members: Array.isArray(members) ? members : [members],
     });

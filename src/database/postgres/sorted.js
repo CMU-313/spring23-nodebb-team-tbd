@@ -499,7 +499,7 @@ RETURNING "score" s`,
     };
 
     module.sortedSetIncrByBulk = async function (data) {
-        // TODO: perf single query?
+    // TODO: perf single query?
         return await Promise.all(data.map(item => module.sortedSetIncrBy(item[0], item[1], item[2])));
     };
 
@@ -571,7 +571,7 @@ DELETE FROM "legacy_zset" z
     function buildLexQuery(key, min, max) {
         const q = {
             suffix: '',
-            where: `o."_key" = $1::TEXT`,
+            where: 'o."_key" = $1::TEXT',
             values: [key],
         };
 

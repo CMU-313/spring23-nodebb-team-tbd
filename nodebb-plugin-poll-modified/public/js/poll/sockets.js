@@ -1,7 +1,7 @@
 'use strict';
 
 (function (Poll) {
-	var messages = [
+	const messages = [
 		{
 			method: 'getPoll',
 			message: 'plugins.poll.get',
@@ -32,7 +32,7 @@
 		},
 	];
 
-	var handlers = [
+	const handlers = [
 		{
 			event: 'event:poll.voteChange',
 			handle: function (data) {

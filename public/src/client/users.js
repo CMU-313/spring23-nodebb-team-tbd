@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/users', [
     'translator', 'benchpress', 'api', 'alerts', 'accounts/invite',
 ], function (translator, Benchpress, api, alerts, AccountInvite) {
@@ -77,7 +76,6 @@ define('forum/users', [
         }
         return sortBy;
     }
-
 
     function loadPage(query) {
         api.get('/api/users', query)

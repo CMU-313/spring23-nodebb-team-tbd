@@ -46,7 +46,6 @@ describe('feeds', () => {
         });
     });
 
-
     it('should 404', (done) => {
         const feedUrls = [
             `${nconf.get('url')}/topic/${tid}.rss`,
@@ -140,7 +139,6 @@ describe('feeds', () => {
             });
         });
 
-
         it('should not allow access if uid or token is missing', (done) => {
             privileges.categories.rescind(['groups:read'], cid, 'guests', (err) => {
                 assert.ifError(err);
@@ -172,7 +170,7 @@ describe('feeds', () => {
         });
 
         it('should allow access if token is correct', (done) => {
-            request(`${nconf.get('url')}/api/category/${cid}`, { jar: jar, json: true }, (err, res, body) => {
+            request(`${nconf.get('url')}/api/category/${cid}`, { jar, json: true }, (err, res, body) => {
                 assert.ifError(err);
                 rssToken = body.rssFeedUrl.split('token')[1].slice(1);
                 request(`${nconf.get('url')}/category/${cid}.rss?uid=${fooUid}&token=${rssToken}`, { }, (err, res, body) => {

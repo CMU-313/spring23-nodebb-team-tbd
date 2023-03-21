@@ -15,8 +15,8 @@ admin.get = async function () {
 
     return {
         templates: buildTemplatesFromAreas(areas),
-        areas: areas,
-        availableWidgets: availableWidgets,
+        areas,
+        availableWidgets,
     };
 };
 

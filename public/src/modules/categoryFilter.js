@@ -11,7 +11,7 @@ define('categoryFilter', ['categorySearch', 'api', 'hooks'], function (categoryS
         options.states = options.states || ['watching', 'notwatching', 'ignoring'];
         options.template = 'partials/category-filter';
 
-        hooks.fire('action:category.filter.options', { el: el, options: options });
+        hooks.fire('action:category.filter.options', { el, options });
 
         categorySearch.init(el, options);
 
@@ -35,7 +35,7 @@ define('categoryFilter', ['categorySearch', 'api', 'hooks'], function (categoryS
                 updateFilterButton(el, selectedCids);
             }
             if (options.onHidden) {
-                options.onHidden({ changed: changed, selectedCids: selectedCids.slice() });
+                options.onHidden({ changed, selectedCids: selectedCids.slice() });
                 return;
             }
             if (changed) {
@@ -72,7 +72,7 @@ define('categoryFilter', ['categorySearch', 'api', 'hooks'], function (categoryS
             icon.toggleClass('invisible');
             listEl.find('li[data-all="all"] i').toggleClass('invisible', !!selectedCids.length);
             if (options.onSelect) {
-                options.onSelect({ cid: cid, selectedCids: selectedCids.slice() });
+                options.onSelect({ cid, selectedCids: selectedCids.slice() });
             }
             return false;
         });

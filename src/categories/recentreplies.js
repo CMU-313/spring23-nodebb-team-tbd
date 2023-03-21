@@ -13,7 +13,7 @@ const batch = require('../batch');
 
 module.exports = function (Categories) {
     Categories.getRecentReplies = async function (cid, uid, start, stop) {
-        // backwards compatibility, treat start as count
+    // backwards compatibility, treat start as count
         if (stop === undefined && start > 0) {
             winston.warn('[Categories.getRecentReplies] 3 params deprecated please use Categories.getRecentReplies(cid, uid, start, stop)');
             stop = start - 1;
@@ -40,7 +40,7 @@ module.exports = function (Categories) {
         if (numRecentReplies > 0) {
             await db.sortedSetAdd(`cid:${cid}:recent_tids`, Date.now(), tid);
         }
-        await plugins.hooks.fire('action:categories.updateRecentTid', { cid: cid, tid: tid });
+        await plugins.hooks.fire('action:categories.updateRecentTid', { cid, tid });
     };
 
     Categories.updateRecentTidForCid = async function (cid) {
@@ -76,8 +76,8 @@ module.exports = function (Categories) {
         if (plugins.hooks.hasListeners('filter:categories.getRecentTopicReplies')) {
             const result = await plugins.hooks.fire('filter:categories.getRecentTopicReplies', {
                 categories: categoriesToLoad,
-                uid: uid,
-                query: query,
+                uid,
+                query,
                 keys: [],
             });
             keys = result.keys;

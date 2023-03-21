@@ -130,7 +130,7 @@ Notifications.create = async function (data) {
     const now = Date.now();
     data.datetime = now;
     const result = await plugins.hooks.fire('filter:notifications.create', {
-        data: data,
+        data,
     });
     if (!result.data) {
         return null;
@@ -184,7 +184,7 @@ async function pushToUids(uids, notification) {
     }
 
     async function sendEmail(uids) {
-        // Update CTA messaging (as not all notification types need custom text)
+    // Update CTA messaging (as not all notification types need custom text)
         if (['new-reply', 'new-chat'].includes(notification.type)) {
             notification['cta-type'] = notification.type;
         }
@@ -201,8 +201,8 @@ async function pushToUids(uids, notification) {
                 notification_url: notification.path.startsWith('http') ? notification.path : nconf.get('url') + notification.path,
                 subject: utils.stripHTMLTags(notification.subject || '[[notifications:new_notification]]'),
                 intro: utils.stripHTMLTags(notification.bodyShort),
-                body: body,
-                notification: notification,
+                body,
+                notification,
                 showUnsubscribe: true,
             }).catch((err) => {
                 if (!errorLogged) {
@@ -228,12 +228,12 @@ async function pushToUids(uids, notification) {
                 uidsToEmail.push(userSettings.uid);
             }
         });
-        return { uidsToNotify: uidsToNotify, uidsToEmail: uidsToEmail };
+        return { uidsToNotify, uidsToEmail };
     }
 
     // Remove uid from recipients list if they have blocked the user triggering the notification
     uids = await User.blocks.filterUids(notification.from, uids);
-    const data = await plugins.hooks.fire('filter:notification.push', { notification: notification, uids: uids });
+    const data = await plugins.hooks.fire('filter:notification.push', { notification, uids });
     if (!data || !data.notification || !data.uids || !data.uids.length) {
         return;
     }
@@ -248,7 +248,7 @@ async function pushToUids(uids, notification) {
         sendEmail(results.uidsToEmail),
     ]);
     plugins.hooks.fire('action:notification.pushed', {
-        notification: notification,
+        notification,
         uids: results.uidsToNotify,
         uidsNotified: results.uidsToNotify,
         uidsEmailed: results.uidsToEmail,
@@ -439,7 +439,7 @@ Notifications.merge = async function (notifications) {
     }, notifications);
 
     const data = await plugins.hooks.fire('filter:notifications.merge', {
-        notifications: notifications,
+        notifications,
     });
     return data && data.notifications;
 };

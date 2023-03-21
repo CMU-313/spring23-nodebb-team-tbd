@@ -28,7 +28,7 @@ window.Poll = {};
 
 		if (!isNaN(pollId)) {
 			// eslint-disable-next-line no-undef
-			Poll.sockets.getPoll({ pollId: pollId }, function (err, pollData) {
+			Poll.sockets.getPoll({ pollId }, function (err, pollData) {
 				if (err) {
 					// eslint-disable-next-line no-undef
 					return Poll.alertError(err.message);

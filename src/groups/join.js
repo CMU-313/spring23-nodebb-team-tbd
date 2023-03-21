@@ -65,7 +65,7 @@ module.exports = function (Groups) {
 
         plugins.hooks.fire('action:group.join', {
             groupNames: groupsToJoin,
-            uid: uid,
+            uid,
         });
     };
 

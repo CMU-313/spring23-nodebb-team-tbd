@@ -1,13 +1,13 @@
 'use strict';
 
 module.exports = function (utils) {
-	var Serializer = {};
+	const Serializer = {};
 
-	var pollRegex =
+	const pollRegex =
 		/(?:(?:\[poll(?<settings>.*?)\])(?:\\n|\n|<br \/>)(?<content>(?:-.+?(?:\\n|\n|<br \/>))+)(?:\[\/poll\]))/g;
-	var settingsRegex =
+	const settingsRegex =
 		/(?<key>.+?)=(?:"|&quot;|&#92;)(?<value>.+?)(?:"|&quot;|&#92;)/g;
-	var settingsValidators = {
+	const settingsValidators = {
 		title: {
 			test: function (value) {
 				return value.length > 0;
@@ -75,7 +75,7 @@ module.exports = function (utils) {
 
 	Serializer.serialize = function (post, config) {
 		pollRegex.lastIndex = 0;
-		var match = pollRegex.exec(post);
+		const match = pollRegex.exec(post);
 
 		if (match === null) {
 			return null;
@@ -88,18 +88,18 @@ module.exports = function (utils) {
 	};
 
 	Serializer.deserialize = function (poll, config) {
-		var options = deserializeOptions(poll.options, config);
-		var settings = deserializeSettings(poll.settings, config);
+		const options = deserializeOptions(poll.options, config);
+		const settings = deserializeSettings(poll.settings, config);
 
 		return '[poll' + settings + ']\n' + options + '\n[/poll]';
 	};
 
 	function serializeOptions(raw, config) {
 		// Depending on composer, the line breaks can either be \n or <br /> so handle both
-		var pollOptions = [];
-		var rawOptions = raw.split(/(?:\\n|\n|<br \/>)/);
+		let pollOptions = [];
+		const rawOptions = raw.split(/(?:\\n|\n|<br \/>)/);
 		rawOptions.map(raw => utils.stripHTMLTags(raw));
-		var maxOptions = parseInt(config.limits.maxOptions, 10);
+		const maxOptions = parseInt(config.limits.maxOptions, 10);
 
 		rawOptions.forEach(function (option) {
 			if (option.length) {
@@ -119,7 +119,7 @@ module.exports = function (utils) {
 	}
 
 	function deserializeOptions(options, config) {
-		var maxOptions = config.limits.maxOptions;
+		const maxOptions = config.limits.maxOptions;
 
 		options = options
 			.map(function (option) {
@@ -137,7 +137,7 @@ module.exports = function (utils) {
 	}
 
 	function serializeSettings(raw, config) {
-		var settings = {};
+		const settings = {};
 
 		Object.keys(config.defaults).forEach(function (key) {
 			settings[key] = config.defaults[key];
@@ -146,8 +146,8 @@ module.exports = function (utils) {
 		const stripped = utils.stripHTMLTags(raw).replace(/\\/g, '&#92;');
 		let match = settingsRegex.exec(stripped);
 		while (match !== null) {
-			var key = match.groups.key.trim();
-			var value = match.groups.value.trim();
+			const key = match.groups.key.trim();
+			const value = match.groups.value.trim();
 
 			if (
 				key.length &&
@@ -164,12 +164,12 @@ module.exports = function (utils) {
 	}
 
 	function deserializeSettings(settings, config) {
-		var deserialized = '';
+		let deserialized = '';
 
-		for (var k in settings) {
+		for (const k in settings) {
 			if (settings.hasOwnProperty(k) && config.defaults.hasOwnProperty(k)) {
-				var key = utils.stripHTMLTags(k).trim();
-				var value = utils.stripHTMLTags(settings[k]).trim();
+				const key = utils.stripHTMLTags(k).trim();
+				const value = utils.stripHTMLTags(settings[k]).trim();
 				if (
 					key.length &&
 					value.length &&

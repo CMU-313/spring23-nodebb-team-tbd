@@ -64,13 +64,13 @@ SocketCategories.loadMore = async function (socket, data) {
     const result = await categories.getCategoryTopics({
         uid: socket.uid,
         cid: data.cid,
-        start: start,
-        stop: stop,
-        sort: sort,
-        settings: settings,
+        start,
+        stop,
+        sort,
+        settings,
         query: data.query,
         tag: data.query.tag,
-        targetUid: targetUid,
+        targetUid,
     });
     categories.modifyTopicsByPrivilege(result.topics, userPrivileges);
 

@@ -24,7 +24,6 @@ Meta.templates = require('./templates');
 Meta.blacklist = require('./blacklist');
 Meta.languages = require('./languages');
 
-
 /* Assorted */
 Meta.userOrGroupExists = async function (slug) {
     if (!slug) {

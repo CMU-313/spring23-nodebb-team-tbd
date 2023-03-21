@@ -55,7 +55,7 @@ const smtpSettingsChanged = (config) => {
 
 const getHostname = () => {
     const configUrl = nconf.get('url');
-    const parsed = url.parse(configUrl);
+    const parsed = url.URL(configUrl);
     return parsed.hostname;
 };
 
@@ -105,10 +105,10 @@ Emailer.getTemplates = async (config) => {
         const original = await fs.promises.readFile(email, 'utf8');
 
         return {
-            path: path,
+            path,
             fullpath: email,
             text: config[`email:custom:${path}`] || original,
-            original: original,
+            original,
             isCustom: !!config[`email:custom:${path}`],
         };
     }));
@@ -257,8 +257,8 @@ Emailer.send = async (template, uid, params) => {
 
     const result = await Plugins.hooks.fire('filter:email.cancel', {
         cancel: false, // set to true in plugin to cancel sending email
-        template: template,
-        params: params,
+        template,
+        params,
     });
 
     if (result.cancel) {
@@ -273,7 +273,7 @@ Emailer.sendToEmail = async (template, email, language, params) => {
 
     // Digests and notifications can be one-click unsubbed
     let payload = {
-        template: template,
+        template,
         uid: params.uid,
     };
 
@@ -296,10 +296,10 @@ Emailer.sendToEmail = async (template, email, language, params) => {
     }
 
     const result = await Plugins.hooks.fire('filter:email.params', {
-        template: template,
-        email: email,
+        template,
+        email,
         language: lang,
-        params: params,
+        params,
     });
 
     template = result.template;
@@ -317,11 +317,11 @@ Emailer.sendToEmail = async (template, email, language, params) => {
         from: meta.config['email:from'] || `no-reply@${getHostname()}`,
         from_name: meta.config['email:from_name'] || 'NodeBB',
         subject: `[${meta.config.title}] ${_.unescape(subject)}`,
-        html: html,
+        html,
         plaintext: htmlToText(html, {
             tags: { img: { format: 'skip' } },
         }),
-        template: template,
+        template,
         uid: params.uid,
         pid: params.pid,
         fromUid: params.fromUid,

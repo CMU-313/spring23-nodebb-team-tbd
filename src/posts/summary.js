@@ -57,7 +57,7 @@ module.exports = function (Posts) {
         posts = posts.filter(post => tidToTopic[post.tid]);
 
         posts = await parsePosts(posts, options);
-        const result = await plugins.hooks.fire('filter:post.getPostSummaryByPids', { posts: posts, uid: uid });
+        const result = await plugins.hooks.fire('filter:post.getPostSummaryByPids', { posts, uid });
         return result.posts;
     };
 

@@ -14,7 +14,6 @@ utils.getLanguage = function () {
     return lang;
 };
 
-
 utils.makeNumbersHumanReadable = function (elements) {
     elements.each(function () {
         $(this)

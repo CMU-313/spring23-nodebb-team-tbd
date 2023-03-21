@@ -25,7 +25,6 @@ categoriesController.get = async function (req, res, next) {
     const stop = start + meta.config.categoriesPerPage - 1;
     const categoriesData = allCategoriesData.slice(start, stop + 1);
 
-
     categoriesData.forEach((category) => {
         if (category) {
             category.isIgnored = states[category.cid] === categories.watchStates.ignoring;

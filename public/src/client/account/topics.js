@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/account/topics', [
     'forum/account/header',
     'forum/infinitescroll',
@@ -43,12 +42,12 @@ define('forum/account/topics', [
     }
 
     function onTopicsLoaded(topics, callback) {
-        app.parseAndTranslate(template, 'topics', { topics: topics }, function (html) {
+        app.parseAndTranslate(template, 'topics', { topics }, function (html) {
             $('[component="category"]').append(html);
             html.find('.timeago').timeago();
             app.createUserTooltips(html);
             utils.makeNumbersHumanReadable(html.find('.human-readable-number'));
-            hooks.fire('action:topics.loaded', { topics: topics });
+            hooks.fire('action:topics.loaded', { topics });
             callback();
         });
     }

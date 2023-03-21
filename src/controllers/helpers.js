@@ -33,7 +33,7 @@ helpers.noScriptErrors = async function (req, res, error, httpStatus) {
     res.status(httpStatus).render(httpStatusString, {
         path: req.path,
         loggedIn: req.loggedIn,
-        error: error,
+        error,
         returnLink: true,
         title: `[[global:${httpStatusString}.title]]`,
     });
@@ -137,7 +137,7 @@ helpers.notAllowed = async function (req, res, error) {
                 res.status(403).json({
                     path: req.path.replace(/^\/api/, ''),
                     loggedIn: req.loggedIn,
-                    error: error,
+                    error,
                     title: '[[global:403.title]]',
                     bodyClass: middlewareHelpers.buildBodyClass(req, res),
                 });
@@ -184,20 +184,21 @@ helpers.redirect = function (res, url, permanent) {
 
 function prependRelativePath(url) {
     return url.startsWith('http://') || url.startsWith('https://') ?
-        url : relative_path + url;
+        url :
+        relative_path + url;
 }
 
 helpers.buildCategoryBreadcrumbs = async function (cid) {
     const breadcrumbs = [];
 
     while (parseInt(cid, 10)) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const data = await categories.getCategoryFields(cid, ['name', 'slug', 'parentCid', 'disabled', 'isSection']);
         if (!data.disabled && !data.isSection) {
             breadcrumbs.unshift({
                 text: String(data.name),
                 url: `${relative_path}/category/${data.slug}`,
-                cid: cid,
+                cid,
             });
         }
         cid = data.parentCid;
@@ -291,12 +292,12 @@ helpers.getVisibleCategories = async function (params) {
     ]);
 
     const filtered = await plugins.hooks.fire('filter:helpers.getVisibleCategories', {
-        uid: uid,
-        allowed: allowed,
-        watchState: watchState,
-        categoriesData: categoriesData,
-        isModerator: isModerator,
-        isAdmin: isAdmin,
+        uid,
+        allowed,
+        watchState,
+        categoriesData,
+        isModerator,
+        isAdmin,
     });
     ({ allowed, watchState, categoriesData, isModerator, isAdmin } = filtered);
 
@@ -352,7 +353,7 @@ helpers.getSelectedCategory = async function (cids) {
         selectedCategories = null;
     }
     return {
-        selectedCids: selectedCids,
+        selectedCids,
         selectedCategory: selectedCategories,
     };
 };
@@ -419,8 +420,8 @@ helpers.getHomePageRoutes = async function (uid) {
         },
     ];
     const data = await plugins.hooks.fire('filter:homepage.get', {
-        uid: uid,
-        routes: routes,
+        uid,
+        routes,
     });
     return data.routes;
 };
@@ -487,7 +488,7 @@ helpers.formatApiResponse = async (statusCode, res, payload) => {
         }
         res.status(statusCode).json(returnPayload);
     } else if (!payload) {
-        // Non-2xx statusCode, generate predefined error
+    // Non-2xx statusCode, generate predefined error
         const returnPayload = await helpers.generateError(statusCode, null, res);
         res.status(statusCode).json(returnPayload);
     }

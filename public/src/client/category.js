@@ -68,7 +68,7 @@ define('forum/category', [
             const $this = $(this);
             const state = $this.attr('data-state');
 
-            socket.emit('categories.setWatchState', { cid: cid, state: state }, function (err) {
+            socket.emit('categories.setWatchState', { cid, state }, function (err) {
                 if (err) {
                     return alerts.error(err);
                 }
@@ -141,8 +141,8 @@ define('forum/category', [
         const params = utils.params();
         infinitescroll.loadMore('categories.loadMore', {
             cid: ajaxify.data.cid,
-            after: after,
-            direction: direction,
+            after,
+            direction,
             query: params,
             categoryTopicSort: config.categoryTopicSort,
         }, function (data, done) {

@@ -29,7 +29,7 @@ async function blacklist(socket, method, rule) {
         type: `ip-blacklist-${method}`,
         uid: socket.uid,
         ip: socket.ip,
-        rule: rule,
+        rule,
     });
 }
 

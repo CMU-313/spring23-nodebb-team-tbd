@@ -39,7 +39,7 @@ admin.getAdmin = async function () {
         admin.get(),
         getAvailable(),
     ]);
-    return { enabled: enabled, available: available };
+    return { enabled, available };
 };
 
 const fieldsToEscape = ['iconClass', 'class', 'route', 'id', 'text', 'textClass', 'title'];

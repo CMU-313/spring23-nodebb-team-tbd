@@ -91,8 +91,8 @@ module.exports = function (Posts) {
                 userData.postcount <= 0);
         const result = await plugins.hooks.fire('filter:post.shouldQueue', {
             shouldQueue: !!shouldQueue,
-            uid: uid,
-            data: data,
+            uid,
+            data,
         });
         return result.shouldQueue;
     };
@@ -141,10 +141,10 @@ module.exports = function (Posts) {
         await canPost(type, data);
 
         let payload = {
-            id: id,
+            id,
             uid: data.uid,
-            type: type,
-            data: data,
+            type,
+            data,
         };
         payload = await plugins.hooks.fire('filter:post-queue.save', payload);
         payload.data = JSON.stringify(data);
@@ -163,13 +163,13 @@ module.exports = function (Posts) {
             nid: `post-queue-${id}`,
             mergeId: 'post-queue',
             bodyShort: '[[notifications:post_awaiting_review]]',
-            bodyLong: bodyLong,
+            bodyLong,
             path: `/post-queue/${id}`,
         });
         await notifications.push(notifObj, uids);
         return {
-            id: id,
-            type: type,
+            id,
+            type,
             queued: true,
             message: '[[success:post-queued]]',
         };
@@ -188,17 +188,17 @@ module.exports = function (Posts) {
             userData.url = `${url}/uid/${userData.uid}`;
         }
 
-        const topic = { cid: cid, title: data.title, tid: data.tid };
+        const topic = { cid, title: data.title, tid: data.tid };
         if (type === 'reply') {
             topic.title = await topics.getTopicField(data.tid, 'title');
             topic.url = `${url}/topic/${data.tid}`;
         }
         const { app } = require('../webserver');
         return await app.renderAsync('emails/partials/post-queue-body', {
-            content: content,
-            category: category,
+            content,
+            category,
             user: userData,
-            topic: topic,
+            topic,
         });
     }
 
@@ -240,7 +240,7 @@ module.exports = function (Posts) {
         if (!data) {
             return null;
         }
-        const result = await plugins.hooks.fire('filter:post-queue:removeFromQueue', { data: data });
+        const result = await plugins.hooks.fire('filter:post-queue:removeFromQueue', { data });
         await removeFromQueue(id);
         plugins.hooks.fire('action:post-queue:removeFromQueue', { data: result.data });
         return result.data;
@@ -258,7 +258,7 @@ module.exports = function (Posts) {
         if (!data) {
             return null;
         }
-        const result = await plugins.hooks.fire('filter:post-queue:submitFromQueue', { data: data });
+        const result = await plugins.hooks.fire('filter:post-queue:submitFromQueue', { data });
         data = result.data;
         if (data.type === 'topic') {
             const result = await createTopic(data.data);
@@ -268,7 +268,7 @@ module.exports = function (Posts) {
             data.pid = result.pid;
         }
         await removeFromQueue(id);
-        plugins.hooks.fire('action:post-queue:submitFromQueue', { data: data });
+        plugins.hooks.fire('action:post-queue:submitFromQueue', { data });
         return data;
     };
 
@@ -359,7 +359,7 @@ module.exports = function (Posts) {
                 post.data.tid = newTid;
             });
             await db.setObjectBulk(
-                postData.map(p => [`post:queue:${p.id}`, { data: JSON.stringify(p.data) }]),
+                postData.map(p => [`post:queue:${p.id}`, { data: JSON.stringify(p.data) }])
             );
             cache.del('post-queue');
         }

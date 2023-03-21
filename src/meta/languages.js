@@ -41,7 +41,6 @@ async function getTranslationMetadata() {
         namespaces.push(namespace);
     });
 
-
     languages = _.union(languages, Plugins.languageData.languages).sort().filter(Boolean);
     namespaces = _.union(namespaces, Plugins.languageData.namespaces).sort().filter(Boolean);
     const configLangs = nconf.get('languages');
@@ -52,8 +51,8 @@ async function getTranslationMetadata() {
     // avoids readdirs later on
     await mkdirp(buildLanguagesPath);
     const result = {
-        languages: languages,
-        namespaces: namespaces,
+        languages,
+        namespaces,
     };
     await fs.promises.writeFile(path.join(buildLanguagesPath, 'metadata.json'), JSON.stringify(result));
     return result;
@@ -120,7 +119,7 @@ async function addPlugin(translations, pluginData, lang, namespace) {
     ]);
 
     for (const language of langs) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         await assignFileToTranslations(translations, path.join(pathToPluginLanguageFolder, language, `${namespace}.json`));
     }
 }

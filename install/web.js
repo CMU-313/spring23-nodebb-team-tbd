@@ -118,7 +118,7 @@ function welcome(req, res) {
 
         return {
             name: databaseName,
-            questions: questions,
+            questions,
         };
     });
 
@@ -126,16 +126,16 @@ function welcome(req, res) {
 
     res.render('install/index', {
         url: nconf.get('url') || (`${req.protocol}://${req.get('host')}`),
-        launchUrl: launchUrl,
+        launchUrl,
         skipGeneralSetup: !!nconf.get('url'),
-        databases: databases,
+        databases,
         skipDatabaseSetup: !!nconf.get('database'),
-        error: error,
-        success: success,
+        error,
+        success,
         values: req.body,
         minimumPasswordLength: defaults.minimumPasswordLength,
         minimumPasswordStrength: defaults.minimumPasswordStrength,
-        installing: installing,
+        installing,
     });
 }
 
@@ -269,10 +269,10 @@ async function copyCSS() {
 async function loadDefaults() {
     const setupDefaultsPath = path.join(__dirname, '../setup.json');
     try {
-        // eslint-disable-next-line no-bitwise
+    // eslint-disable-next-line no-bitwise
         await fs.promises.access(setupDefaultsPath, fs.constants.F_OK | fs.constants.R_OK);
     } catch (err) {
-        // setup.json not found or inaccessible, proceed with no defaults
+    // setup.json not found or inaccessible, proceed with no defaults
         if (err.code !== 'ENOENT') {
             throw err;
         }

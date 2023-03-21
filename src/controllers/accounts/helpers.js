@@ -87,7 +87,7 @@ helpers.getUserDataByUserSlug = async function (userslug, callerUID, query = {})
         moderator: isModerator,
         globalMod: isGlobalModerator,
         admin: isAdmin,
-        canViewInfo: canViewInfo,
+        canViewInfo,
     });
 
     userData.sso = results.sso.associations;
@@ -116,9 +116,9 @@ helpers.getUserDataByUserSlug = async function (userslug, callerUID, query = {})
     await getCounts(userData, callerUID);
 
     const hookData = await plugins.hooks.fire('filter:helpers.getUserDataByUserSlug', {
-        userData: userData,
-        callerUID: callerUID,
-        query: query,
+        userData,
+        callerUID,
+        query,
     });
     return hookData.userData;
 };
@@ -139,7 +139,7 @@ async function getAllData(uid, callerUID) {
         ips: user.getIPs(uid, 4),
         profile_menu: getProfileMenu(uid, callerUID),
         groups: groups.getUserGroups([uid]),
-        sso: plugins.hooks.fire('filter:auth.list', { uid: uid, associations: [] }),
+        sso: plugins.hooks.fire('filter:auth.list', { uid, associations: [] }),
         canEdit: privileges.users.canEdit(callerUID, uid),
         canBanUser: privileges.users.canBanUser(callerUID, uid),
         canMuteUser: privileges.users.canMuteUser(callerUID, uid),
@@ -226,9 +226,9 @@ async function getProfileMenu(uid, callerUID) {
     }
 
     return await plugins.hooks.fire('filter:user.profileMenu', {
-        uid: uid,
-        callerUID: callerUID,
-        links: links,
+        uid,
+        callerUID,
+        links,
     });
 }
 
@@ -246,7 +246,7 @@ async function parseAboutMe(userData) {
 
 function filterLinks(links, states) {
     return links.filter((link, index) => {
-        // Default visibility
+    // Default visibility
         link.visibility = {
             self: true,
             other: true,

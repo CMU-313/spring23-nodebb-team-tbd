@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('alerts', ['translator', 'components', 'hooks'], function (translator, components, hooks) {
     const module = {};
 
@@ -22,7 +21,7 @@ define('alerts', ['translator', 'components', 'hooks'], function (translator, co
         module.alert({
             alert_id: utils.generateUUID(),
             title: '[[global:alert.success]]',
-            message: message,
+            message,
             type: 'success',
             timeout: timeout || 5000,
         });
@@ -40,7 +39,7 @@ define('alerts', ['translator', 'components', 'hooks'], function (translator, co
         module.alert({
             alert_id: utils.generateUUID(),
             title: '[[global:alert.error]]',
-            message: message,
+            message,
             type: 'danger',
             timeout: timeout || 10000,
         });

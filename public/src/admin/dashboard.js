@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/dashboard', [
     'Chart', 'translator', 'benchpress', 'bootbox', 'alerts',
 ], function (Chart, translator, Benchpress, bootbox, alerts) {
@@ -225,7 +224,7 @@ define('admin/dashboard', [
 
             graphs.traffic = new Chart(trafficCtx, {
                 type: 'line',
-                data: data,
+                data,
                 options: {
                     responsive: true,
                     legend: {
@@ -414,7 +413,7 @@ define('admin/dashboard', [
     }
 
     function updateTrafficGraph(units, until, amount) {
-        // until and amount are optional
+    // until and amount are optional
 
         if (!app.isFocused) {
             return;
@@ -423,8 +422,8 @@ define('admin/dashboard', [
         socket.emit('admin.analytics.get', {
             graph: 'traffic',
             units: units || 'hours',
-            until: until,
-            amount: amount,
+            until,
+            amount,
         }, function (err, data) {
             if (err) {
                 return alerts.error(err);
@@ -464,7 +463,7 @@ define('admin/dashboard', [
             const apiEl = $('#view-as-json');
             const newHref = $.param({
                 units: units || 'hours',
-                until: until,
+                until,
                 count: amount,
             });
             apiEl.attr('href', config.relative_path + '/api/admin/analytics?' + newHref);

@@ -93,7 +93,7 @@ userController.exportProfile = async function (req, res, next) {
 
 // DEPRECATED; Remove in NodeBB v3.0.0
 function sendExport(filename, type, res, next) {
-    winston.warn(`[users/export] Access via page API is deprecated, use GET /api/v3/users/:uid/exports/:type instead.`);
+    winston.warn('[users/export] Access via page API is deprecated, use GET /api/v3/users/:uid/exports/:type instead.');
 
     res.sendFile(filename, {
         root: path.join(__dirname, '../../build/export'),

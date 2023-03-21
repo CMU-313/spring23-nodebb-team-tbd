@@ -55,7 +55,7 @@ uploadsController.get = async function (req, res, next) {
         res.render('admin/manage/uploads', {
             currentFolder: currentFolder.replace(nconf.get('upload_path'), ''),
             showPids: files.length && files[0].hasOwnProperty('inPids'),
-            files: files,
+            files,
             breadcrumbs: buildBreadcrumbs(currentFolder),
             pagination: pagination.create(page, Math.ceil(itemCount / itemsPerPage), req.query),
         });
@@ -97,7 +97,7 @@ async function getFileData(currentDir, file) {
     return {
         name: file,
         path: pathToFile.replace(path.join(nconf.get('upload_path'), '/'), ''),
-        url: url,
+        url,
         fileCount: Math.max(0, filesInDir.length - 1), // ignore .gitignore
         size: stat.size,
         sizeHumanReadable: `${(stat.size / 1024).toFixed(1)}KiB`,
@@ -166,7 +166,6 @@ uploadsController.uploadTouchIcon = async function (req, res, next) {
         }
     }
 };
-
 
 uploadsController.uploadMaskableIcon = async function (req, res, next) {
     const uploadedFile = req.files.files[0];
@@ -239,7 +238,7 @@ async function uploadImage(filename, folder, uploadedFile, req, res, next) {
     let imageData;
     try {
         if (plugins.hooks.hasListeners('filter:uploadImage')) {
-            imageData = await plugins.hooks.fire('filter:uploadImage', { image: uploadedFile, uid: req.uid, folder: folder });
+            imageData = await plugins.hooks.fire('filter:uploadImage', { image: uploadedFile, uid: req.uid, folder });
         } else {
             imageData = await file.saveFileToLocal(filename, folder, uploadedFile.path);
         }

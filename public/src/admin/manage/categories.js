@@ -243,7 +243,7 @@ define('admin/manage/categories', [
      * @param parentId {number} parent category identifier
      */
     function renderList(categories, container, parentCategory) {
-        // Translate category names if needed
+    // Translate category names if needed
         let count = 0;
         const parentId = parentCategory.cid;
         categories.forEach(function (category, idx, parent) {
@@ -266,8 +266,8 @@ define('admin/manage/categories', [
         function continueRender() {
             app.parseAndTranslate('admin/partials/categories/category-rows', {
                 cid: parentCategory.cid,
-                categories: categories,
-                parentCategory: parentCategory,
+                categories,
+                parentCategory,
             }, function (html) {
                 if (container.find('.category-row').length) {
                     container.find('.category-row').after(html);

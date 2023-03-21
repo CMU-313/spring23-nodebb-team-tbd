@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/account/categories', ['forum/account/header', 'alerts'], function (header, alerts) {
     const Categories = {};
 
@@ -18,7 +17,7 @@ define('forum/account/categories', ['forum/account/header', 'alerts'], function 
                 cids.push($(el).attr('data-cid'));
             });
 
-            socket.emit('categories.setWatchState', { cid: cids, state: state, uid: ajaxify.data.uid }, function (err, modified_cids) {
+            socket.emit('categories.setWatchState', { cid: cids, state, uid: ajaxify.data.uid }, function (err, modified_cids) {
                 if (err) {
                     return alerts.error(err);
                 }
@@ -33,7 +32,7 @@ define('forum/account/categories', ['forum/account/header', 'alerts'], function 
             const $this = $(this);
             const state = $this.attr('data-state');
 
-            socket.emit('categories.setWatchState', { cid: cid, state: state, uid: ajaxify.data.uid }, function (err, modified_cids) {
+            socket.emit('categories.setWatchState', { cid, state, uid: ajaxify.data.uid }, function (err, modified_cids) {
                 if (err) {
                     return alerts.error(err);
                 }

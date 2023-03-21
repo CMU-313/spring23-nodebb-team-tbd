@@ -28,7 +28,7 @@ function debugFork(modulePath, args, options) {
     }
 
     options = options || {};
-    options = { ...options, execArgv: execArgv };
+    options = { ...options, execArgv };
 
     return fork(modulePath, args, options);
 }

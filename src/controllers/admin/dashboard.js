@@ -30,17 +30,17 @@ dashboardController.get = async function (req, res) {
     const version = nconf.get('version');
 
     res.render('admin/dashboard', {
-        version: version,
+        version,
         lookupFailed: latestVersion === null,
-        latestVersion: latestVersion,
+        latestVersion,
         upgradeAvailable: latestVersion && semver.gt(latestVersion, version),
         currentPrerelease: versions.isPrerelease.test(version),
-        notices: notices,
-        stats: stats,
+        notices,
+        stats,
         canRestart: !!process.send,
-        lastrestart: lastrestart,
+        lastrestart,
         showSystemControls: isAdmin,
-        popularSearches: popularSearches,
+        popularSearches,
     });
 };
 
@@ -113,8 +113,8 @@ dashboardController.getAnalytics = async (req, res, next) => {
         query: {
             set: req.query.set,
             units: req.query.units,
-            until: until,
-            count: count,
+            until,
+            count,
         },
         result: payload,
     });

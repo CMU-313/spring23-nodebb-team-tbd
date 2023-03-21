@@ -37,16 +37,15 @@ module.exports = function (SocketTopics) {
             }
 
             await events.log({
-                type: `topic-move`,
+                type: 'topic-move',
                 uid: socket.uid,
                 ip: socket.ip,
-                tid: tid,
+                tid,
                 fromCid: topicData.cid,
                 toCid: data.cid,
             });
         });
     };
-
 
     SocketTopics.moveAll = async function (socket, data) {
         if (!data || !data.cid || !data.currentCid) {
@@ -63,7 +62,7 @@ module.exports = function (SocketTopics) {
             await topics.tools.move(tid, data);
         });
         await events.log({
-            type: `topic-move-all`,
+            type: 'topic-move-all',
             uid: socket.uid,
             ip: socket.ip,
             fromCid: data.currentCid,

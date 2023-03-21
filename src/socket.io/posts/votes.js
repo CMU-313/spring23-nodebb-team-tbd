@@ -30,9 +30,9 @@ module.exports = function (SocketPosts) {
         return {
             upvoteCount: upvoters.length,
             downvoteCount: downvoters.length,
-            showDownvotes: showDownvotes,
-            upvoters: upvoters,
-            downvoters: downvoters,
+            showDownvotes,
+            upvoters,
+            downvoters,
         };
     };
 
@@ -53,8 +53,8 @@ module.exports = function (SocketPosts) {
             }
             const usernames = await user.getUsernamesByUids(uids);
             return {
-                otherCount: otherCount,
-                usernames: usernames,
+                otherCount,
+                usernames,
             };
         }));
         return result;

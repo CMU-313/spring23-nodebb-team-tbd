@@ -1,11 +1,10 @@
 'use strict';
 
-
 define('admin/appearance/skins', ['translator', 'alerts'], function (translator, alerts) {
     const Skins = {};
 
     Skins.init = function () {
-        // Populate skins from Bootswatch API
+    // Populate skins from Bootswatch API
         $.ajax({
             method: 'get',
             url: 'https://bootswatch.com/api/3.json',
@@ -25,7 +24,6 @@ define('admin/appearance/skins', ['translator', 'alerts'], function (translator,
                 const themeType = parentEl.attr('data-type');
                 const cssSrc = parentEl.attr('data-css');
                 const themeId = parentEl.attr('data-theme');
-
 
                 socket.emit('admin.themes.set', {
                     type: themeType,

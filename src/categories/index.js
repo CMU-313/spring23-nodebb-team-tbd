@@ -60,7 +60,7 @@ Categories.getCategoryById = async function (data) {
 
     calculateTopicPostCount(category);
     const result = await plugins.hooks.fire('filter:category.get', {
-        category: category,
+        category,
         ...data,
     });
     return result.category;
@@ -247,7 +247,7 @@ Categories.getParentCids = async function (currentCid) {
     let cid = currentCid;
     const parents = [];
     while (parseInt(cid, 10)) {
-        // eslint-disable-next-line
+    // eslint-disable-next-line
         cid = await Categories.getCategoryField(cid, 'parentCid');
         if (cid) {
             parents.unshift(cid);

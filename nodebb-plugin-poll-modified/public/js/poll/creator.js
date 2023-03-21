@@ -1,7 +1,7 @@
 'use strict';
 
 (function (Poll) {
-	var Creator = {};
+	const Creator = {};
 
 	function init() {
 		$(window).on('action:composer.enhanced', initComposer);
@@ -33,20 +33,20 @@
 		$.Redactor.prototype.poll = function () {
 			return {
 				init: function () {
-					var self = this;
+					const self = this;
 
 					// require translator as such because it was undefined without it
 					require(['translator'], function (translator) {
 						translator.translate('[[poll:creator_title]]', function (translated) {
-							var button = self.button.add('poll', translated);
+							const button = self.button.add('poll', translated);
 							self.button.setIcon(button, '<i class="fa fa-bar-chart-o"></i>');
 							self.button.addCallback(button, self.poll.onClick);
 						});
 					});
 				},
 				onClick: function () {
-					var self = this;
-					var code = this.code.get();
+					const self = this;
+					const code = this.code.get();
 					require(['composer'], function (composer) {
 						composerBtnHandle(composer, {
 							value: code,
@@ -62,7 +62,7 @@
 
 	function composerBtnHandle(composer, textarea) {
 		require(['composer/controls', 'alerts'], function (controls, alerts) {
-			var post = composer.posts[composer.active];
+			const post = composer.posts[composer.active];
 			if (!post || !post.isMain || (isNaN(parseInt(post.cid, 10)) && isNaN(parseInt(post.pid, 10)))) {
 				return alerts.error('[[poll:error.not_main]]');
 			}
@@ -83,7 +83,7 @@
 						console.error(err);
 					}
 
-					var poll = {};
+					let poll = {};
 
 					// If there's already a poll in the post, serialize it for editing
 					if (Poll.serializer.canSerialize(textarea.value)) {
@@ -98,7 +98,7 @@
 
 					Creator.show(poll, config, function (data) {
 						// Anything invalid will be discarded by the serializer
-						var markup = Poll.serializer.deserialize(data, config);
+						let markup = Poll.serializer.deserialize(data, config);
 
 						// Remove any existing poll markup
 						textarea.value = Poll.serializer.removeMarkup(textarea.value);
@@ -125,9 +125,9 @@
 		}
 
 		require(['flatpickr', 'flatpickr.i10n', 'bootbox', 'dayjs', 'translator'], function (flatpickr, flatpickrI10N, bootbox, dayjs, Translator) {
-			app.parseAndTranslate('poll/creator', { poll: poll, config: config, isRedactor: !!$.Redactor }, function (html) {
+			app.parseAndTranslate('poll/creator', { poll, config, isRedactor: !!$.Redactor }, function (html) {
 				// Initialise modal
-				var modal = bootbox.dialog({
+				const modal = bootbox.dialog({
 					title: '[[poll:creator_title]]',
 					message: html,
 					className: 'poll-creator',
@@ -144,8 +144,8 @@
 							className: 'btn-primary',
 							callback: function (e) {
 								clearErrors();
-								var form = $(e.currentTarget).parents('.bootbox').find('#pollCreator');
-								var obj = serializeObjectFromForm(form);
+								const form = $(e.currentTarget).parents('.bootbox').find('#pollCreator');
+								const obj = serializeObjectFromForm(form);
 
 								// Let's be nice and at least show an error if there are no options
 								obj.options.filter(function (obj) {
@@ -174,8 +174,8 @@
 					.find('#pollAddOption')
 					.off('click')
 					.on('click', function (e) {
-						var el = $(e.currentTarget);
-						var prevOption = el.prev();
+						const el = $(e.currentTarget);
+						const prevOption = el.prev();
 
 						if (config.limits.maxOptions <= el.prevAll('input').length) {
 							clearErrors();
@@ -197,9 +197,9 @@
 					.find('#pollRemoveOption')
 					.off('click')
 					.on('click', function (e) {
-						var el = $(e.currentTarget);
-						var AddOption = el.prev();
-						var prevOption = AddOption.prev();
+						const el = $(e.currentTarget);
+						const AddOption = el.prev();
+						const prevOption = AddOption.prev();
 
 						if (el.prevAll('input').length <= 1) {
 							clearErrors();
@@ -215,8 +215,8 @@
 						}
 					});
 
-				var currentLocale = Translator.getLanguage();
-				var flatpickrInstance = flatpickr('.flatpickr', {
+				const currentLocale = Translator.getLanguage();
+				const flatpickrInstance = flatpickr('.flatpickr', {
 					enableTime: true,
 					altFormat: 'F j, Y h:i K',
 					time_24hr: false,
@@ -238,7 +238,7 @@
 	};
 
 	function error(message) {
-		var errorBox = $('#pollErrorBox');
+		const errorBox = $('#pollErrorBox');
 
 		errorBox.removeClass('hidden');
 		errorBox.append(message + '<br>');
@@ -251,9 +251,9 @@
 	}
 
 	function serializeObjectFromForm(form) {
-		var obj = form.serializeObject();
+		const obj = form.serializeObject();
 		console.log('Parsed form: ', obj);
-		var result = {
+		const result = {
 			options: obj.options,
 			settings: {
 				title: obj['settings.title'],

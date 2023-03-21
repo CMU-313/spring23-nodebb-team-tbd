@@ -8,7 +8,6 @@ define('settings/sorted-list', [
 ], function (benchpress, bootbox, hooks) {
     let Settings;
 
-
     const SortedList = {
         types: ['sorted-list'],
         use: function () {
@@ -124,7 +123,6 @@ define('settings/sorted-list', [
                     $('#content').find('[data-sorted-list-uuid="' + itemUUID + '"][data-sorted-list-object="' + key + '"]').remove();
                     $('#content').append(form.hide());
 
-
                     let data = Settings.helper.serializeForm(form);
                     ({ item: data } = await hooks.fire('filter:settings.sorted-list.loadItem', { item: data }));
                     stripTags(data);
@@ -138,7 +136,7 @@ define('settings/sorted-list', [
     }
 
     function parse($container, itemUUID, data, replaceEl) {
-        // replaceEl is optional
+    // replaceEl is optional
         const $list = $container.find('[data-type="list"]');
         const itemTpl = $container.attr('data-item-template');
 

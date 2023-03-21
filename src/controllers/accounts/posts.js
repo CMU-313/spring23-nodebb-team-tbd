@@ -109,7 +109,7 @@ const templateToData = {
             const sortSet = map[sort];
             let tids = await db.getSortedSetRevRange(set, 0, -1);
             const scores = await db.sortedSetScores(sortSet, tids);
-            tids = tids.map((tid, i) => ({ tid: tid, score: scores[i] }))
+            tids = tids.map((tid, i) => ({ tid, score: scores[i] }))
                 .sort((a, b) => b.score - a.score)
                 .slice(start, stop + 1)
                 .map(t => t.tid);
@@ -193,13 +193,13 @@ async function getPostsFromUserSet(template, req, res, next) {
     let result;
     if (plugins.hooks.hasListeners('filter:account.getPostsFromUserSet')) {
         result = await plugins.hooks.fire('filter:account.getPostsFromUserSet', {
-            req: req,
-            template: template,
-            userData: userData,
-            settings: settings,
-            data: data,
-            start: start,
-            stop: stop,
+            req,
+            template,
+            userData,
+            settings,
+            data,
+            start,
+            stop,
             itemCount: 0,
             itemData: [],
         });

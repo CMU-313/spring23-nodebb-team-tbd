@@ -101,10 +101,10 @@ exports.handleErrors = async function handleErrors(err, req, res, next) { // esl
 async function getErrorHandlers(cases) {
     try {
         return await plugins.hooks.fire('filter:error.handle', {
-            cases: cases,
+            cases,
         });
     } catch (err) {
-        // Assume defaults
+    // Assume defaults
         winston.warn(`[errors/handle] Unable to retrieve plugin handlers for errors: ${err.message}`);
         return { cases };
     }

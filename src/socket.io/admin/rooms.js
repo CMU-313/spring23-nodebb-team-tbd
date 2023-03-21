@@ -18,7 +18,7 @@ SocketRooms.totals = totals;
 pubsub.on('sync:stats:start', () => {
     const stats = SocketRooms.getLocalStats();
     pubsub.publish('sync:stats:end', {
-        stats: stats,
+        stats,
         id: `${os.hostname()}:${nconf.get('port')}`,
     });
 });
@@ -47,7 +47,6 @@ SocketRooms.getTotalGuestCount = function (callback) {
         callback(null, count);
     }, 100);
 };
-
 
 SocketRooms.getAll = async function () {
     pubsub.publish('sync:stats:start');
@@ -82,7 +81,7 @@ SocketRooms.getAll = async function () {
 
     let topTenTopics = [];
     Object.keys(totals.topics).forEach((tid) => {
-        topTenTopics.push({ tid: tid, count: totals.topics[tid].count || 0 });
+        topTenTopics.push({ tid, count: totals.topics[tid].count || 0 });
     });
 
     topTenTopics = topTenTopics.sort((a, b) => b.count - a.count).slice(0, 10);

@@ -14,7 +14,7 @@ const relative_path = nconf.get('relative_path');
 
 module.exports = function (middleware) {
     middleware.processRender = function processRender(req, res, next) {
-        // res.render post-processing, modified from here: https://gist.github.com/mrlannigan/5051687
+    // res.render post-processing, modified from here: https://gist.github.com/mrlannigan/5051687
         const { render } = res;
 
         res.render = async function renderOverride(template, options, fn) {
@@ -37,13 +37,13 @@ module.exports = function (middleware) {
                     res.set('cache-control', 'private');
                 }
 
-                const buildResult = await plugins.hooks.fire(`filter:${template}.build`, { req: req, res: res, templateData: options });
+                const buildResult = await plugins.hooks.fire(`filter:${template}.build`, { req, res, templateData: options });
                 if (res.headersSent) {
                     return;
                 }
                 const templateToRender = buildResult.templateData.templateToRender || template;
 
-                const renderResult = await plugins.hooks.fire('filter:middleware.render', { req: req, res: res, templateData: buildResult.templateData });
+                const renderResult = await plugins.hooks.fire('filter:middleware.render', { req, res, templateData: buildResult.templateData });
                 if (res.headersSent) {
                     return;
                 }
@@ -55,8 +55,8 @@ module.exports = function (middleware) {
                     template: `${template}.tpl`,
                     url: options.url,
                     templateData: options,
-                    req: req,
-                    res: res,
+                    req,
+                    res,
                 });
                 res.locals.template = template;
                 options._locals = undefined;

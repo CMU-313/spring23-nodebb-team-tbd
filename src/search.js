@@ -84,7 +84,7 @@ async function searchInContent(data) {
 
     const metadata = await plugins.hooks.fire('filter:search.inContent', {
         pids: allPids,
-        data: data,
+        data,
     });
 
     if (data.returnIds) {
@@ -109,7 +109,7 @@ async function searchInContent(data) {
     }
 
     returnData.posts = await posts.getPostSummaryByPids(metadata.pids, data.uid, {});
-    await plugins.hooks.fire('filter:search.contentGetResult', { result: returnData, data: data });
+    await plugins.hooks.fire('filter:search.contentGetResult', { result: returnData, data });
     delete metadata.pids;
     delete metadata.data;
     return Object.assign(returnData, metadata);
@@ -131,7 +131,7 @@ async function filterAndSort(pids, data) {
 
     sortPosts(postsData, data);
 
-    const result = await plugins.hooks.fire('filter:search.filterAndSort', { pids: pids, posts: postsData, data: data });
+    const result = await plugins.hooks.fire('filter:search.filterAndSort', { pids, posts: postsData, data });
     return result.posts.map(post => post && post.pid);
 }
 

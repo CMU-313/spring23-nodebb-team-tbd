@@ -32,15 +32,15 @@ module.exports = function (Groups) {
             userTitle: data.userTitle || data.name,
             userTitleEnabled: parseInt(data.userTitleEnabled, 10) === 1 ? 1 : 0,
             description: data.description || '',
-            memberCount: memberCount,
+            memberCount,
             hidden: isHidden ? 1 : 0,
             system: isSystem ? 1 : 0,
             private: isPrivate ? 1 : 0,
-            disableJoinRequests: disableJoinRequests,
-            disableLeave: disableLeave,
+            disableJoinRequests,
+            disableLeave,
         };
 
-        await plugins.hooks.fire('filter:group.create', { group: groupData, data: data });
+        await plugins.hooks.fire('filter:group.create', { group: groupData, data });
 
         await db.sortedSetAdd('groups:createtime', groupData.createtime, groupData.name);
         await db.setObject(`group:${groupData.name}`, groupData);

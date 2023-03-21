@@ -140,7 +140,7 @@ async function generateForCategory(req, res, next) {
         let topicsData = await topics.getTopicsByTids(tids, uid);
         topicsData = await user.blocks.filter(uid, topicsData);
         const feed = await generateTopicsFeed({
-            uid: uid,
+            uid,
             title: category.name,
             description: category.description,
             feed_url: `/category/${cid}.rss`,
@@ -220,10 +220,10 @@ async function generateSorted(options, req, res, next) {
     const uid = token && token === req.query.token ? req.query.uid : req.uid;
 
     const params = {
-        uid: uid,
+        uid,
         start: 0,
         stop: 19,
-        term: term,
+        term,
         sort: options.sort,
     };
 
@@ -237,7 +237,7 @@ async function generateSorted(options, req, res, next) {
 
     const result = await topics.getSortedTopics(params);
     const feed = await generateTopicsFeed({
-        uid: uid,
+        uid,
         title: options.title,
         description: options.description,
         feed_url: options.feed_url,
@@ -297,7 +297,7 @@ async function generateTopicsFeed(feedOptions, feedTopics, timestampField) {
     }
 
     for (const topicData of feedTopics) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         await addFeedItem(topicData);
     }
     return feed;
@@ -412,8 +412,8 @@ async function generateForTag(req, res) {
         description: `A list of topics that have been tagged with ${tag}`,
         feed_url: `/tags/${tag}.rss`,
         site_url: `/tags/${tag}`,
-        start: start,
-        stop: stop,
+        start,
+        stop,
     }, `tag:${tag}:topics`, res);
 }
 

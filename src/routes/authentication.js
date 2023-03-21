@@ -65,7 +65,7 @@ Auth.verifyToken = async function (token, done) {
     if (uid !== undefined) {
         if (parseInt(uid, 10) > 0) {
             done(null, {
-                uid: uid,
+                uid,
             });
         } else {
             done(null, {
@@ -182,6 +182,6 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((uid, done) => {
     done(null, {
-        uid: uid,
+        uid,
     });
 });

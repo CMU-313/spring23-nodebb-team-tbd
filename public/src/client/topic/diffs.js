@@ -94,7 +94,7 @@ define('forum/topic/diffs', ['api', 'bootbox', 'alerts', 'forum/topic/images'], 
 
                     return {
                         username: revision.username,
-                        timestamp: timestamp,
+                        timestamp,
                         pretty: new Date(timestamp).toLocaleString(config.userLang.replace('_', '-'), localeStringOpts),
                     };
                 }),

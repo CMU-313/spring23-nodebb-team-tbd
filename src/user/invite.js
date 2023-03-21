@@ -177,11 +177,11 @@ module.exports = function (User) {
         return {
             ...emailer._defaultPayload, // Append default data to this email payload
             site_title: title,
-            registerLink: registerLink,
-            subject: subject,
-            username: username,
+            registerLink,
+            subject,
+            username,
             template: 'invitation',
-            expireDays: expireDays,
+            expireDays,
         };
     }
 };

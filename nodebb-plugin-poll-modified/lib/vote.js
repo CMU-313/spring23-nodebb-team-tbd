@@ -66,8 +66,8 @@ const Poll = require('./poll');
 	Vote.getUidVote = function (uid, pollId, callback) {
 		Poll.getOptions(pollId, true, (err, options) => {
 			callback(err, {
-				pollId: pollId,
-				uid: uid,
+				pollId,
+				uid,
 				options: options
 					.filter(option => option.votes.some(_uid => parseInt(_uid, 10) === parseInt(uid, 10)))
 					.map(option => option.id),

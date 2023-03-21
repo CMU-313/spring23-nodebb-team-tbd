@@ -85,8 +85,8 @@ module.exports = function (Groups) {
         await db.setAdd(set, uids);
         const hookName = type === 'invite' ? 'inviteMember' : 'requestMembership';
         plugins.hooks.fire(`action:group.${hookName}`, {
-            groupName: groupName,
-            uids: uids,
+            groupName,
+            uids,
         });
         return uids;
     }

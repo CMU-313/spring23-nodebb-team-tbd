@@ -48,7 +48,7 @@ const Scheduler = require('./lib/scheduler');
 
 	Plugin.addPrivilege = function (hookData) {
 		hookData.privileges.set(
-			'poll:create', { label: '[[poll:admin.create-poll]]' },
+			'poll:create', { label: '[[poll:admin.create-poll]]' }
 		);
 	};
 

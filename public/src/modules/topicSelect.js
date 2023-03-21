@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('topicSelect', ['components'], function (components) {
     const TopicSelect = {};
     let lastSelected;

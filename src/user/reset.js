@@ -58,7 +58,7 @@ UserReset.send = async function (email) {
         reset_link: `${nconf.get('url')}/reset/${code}`,
         subject: '[[email:password-reset-requested]]',
         template: 'reset',
-        uid: uid,
+        uid,
     }).catch(err => winston.error(`[emailer.send] ${err.stack}`));
 
     return code;

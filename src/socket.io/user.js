@@ -49,10 +49,10 @@ SocketUser.reset.send = async function (socket, email) {
     async function logEvent(text) {
         await events.log({
             type: 'password-reset',
-            text: text,
+            text,
             ip: socket.ip,
             uid: socket.uid,
-            email: email,
+            email,
         });
     }
     try {
@@ -81,7 +81,7 @@ SocketUser.reset.commit = async function (socket, data) {
 
     await events.log({
         type: 'password-reset',
-        uid: uid,
+        uid,
         ip: socket.ip,
     });
 
@@ -89,7 +89,7 @@ SocketUser.reset.commit = async function (socket, data) {
     const now = new Date();
     const parsedDate = `${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`;
     emailer.send('reset_notify', uid, {
-        username: username,
+        username,
         date: parsedDate,
         subject: '[[email:reset.notify.subject]]',
     }).catch(err => winston.error(`[emailer.send] ${err.stack}`));

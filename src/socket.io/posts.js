@@ -29,7 +29,7 @@ SocketPosts.getRawPost = async function (socket, pid) {
         throw new Error('[[error:no-post]]');
     }
     postData.pid = pid;
-    const result = await plugins.hooks.fire('filter:post.getRawPost', { uid: socket.uid, postData: postData });
+    const result = await plugins.hooks.fire('filter:post.getRawPost', { uid: socket.uid, postData });
     return result.postData.content;
 };
 
@@ -158,10 +158,10 @@ async function canEditQueue(socket, data, action) {
 
 async function sendQueueNotification(type, targetUid, path, notificationText) {
     const notifData = {
-        type: type,
+        type,
         nid: `${type}-${targetUid}-${path}`,
         bodyShort: notificationText ? `[[notifications:${type}, ${notificationText}]]` : `[[notifications:${type}]]`,
-        path: path,
+        path,
     };
     if (parseInt(meta.config.postQueueNotificationUid, 10) > 0) {
         notifData.from = meta.config.postQueueNotificationUid;

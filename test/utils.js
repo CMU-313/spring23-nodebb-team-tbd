@@ -1,6 +1,5 @@
 'use strict';
 
-
 const assert = require('assert');
 const { JSDOM } = require('jsdom');
 const slugify = require('../src/slugify');
@@ -224,7 +223,7 @@ describe('Utility Methods', () => {
     });
 
     it('should return passed in value if invalid', (done) => {
-        // eslint-disable-next-line no-loss-of-precision
+    // eslint-disable-next-line no-loss-of-precision
         const bigInt = -111111111111111111;
         const result = utils.toISOString(bigInt);
         assert.equal(bigInt, result);

@@ -13,7 +13,6 @@ const morgan = require('morgan');
 const file = require('./file');
 const meta = require('./meta');
 
-
 const opts = {
     /*
      * state used by Logger
@@ -205,7 +204,7 @@ Logger.io_one = function (socket, uid) {
     }
 
     if (socket && meta.config.loggerIOStatus > 0) {
-        // courtesy of: http://stackoverflow.com/a/9674248
+    // courtesy of: http://stackoverflow.com/a/9674248
         socket.oEmit = socket.emit;
         const { emit } = socket;
         socket.emit = override(emit, 'emit', 'Logger.io_one: emit.apply: Failed');

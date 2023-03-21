@@ -32,7 +32,7 @@ async function rewrite(req, res, next) {
 
     let parsedUrl;
     try {
-        parsedUrl = url.parse(route, true);
+        parsedUrl = url.URL(route, true);
     } catch (err) {
         return next(err);
     }
@@ -55,9 +55,9 @@ function pluginHook(req, res, next) {
     const hook = `action:homepage.get:${res.locals.homePageRoute}`;
 
     plugins.hooks.fire(hook, {
-        req: req,
-        res: res,
-        next: next,
+        req,
+        res,
+        next,
     });
 }
 

@@ -136,7 +136,7 @@ async function getBundleMetadata(target) {
     let imports = `${skinImport}\n${cssImports}\n${lessImports}\n${acpLessImports}`;
     imports = buildImports[target](imports);
 
-    return { paths: paths, imports: imports };
+    return { paths, imports };
 }
 
 CSS.buildBundle = async function (target, fork) {

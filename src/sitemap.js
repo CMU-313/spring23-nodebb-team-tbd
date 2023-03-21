@@ -56,7 +56,7 @@ async function getSitemapPages() {
         priority: 0.4,
     }];
 
-    const data = await plugins.hooks.fire('filter:sitemap.getPages', { urls: urls });
+    const data = await plugins.hooks.fire('filter:sitemap.getPages', { urls });
     return data.urls;
 }
 

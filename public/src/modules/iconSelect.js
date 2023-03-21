@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('iconSelect', ['benchpress', 'bootbox'], function (Benchpress, bootbox) {
     const iconSelect = {};
 

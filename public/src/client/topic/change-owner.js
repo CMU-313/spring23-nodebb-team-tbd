@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/change-owner', [
     'postSelect',
     'autocomplete',
@@ -69,7 +68,7 @@ define('forum/topic/change-owner', [
         if (!toUid) {
             return;
         }
-        socket.emit('posts.changeOwner', { pids: postSelect.pids, toUid: toUid }, function (err) {
+        socket.emit('posts.changeOwner', { pids: postSelect.pids, toUid }, function (err) {
             if (err) {
                 return alerts.error(err);
             }

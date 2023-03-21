@@ -82,9 +82,9 @@ async function getUsers(req, res) {
             const weights = set.map((s, index) => (index ? 0 : 1));
             uids = await db[reverse ? 'getSortedSetRevIntersect' : 'getSortedSetIntersect']({
                 sets: set,
-                start: start,
-                stop: stop,
-                weights: weights,
+                start,
+                stop,
+                weights,
             });
         } else {
             uids = await db[reverse ? 'getSortedSetRevRange' : 'getSortedSetRange'](set, start, stop);
@@ -101,11 +101,11 @@ async function getUsers(req, res) {
 
     await render(req, res, {
         users: users.filter(user => user && parseInt(user.uid, 10)),
-        page: page,
+        page,
         pageCount: Math.max(1, Math.ceil(count / resultsPerPage)),
-        resultsPerPage: resultsPerPage,
-        reverse: reverse,
-        sortBy: sortBy,
+        resultsPerPage,
+        reverse,
+        sortBy,
     });
 }
 
@@ -123,10 +123,10 @@ usersController.search = async function (req, res) {
         query: req.query.query,
         searchBy: req.query.searchBy,
         sortBy: req.query.sortBy,
-        sortDirection: sortDirection,
+        sortDirection,
         filters: req.query.filters,
-        page: page,
-        resultsPerPage: resultsPerPage,
+        page,
+        resultsPerPage,
         findUids: async function (query, searchBy, hardCap) {
             if (!query || query.length < 2) {
                 return [];
@@ -222,7 +222,7 @@ async function getInvites() {
 
     invitations.forEach((invites, index) => {
         invites.invitations = invites.invitations.map((email, i) => ({
-            email: email,
+            email,
             username: usernames[index][i] === '[[global:guest]]' ? '' : usernames[index][i],
         }));
     });

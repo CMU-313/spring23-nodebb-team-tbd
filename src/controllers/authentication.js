@@ -46,7 +46,7 @@ async function registerAndLoginUser(req, res, userData) {
         return;
     }
     const queue = await user.shouldQueueUser(req.ip);
-    const result = await plugins.hooks.fire('filter:register.shouldQueue', { req: req, res: res, userData: userData, queue: queue });
+    const result = await plugins.hooks.fire('filter:register.shouldQueue', { req, res, userData, queue });
     if (result.queue) {
         return await addToApprovalQueue(req, userData);
     }
@@ -58,7 +58,7 @@ async function registerAndLoginUser(req, res, userData) {
 
     // Distinguish registrations through invites from direct ones
     if (userData.token) {
-        // Token has to be verified at this point
+    // Token has to be verified at this point
         await Promise.all([
             user.confirmIfInviteEmailIsUsed(userData.token, userData.email, uid),
             user.joinGroupsFromInvitation(uid, userData.token),
@@ -66,7 +66,7 @@ async function registerAndLoginUser(req, res, userData) {
     }
     await user.deleteInvitationKey(userData.email, userData.token);
     const next = req.session.returnTo || `${nconf.get('relative_path')}/`;
-    const complete = await plugins.hooks.fire('filter:register.complete', { uid: uid, next: next });
+    const complete = await plugins.hooks.fire('filter:register.complete', { uid, next });
     req.session.returnTo = complete.next;
     return complete;
 }
@@ -112,7 +112,7 @@ authenticationController.register = async function (req, res) {
         user.isPasswordValid(userData.password);
 
         res.locals.processLogin = true; // set it to false in plugin if you wish to just register only
-        await plugins.hooks.fire('filter:register.check', { req: req, res: res, userData: userData });
+        await plugins.hooks.fire('filter:register.check', { req, res, userData });
 
         const data = await registerAndLoginUser(req, res, userData);
         if (data) {
@@ -139,12 +139,12 @@ async function addToApprovalQueue(req, userData) {
     if (meta.config.autoApproveTime > 0) {
         message += ` [[register:registration-queue-auto-approve-time, ${meta.config.autoApproveTime}]]`;
     }
-    return { message: message };
+    return { message };
 }
 
 authenticationController.registerComplete = async function (req, res) {
     try {
-        // For the interstitials that respond, execute the callback with the form body
+    // For the interstitials that respond, execute the callback with the form body
         const data = await plugins.hooks.fire('filter:register.interstitial', {
             req,
             userData: req.session.registration,
@@ -225,11 +225,11 @@ authenticationController.registerComplete = async function (req, res) {
 
 authenticationController.registerAbort = function (req, res) {
     if (req.uid) {
-        // Clear interstitial data and continue on...
+    // Clear interstitial data and continue on...
         delete req.session.registration;
         res.redirect(nconf.get('relative_path') + (req.session.returnTo || '/'));
     } else {
-        // End the session and redirect to home
+    // End the session and redirect to home
         req.session.destroy(() => {
             res.clearCookie(nconf.get('sessionKey'), meta.configs.cookie.get());
             res.redirect(`${nconf.get('relative_path')}/`);
@@ -252,7 +252,7 @@ authenticationController.login = async (req, res, next) => {
     req.body.username = String(req.body.username).trim();
     const errorHandler = res.locals.noScriptErrors || helpers.noScriptErrors;
     try {
-        await plugins.hooks.fire('filter:login.check', { req: req, res: res, userData: req.body });
+        await plugins.hooks.fire('filter:login.check', { req, res, userData: req.body });
     } catch (err) {
         return errorHandler(req, res, err.message, 403);
     }
@@ -344,7 +344,7 @@ authenticationController.doLogin = async function (req, uid) {
         return;
     }
     const loginAsync = util.promisify(req.login).bind(req);
-    await loginAsync({ uid: uid }, { keepSessionInfo: req.res.locals !== false });
+    await loginAsync({ uid }, { keepSessionInfo: req.res.locals !== false });
     await authenticationController.onSuccessfulLogin(req, uid);
 };
 
@@ -376,7 +376,7 @@ authenticationController.onSuccessfulLogin = async function (req, uid) {
 
         // Associate metadata retrieved via user-agent
         req.session.meta = _.extend(req.session.meta, {
-            uuid: uuid,
+            uuid,
             datetime: Date.now(),
             platform: req.useragent.platform,
             browser: req.useragent.browser,
@@ -399,7 +399,7 @@ authenticationController.onSuccessfulLogin = async function (req, uid) {
         // Force session check for all connected socket.io clients with the same session id
         sockets.in(`sess_${req.sessionID}`).emit('checkSession', uid);
 
-        plugins.hooks.fire('action:user.loggedIn', { uid: uid, req: req });
+        plugins.hooks.fire('action:user.loggedIn', { uid, req });
     } catch (err) {
         req.session.destroy();
         throw err;
@@ -471,7 +471,7 @@ authenticationController.logout = async function (req, res, next) {
 
         await user.setUserField(uid, 'lastonline', Date.now() - (meta.config.onlineCutoff * 60000));
         await db.sortedSetAdd('users:online', Date.now() - (meta.config.onlineCutoff * 60000), uid);
-        await plugins.hooks.fire('static:user.loggedOut', { req: req, res: res, uid: uid, sessionID: sessionID });
+        await plugins.hooks.fire('static:user.loggedOut', { req, res, uid, sessionID });
 
         // Force session check for all connected socket.io clients with the same session id
         sockets.in(`sess_${sessionID}`).emit('checkSession', 0);

@@ -27,7 +27,7 @@ SocketGroups.addMember = async (socket, data) => {
         throw new Error('[[error:invalid-uid]]');
     }
     for (const uid of data.uid) {
-        // eslint-disable-next-line no-await-in-loop
+    // eslint-disable-next-line no-await-in-loop
         await groups.join(data.groupName, uid);
     }
 
@@ -216,7 +216,7 @@ SocketGroups.loadMoreMembers = async (socket, data) => {
     data.after = parseInt(data.after, 10);
     const users = await groups.getOwnersAndMembers(data.groupName, socket.uid, data.after, data.after + 9);
     return {
-        users: users,
+        users,
         nextStart: data.after + 10,
     };
 };

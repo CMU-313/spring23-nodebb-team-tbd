@@ -1,9 +1,9 @@
 'use strict';
 
 define('admin/plugins/poll', ['settings'], function (Settings) {
-	var wrapper;
+	let wrapper;
 
-	var ACP = {};
+	const ACP = {};
 
 	ACP.init = function () {
 		wrapper = $('.poll-settings');

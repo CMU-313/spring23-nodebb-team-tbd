@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/move-post', [
     'components', 'postSelect', 'translator', 'alerts', 'api',
 ], function (components, postSelect, translator, alerts, api) {

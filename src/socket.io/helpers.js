@@ -43,8 +43,8 @@ async function notifyUids(uid, uids, type, result) {
     const data = await plugins.hooks.fire('filter:sockets.sendNewPostToUids', {
         uidsTo: uids,
         uidFrom: uid,
-        type: type,
-        post: post,
+        type,
+        post,
     });
 
     post.ip = undefined;
@@ -101,18 +101,17 @@ SocketHelpers.sendNotificationToPostOwner = async function (pid, fromuid, comman
         type: command,
         bodyShort: `[[${notification}, ${displayname}, ${titleEscaped}]]`,
         bodyLong: postObj.content,
-        pid: pid,
+        pid,
         tid: postData.tid,
         path: `/post/${pid}`,
         nid: `${command}:post:${pid}:uid:${fromuid}`,
         from: fromuid,
         mergeId: `${notification}|${pid}`,
-        topicTitle: topicTitle,
+        topicTitle,
     });
 
     notifications.push(notifObj, [postData.uid]);
 };
-
 
 SocketHelpers.sendNotificationToTopicOwner = async function (tid, fromuid, command, notification) {
     if (!tid || !fromuid || !notification) {

@@ -203,7 +203,7 @@ define('admin/manage/privileges', [
     };
 
     Privileges.exposeAssumedPrivileges = function () {
-        /*
+    /*
             If registered-users has a privilege enabled, then all users and groups of that privilege
             should be assumed to have that privilege as well, even if not set in the db, so reflect
             this arrangement in the table
@@ -293,7 +293,8 @@ define('admin/manage/privileges', [
     Privileges.copyPrivilegesFromCategory = function (cid, group) {
         const privilegeSubset = getPrivilegeSubset();
         const message = '<br>' +
-            (group ? `[[admin/manage/privileges:alert.copyPrivilegesFromGroup-warning, ${privilegeSubset}]]` :
+            (group ?
+                `[[admin/manage/privileges:alert.copyPrivilegesFromGroup-warning, ${privilegeSubset}]]` :
                 `[[admin/manage/privileges:alert.copyPrivilegesFrom-warning, ${privilegeSubset}]]`) +
             '<br><br>[[admin/manage/privileges:alert.no-undo]]';
         categorySelector.modal({
@@ -306,7 +307,7 @@ define('admin/manage/privileges', [
                     toCid: cid,
                     filter: getPrivilegeFilter(),
                     fromCid: selectedCategory.cid,
-                    group: group,
+                    group,
                 }, function (err) {
                     if (err) {
                         return alerts.error(err);

@@ -80,8 +80,8 @@ module.exports = function (middleware) {
 
     middleware.autoLocale = helpers.try(async (req, res, next) => {
         await plugins.hooks.fire('filter:middleware.autoLocale', {
-            req: req,
-            res: res,
+            req,
+            res,
         });
         if (req.query.lang) {
             const langs = await listCodes();

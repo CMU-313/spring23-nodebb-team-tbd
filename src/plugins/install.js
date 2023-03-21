@@ -69,8 +69,8 @@ module.exports = function (Plugins) {
         }
         meta.reloadRequired = true;
         const hook = isActive ? 'deactivate' : 'activate';
-        Plugins.hooks.fire(`action:plugin.${hook}`, { id: id });
-        return { id: id, active: !isActive };
+        Plugins.hooks.fire(`action:plugin.${hook}`, { id });
+        return { id, active: !isActive };
     };
 
     Plugins.checkWhitelist = async function (id, version) {
@@ -97,7 +97,7 @@ module.exports = function (Plugins) {
     };
 
     Plugins.toggleInstall = async function (id, version) {
-        pubsub.publish('plugins:toggleInstall', { hostname: os.hostname(), id: id, version: version });
+        pubsub.publish('plugins:toggleInstall', { hostname: os.hostname(), id, version });
         return await toggleInstall(id, version);
     };
 
@@ -114,7 +114,7 @@ module.exports = function (Plugins) {
         }
         await runPackageManagerCommandAsync(type, id, version || 'latest');
         const pluginData = await Plugins.get(id);
-        Plugins.hooks.fire(`action:plugin.${type}`, { id: id, version: version });
+        Plugins.hooks.fire(`action:plugin.${type}`, { id, version });
         return pluginData;
     }
 
@@ -133,9 +133,8 @@ module.exports = function (Plugins) {
         });
     }
 
-
     Plugins.upgrade = async function (id, version) {
-        pubsub.publish('plugins:upgrade', { hostname: os.hostname(), id: id, version: version });
+        pubsub.publish('plugins:upgrade', { hostname: os.hostname(), id, version });
         return await upgrade(id, version);
     };
 

@@ -21,7 +21,7 @@ function getLatestVersion(callback) {
 
     request('https://api.github.com/repos/NodeBB/NodeBB/releases/latest', {
         json: true,
-        headers: headers,
+        headers,
         timeout: 2000,
     }, (err, res, latestRelease) => {
         if (err) {

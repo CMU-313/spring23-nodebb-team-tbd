@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/settings', ['uploader', 'mousetrap', 'hooks', 'alerts', 'settings'], function (uploader, mousetrap, hooks, alerts, settings) {
     const Settings = {};
 
@@ -28,7 +27,7 @@ define('admin/settings', ['uploader', 'mousetrap', 'hooks', 'alerts', 'settings'
     };
 
     Settings.prepare = function (callback) {
-        // Populate the fields on the page from the config
+    // Populate the fields on the page from the config
         const fields = $('#content [data-field]');
         const numFields = fields.length;
         const saveBtn = $('#save');

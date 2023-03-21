@@ -1,6 +1,5 @@
 'use strict';
 
-
 // add default escape function for escaping HTML entities
 const escapeCharMap = Object.freeze({
     '&': '&amp;',
@@ -336,7 +335,7 @@ const utils = {
     },
 
     isNumber: function (n) {
-        // `isFinite('') === true` so isNan parseFloat check is necessary
+    // `isFinite('') === true` so isNan parseFloat check is necessary
         return !isNaN(parseFloat(n)) && isFinite(n);
     },
 
@@ -408,7 +407,7 @@ const utils = {
     },
 
     isPromise: function (object) {
-        // https://stackoverflow.com/questions/27746304/how-do-i-tell-if-an-object-is-a-promise#comment97339131_27746324
+    // https://stackoverflow.com/questions/27746304/how-do-i-tell-if-an-object-is-a-promise#comment97339131_27746324
         return object && typeof object.then === 'function';
     },
 
@@ -508,7 +507,7 @@ const utils = {
     },
 
     isAndroidBrowser: function () {
-        // http://stackoverflow.com/questions/9286355/how-to-detect-only-the-native-android-browser
+    // http://stackoverflow.com/questions/9286355/how-to-detect-only-the-native-android-browser
         const nua = navigator.userAgent;
         return ((nua.indexOf('Mozilla/5.0') > -1 && nua.indexOf('Android ') > -1 && nua.indexOf('AppleWebKit') > -1) && !(nua.indexOf('Chrome') > -1));
     },
@@ -518,7 +517,7 @@ const utils = {
     },
 
     findBootstrapEnvironment: function () {
-        // http://stackoverflow.com/questions/14441456/how-to-detect-which-device-view-youre-on-using-twitter-bootstrap-api
+    // http://stackoverflow.com/questions/14441456/how-to-detect-which-device-view-youre-on-using-twitter-bootstrap-api
         const envs = ['xs', 'sm', 'md', 'lg'];
         const $el = $('<div>');
 
@@ -570,7 +569,7 @@ const utils = {
 
     /* Retrieved from http://stackoverflow.com/a/7557433 @ 27 Mar 2016 */
     isElementInViewport: function (el) {
-        // special bonus for those using jQuery
+    // special bonus for those using jQuery
         if (typeof jQuery === 'function' && el instanceof jQuery) {
             el = el[0];
         }
@@ -706,7 +705,7 @@ const utils = {
     },
 
     debounce: function (func, wait, immediate) {
-        // modified from https://davidwalsh.name/javascript-debounce-function
+    // modified from https://davidwalsh.name/javascript-debounce-function
         let timeout;
         return function () {
             const context = this;

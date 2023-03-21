@@ -7,7 +7,6 @@ const Config = require('./config');
 const Poll = require('./poll');
 const Serializer = require('./serializer');
 
-
 (function (Hooks) {
 	Hooks.filter = {};
 	Hooks.action = {};
@@ -40,7 +39,7 @@ const Serializer = require('./serializer');
 			...obj.post,
 			uid: obj.data.uid,
 			pid: obj.data.pid,
-			tid: tid,
+			tid,
 		});
 		delete postData.uid;
 		delete postData.pid;

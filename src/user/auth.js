@@ -33,8 +33,8 @@ module.exports = function (User) {
         await db.pexpire(`lockout:${uid}`, duration);
         await events.log({
             type: 'account-locked',
-            uid: uid,
-            ip: ip,
+            uid,
+            ip,
         });
         throw new Error('[[error:account-locked]]');
     };

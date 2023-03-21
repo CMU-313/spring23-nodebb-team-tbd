@@ -79,7 +79,7 @@ describe('upload methods', () => {
             async.series([
                 function (next) {
                     posts.edit({
-                        pid: pid,
+                        pid,
                         uid,
                         content: 'here is an image [alt text](/assets/uploads/files/abracadabra.png)... AND NO MORE!',
                     }, next);

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/unread', [
     'forum/header/unread', 'topicSelect', 'components', 'topicList', 'categorySelector', 'alerts',
 ], function (headerUnread, topicSelect, components, topicList, categorySelector, alerts) {

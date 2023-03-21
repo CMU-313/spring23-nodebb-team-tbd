@@ -78,7 +78,7 @@ usersAPI.update = async function (caller, data) {
 };
 
 usersAPI.delete = async function (caller, { uid, password }) {
-    await processDeletion({ uid: uid, method: 'delete', password, caller });
+    await processDeletion({ uid, method: 'delete', password, caller });
 };
 
 usersAPI.deleteContent = async function (caller, { uid, password }) {
@@ -346,7 +346,7 @@ async function processDeletion({ uid, method, password, caller }) {
 
     plugins.hooks.fire('action:user.delete', {
         callerUid: caller.uid,
-        uid: uid,
+        uid,
         ip: caller.ip,
         user: userData,
     });
@@ -398,7 +398,7 @@ usersAPI.search = async function (caller, data) {
         searchBy: data.searchBy || 'username',
         page: data.page || 1,
         sortBy: data.sortBy || 'lastonline',
-        filters: filters,
+        filters,
     });
 };
 
@@ -425,7 +425,7 @@ usersAPI.changePicture = async (caller, data) => {
     } else {
         const returnData = await plugins.hooks.fire('filter:user.getPicture', {
             uid: caller.uid,
-            type: type,
+            type,
             picture: undefined,
         });
         picture = returnData && returnData.picture;
@@ -438,7 +438,7 @@ usersAPI.changePicture = async (caller, data) => {
 
     await user.updateProfile(caller.uid, {
         uid: data.uid,
-        picture: picture,
+        picture,
         'icon:bgColor': data.bgColor,
     }, ['picture', 'icon:bgColor']);
 };

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('notifications', [
     'translator',
     'components',
@@ -109,7 +108,7 @@ define('notifications', [
     }
 
     function scrollToPostIndexIfOnPage(notifEl) {
-        // Scroll to index if already in topic (gh#5873)
+    // Scroll to index if already in topic (gh#5873)
         const pid = notifEl.attr('data-pid');
         const path = notifEl.attr('data-path');
         const postEl = components.get('post', 'pid', pid);
@@ -133,7 +132,7 @@ define('notifications', [
         notifIcon.attr('data-content', count > 99 ? '99+' : count);
 
         const payload = {
-            count: count,
+            count,
             updateFavicon: true,
         };
         hooks.fire('action:notification.updateCount', payload);

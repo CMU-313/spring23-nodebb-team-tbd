@@ -80,7 +80,7 @@ function onConnection(socket) {
 
 function onDisconnect(socket) {
     require('./uploads').clear(socket.id);
-    plugins.hooks.fire('action:sockets.disconnect', { socket: socket });
+    plugins.hooks.fire('action:sockets.disconnect', { socket });
 }
 
 async function onConnect(socket) {
@@ -104,7 +104,7 @@ async function onConnect(socket) {
     socket.join(`sess_${socket.request.signedCookies[nconf.get('sessionKey')]}`);
     socket.emit('checkSession', socket.uid);
     socket.emit('setHostname', os.hostname());
-    plugins.hooks.fire('action:sockets.connect', { socket: socket });
+    plugins.hooks.fire('action:sockets.connect', { socket });
 }
 
 async function onMessage(socket, payload) {
@@ -114,7 +114,7 @@ async function onMessage(socket, payload) {
 
     const eventName = payload.data[0];
     const params = typeof payload.data[1] === 'function' ? {} : payload.data[1];
-    const callback = typeof payload.data[payload.data.length - 1] === 'function' ? payload.data[payload.data.length - 1] : function () {};
+    const callback = typeof payload.data[payload.data.length - 1] === 'function' ? payload.data[payload.data.length - 1] : function () { };
 
     if (!eventName) {
         return winston.warn('[socket.io] Empty method name');
@@ -134,6 +134,7 @@ async function onMessage(socket, payload) {
             winston.warn(`[socket.io] Unrecognized message: ${eventName}`);
         }
         const escapedName = validator.escape(String(eventName));
+        // eslint-disable-next-line
         return callback({ message: `[[error:invalid-event, ${escapedName}]]` });
     }
 
@@ -166,6 +167,7 @@ async function onMessage(socket, payload) {
         }
     } catch (err) {
         winston.error(`${eventName}\n${err.stack ? err.stack : err.message}`);
+        // eslint-disable-next-line
         callback({ message: err.message });
     }
 }
@@ -217,8 +219,8 @@ async function validateSession(socket, errorMsg) {
     }
 
     await plugins.hooks.fire('static:sockets.validateSession', {
-        req: req,
-        socket: socket,
+        req,
+        socket,
         session: sessionData,
     });
 }
@@ -236,7 +238,7 @@ async function authorize(socket, callback) {
 
     const { sessionId } = await plugins.hooks.fire('filter:sockets.sessionId', {
         sessionId: request.signedCookies ? request.signedCookies[nconf.get('sessionKey')] : null,
-        request: request,
+        request,
     });
 
     const sessionData = await getSessionAsync(sessionId);
@@ -271,7 +273,7 @@ Sockets.warnDeprecated = (socket, replacement) => {
     if (socket.previousEvents && socket.emit) {
         socket.emit('event:deprecated_call', {
             eventName: socket.previousEvents[socket.previousEvents.length - 1],
-            replacement: replacement,
+            replacement,
         });
     }
     winston.warn(`[deprecated]\n ${new Error('-').stack.split('\n').slice(2, 5).join('\n')}\n     use ${replacement}`);

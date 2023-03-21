@@ -106,7 +106,7 @@ async function getPosts(callerUid, userData, setSuffix) {
     const cidToCanSchedule = _.zipObject(cids, canSchedule);
 
     do {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         let pids = await db.getSortedSetRevRange(keys, start, start + count - 1);
         if (!pids.length || pids.length < count) {
             hasMorePosts = false;

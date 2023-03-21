@@ -12,7 +12,7 @@ if (relativePath === undefined) {
         file: path.resolve(__dirname, nconf.any(['config', 'CONFIG']) || 'config.json'),
     });
 
-    const urlObject = url.parse(nconf.get('url'));
+    const urlObject = url.URL(nconf.get('url'));
     relativePath = urlObject.pathname !== '/' ? urlObject.pathname.replace(/\/+$/, '') : '';
 }
 

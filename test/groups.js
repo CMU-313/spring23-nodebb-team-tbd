@@ -15,7 +15,6 @@ const apiGroups = require('../src/api/groups');
 const meta = require('../src/meta');
 const navigation = require('../src/navigation/admin');
 
-
 describe('Groups', () => {
     let adminUid;
     let testUid;
@@ -164,7 +163,7 @@ describe('Groups', () => {
             function createAndJoinGroup(username, email, callback) {
                 async.waterfall([
                     function (next) {
-                        User.create({ username: username, email: email }, next);
+                        User.create({ username, email }, next);
                     },
                     function (uid, next) {
                         Groups.join('Test', uid, next);
@@ -476,7 +475,7 @@ describe('Groups', () => {
         it('should fail to rename if group name is too short', async () => {
             try {
                 const slug = await Groups.getGroupField('updateTestGroup?', 'slug');
-                await apiGroups.update({ uid: adminUid }, { slug: slug, name: '' });
+                await apiGroups.update({ uid: adminUid }, { slug, name: '' });
             } catch (err) {
                 return assert.strictEqual(err.message, '[[error:group-name-too-short]]');
             }
@@ -486,7 +485,7 @@ describe('Groups', () => {
         it('should fail to rename if group name is invalid', async () => {
             try {
                 const slug = await Groups.getGroupField('updateTestGroup?', 'slug');
-                await apiGroups.update({ uid: adminUid }, { slug: slug, name: ['invalid'] });
+                await apiGroups.update({ uid: adminUid }, { slug, name: ['invalid'] });
             } catch (err) {
                 return assert.strictEqual(err.message, '[[error:invalid-group-name]]');
             }
@@ -496,7 +495,7 @@ describe('Groups', () => {
         it('should fail to rename if group name is invalid', async () => {
             try {
                 const slug = await Groups.getGroupField('updateTestGroup?', 'slug');
-                await apiGroups.update({ uid: adminUid }, { slug: slug, name: 'cid:0:privileges:ban' });
+                await apiGroups.update({ uid: adminUid }, { slug, name: 'cid:0:privileges:ban' });
             } catch (err) {
                 return assert.strictEqual(err.message, '[[error:invalid-group-name]]');
             }
@@ -506,7 +505,7 @@ describe('Groups', () => {
         it('should fail to rename if group name is too long', async () => {
             try {
                 const slug = await Groups.getGroupField('updateTestGroup?', 'slug');
-                await apiGroups.update({ uid: adminUid }, { slug: slug, name: 'verylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstring' });
+                await apiGroups.update({ uid: adminUid }, { slug, name: 'verylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstringverylongstring' });
             } catch (err) {
                 return assert.strictEqual(err.message, '[[error:group-name-too-long]]');
             }
@@ -519,7 +518,7 @@ describe('Groups', () => {
             for (const name of invalidNames) {
                 try {
                     // eslint-disable-next-line no-await-in-loop
-                    await apiGroups.update({ uid: adminUid }, { slug: slug, name: name });
+                    await apiGroups.update({ uid: adminUid }, { slug, name });
                     assert(false);
                 } catch (err) {
                     assert.strictEqual(err.message, '[[error:invalid-group-name]]');
@@ -664,7 +663,7 @@ describe('Groups', () => {
         it('should add user to Global Moderators group', async () => {
             const uid = await User.create({ username: 'glomod' });
             const slug = await Groups.getGroupField('Global Moderators', 'slug');
-            await apiGroups.join({ uid: adminUid }, { slug: slug, uid: uid });
+            await apiGroups.join({ uid: adminUid }, { slug, uid });
             const isGlobalMod = await User.isGlobalModerator(uid);
             assert.strictEqual(isGlobalMod, true);
         });
@@ -716,7 +715,7 @@ describe('Groups', () => {
                 let err;
                 try {
                     const slug = await Groups.getGroupField(groupName, 'slug');
-                    await apiGroups.join({ uid: uid }, { slug: slug, uid: uid });
+                    await apiGroups.join({ uid }, { slug, uid });
                     const isMember = await Groups.isMember(uid, groupName);
                     assert.strictEqual(isMember, false);
                 } catch (_err) {
@@ -1016,7 +1015,7 @@ describe('Groups', () => {
                 assert.ifError(err);
                 socketGroups.issueInvite({ uid: adminUid }, { groupName: 'PrivateCanJoin', toUid: uid }, (err) => {
                     assert.ifError(err);
-                    socketGroups.acceptInvite({ uid: uid }, { groupName: 'PrivateCanJoin' }, (err) => {
+                    socketGroups.acceptInvite({ uid }, { groupName: 'PrivateCanJoin' }, (err) => {
                         assert.ifError(err);
                         Groups.isMember(uid, 'PrivateCanJoin', (err, isMember) => {
                             assert.ifError(err);
@@ -1033,7 +1032,7 @@ describe('Groups', () => {
                 assert.ifError(err);
                 socketGroups.issueInvite({ uid: adminUid }, { groupName: 'PrivateCanJoin', toUid: uid }, (err) => {
                     assert.ifError(err);
-                    socketGroups.rejectInvite({ uid: uid }, { groupName: 'PrivateCanJoin' }, (err) => {
+                    socketGroups.rejectInvite({ uid }, { groupName: 'PrivateCanJoin' }, (err) => {
                         assert.ifError(err);
                         Groups.isInvited(uid, 'PrivateCanJoin', (err, isInvited) => {
                             assert.ifError(err);
@@ -1162,7 +1161,7 @@ describe('Groups', () => {
             for (const slug of specialGroups) {
                 try {
                     // eslint-disable-next-line no-await-in-loop
-                    await apiGroups.delete({ uid: adminUid }, { slug: slug });
+                    await apiGroups.delete({ uid: adminUid }, { slug });
                     assert(false);
                 } catch (err) {
                     assert.equal(err.message, '[[error:not-allowed]]');
@@ -1387,7 +1386,6 @@ describe('Groups', () => {
                 });
             });
         });
-
 
         it('should upload group cover image from data', (done) => {
             const data = {

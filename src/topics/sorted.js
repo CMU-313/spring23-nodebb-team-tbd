@@ -39,7 +39,7 @@ module.exports = function (Topics) {
 
     async function getTids(params) {
         if (plugins.hooks.hasListeners('filter:topics.getSortedTids')) {
-            const result = await plugins.hooks.fire('filter:topics.getSortedTids', { params: params, tids: [] });
+            const result = await plugins.hooks.fire('filter:topics.getSortedTids', { params, tids: [] });
             return result.tids;
         }
         let tids = [];
@@ -55,7 +55,7 @@ module.exports = function (Topics) {
         } else if (params.tags.length) {
             tids = await getTagTids(params);
         } else if (params.sort === 'old') {
-            tids = await db.getSortedSetRange(`topics:recent`, 0, meta.config.recentMaxTopics - 1);
+            tids = await db.getSortedSetRange('topics:recent', 0, meta.config.recentMaxTopics - 1);
         } else {
             tids = await db.getSortedSetRevRange(`topics:${params.sort}`, 0, meta.config.recentMaxTopics - 1);
         }
@@ -74,7 +74,7 @@ module.exports = function (Topics) {
             'getSortedSetIntersect' :
             'getSortedSetRevIntersect';
         return await db[method]({
-            sets: sets,
+            sets,
             start: 0,
             stop: meta.config.recentMaxTopics - 1,
             weights: sets.map((s, index) => (index ? 0 : 1)),
@@ -199,7 +199,7 @@ module.exports = function (Topics) {
             (!cids || cids.includes(String(t.cid)))
         )).map(t => t.tid);
 
-        const result = await plugins.hooks.fire('filter:topics.filterSortedTids', { tids: tids, params: params });
+        const result = await plugins.hooks.fire('filter:topics.filterSortedTids', { tids, params });
         return result.tids;
     }
 

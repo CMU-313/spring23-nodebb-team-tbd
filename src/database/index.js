@@ -27,7 +27,7 @@ primaryDB.initSessionStore = async function () {
     if (nconf.get('session_store')) {
         sessionStoreDB = require(`./${sessionStoreConfig.name}`);
     } else if (nconf.get('redis')) {
-        // if redis is specified, use it as session store over others
+    // if redis is specified, use it as session store over others
         sessionStoreDB = require('./redis');
     }
 

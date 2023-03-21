@@ -51,7 +51,7 @@ groupsController.get = async function (req, res, next) {
     }));
 
     res.render('admin/manage/group', {
-        group: group,
+        group,
         groupNames: groupNameData,
         allowPrivateGroups: meta.config.allowPrivateGroups,
         maximumGroupNameLength: meta.config.maximumGroupNameLength,

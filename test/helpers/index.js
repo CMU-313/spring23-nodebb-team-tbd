@@ -46,7 +46,7 @@ helpers.loginUser = function (username, password, callback) {
     request({
         url: `${nconf.get('url')}/api/config`,
         json: true,
-        jar: jar,
+        jar,
     }, (err, res, body) => {
         if (err || res.statusCode !== 200) {
             return callback(err || new Error('[[error:invalid-response]]'));
@@ -54,11 +54,11 @@ helpers.loginUser = function (username, password, callback) {
         const { csrf_token } = body;
         request.post(`${nconf.get('url')}/login`, {
             form: {
-                username: username,
-                password: password,
+                username,
+                password,
             },
             json: true,
-            jar: jar,
+            jar,
             headers: {
                 'x-csrf-token': csrf_token,
             },
@@ -66,17 +66,16 @@ helpers.loginUser = function (username, password, callback) {
             if (err) {
                 return callback(err || new Error('[[error:invalid-response]]'));
             }
-            callback(null, { jar, res, body, csrf_token: csrf_token });
+            callback(null, { jar, res, body, csrf_token });
         });
     });
 };
-
 
 helpers.logoutUser = function (jar, callback) {
     request({
         url: `${nconf.get('url')}/api/config`,
         json: true,
-        jar: jar,
+        jar,
     }, (err, response, body) => {
         if (err) {
             return callback(err, response, body);
@@ -85,7 +84,7 @@ helpers.logoutUser = function (jar, callback) {
         request.post(`${nconf.get('url')}/logout`, {
             form: {},
             json: true,
-            jar: jar,
+            jar,
             headers: {
                 'x-csrf-token': body.csrf_token,
             },
@@ -127,9 +126,9 @@ helpers.uploadFile = function (uploadEndPoint, filePath, body, jar, csrf_token, 
     formData = utils.merge(formData, body);
     request.post({
         url: uploadEndPoint,
-        formData: formData,
+        formData,
         json: true,
-        jar: jar,
+        jar,
         headers: {
             'x-csrf-token': csrf_token,
         },
@@ -149,7 +148,7 @@ helpers.registerUser = function (data, callback) {
     request({
         url: `${nconf.get('url')}/api/config`,
         json: true,
-        jar: jar,
+        jar,
     }, (err, response, body) => {
         if (err) {
             return callback(err);
@@ -162,7 +161,7 @@ helpers.registerUser = function (data, callback) {
         request.post(`${nconf.get('url')}/register`, {
             form: data,
             json: true,
-            jar: jar,
+            jar,
             headers: {
                 'x-csrf-token': body.csrf_token,
             },
@@ -199,7 +198,7 @@ helpers.copyFile = function (source, target, callback) {
 
 helpers.invite = async function (body, uid, jar, csrf_token) {
     const res = await requestAsync.post(`${nconf.get('url')}/api/v3/users/${uid}/invites`, {
-        jar: jar,
+        jar,
         // using "form" since client "api" module make requests with "application/x-www-form-urlencoded" content-type
         form: body,
         headers: {

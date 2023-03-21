@@ -42,7 +42,7 @@ module.exports = function (Messaging) {
         const roomId = await db.incrObjectField('global', 'nextChatRoomId');
         const room = {
             owner: uid,
-            roomId: roomId,
+            roomId,
         };
 
         await Promise.all([
@@ -61,7 +61,7 @@ module.exports = function (Messaging) {
 
     Messaging.isUserInRoom = async (uid, roomId) => {
         const inRoom = await db.isSortedSetMember(`chat:room:${roomId}:uids`, uid);
-        const data = await plugins.hooks.fire('filter:messaging.isUserInRoom', { uid: uid, roomId: roomId, inRoom: inRoom });
+        const data = await plugins.hooks.fire('filter:messaging.isUserInRoom', { uid, roomId, inRoom });
         return data.inRoom;
     };
 
@@ -196,9 +196,9 @@ module.exports = function (Messaging) {
         }
 
         const payload = await plugins.hooks.fire('filter:chat.renameRoom', {
-            uid: uid,
-            roomId: roomId,
-            newName: newName,
+            uid,
+            roomId,
+            newName,
         });
         const isOwner = await Messaging.isRoomOwner(payload.uid, payload.roomId);
         if (!isOwner) {
@@ -216,7 +216,7 @@ module.exports = function (Messaging) {
 
     Messaging.canReply = async (roomId, uid) => {
         const inRoom = await db.isSortedSetMember(`chat:room:${roomId}:uids`, uid);
-        const data = await plugins.hooks.fire('filter:messaging.canReply', { uid: uid, roomId: roomId, inRoom: inRoom, canReply: inRoom });
+        const data = await plugins.hooks.fire('filter:messaging.canReply', { uid, roomId, inRoom, canReply: inRoom });
         return data.canReply;
     };
 

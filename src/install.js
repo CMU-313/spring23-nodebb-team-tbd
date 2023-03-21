@@ -228,7 +228,7 @@ async function completeConfigSetup(config) {
     }
 
     // If port is explicitly passed via install vars, use it. Otherwise, glean from url if set.
-    const urlObj = url.parse(config.url);
+    const urlObj = url.URL(config.url);
     if (
         urlObj.port &&
         (!install.values || !install.values.hasOwnProperty('port'))
@@ -293,7 +293,7 @@ async function createDefaultUserGroups() {
     const groups = require('./groups');
     async function createGroup(name) {
         await groups.create({
-            name: name,
+            name,
             hidden: 1,
             private: 1,
             system: 1,
@@ -572,7 +572,7 @@ async function createWelcomePost() {
             uid: 1,
             cid: 2,
             title: 'Welcome to your NodeBB!',
-            content: content,
+            content,
         });
     }
 }

@@ -29,14 +29,14 @@ chatsController.get = async function (req, res, next) {
     if (!req.params.roomid) {
         return res.render('chats', {
             rooms: recentChats.rooms,
-            uid: uid,
+            uid,
             userslug: req.params.userslug,
             nextStart: recentChats.nextStart,
             allowed: true,
             title: '[[pages:chats]]',
         });
     }
-    const room = await messaging.loadRoom(req.uid, { uid: uid, roomId: req.params.roomid });
+    const room = await messaging.loadRoom(req.uid, { uid, roomId: req.params.roomid });
     if (!room) {
         return next();
     }

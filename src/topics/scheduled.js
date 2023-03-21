@@ -41,7 +41,7 @@ Scheduled.handleExpired = async function () {
         sendNotifications(uids, topicsData),
         updateUserLastposttimes(uids, topicsData),
         ...topicsData.map(topicData => unpin(topicData.tid, topicData)),
-        db.sortedSetsRemoveRangeByScore([`topics:scheduled`], '-inf', now)
+        db.sortedSetsRemoveRangeByScore(['topics:scheduled'], '-inf', now)
     ));
 };
 

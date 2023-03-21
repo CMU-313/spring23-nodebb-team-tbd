@@ -24,7 +24,7 @@ describe('blacklist', () => {
 
     it('should validate blacklist', (done) => {
         socketBlacklist.validate({ uid: adminUid }, {
-            rules: rules,
+            rules,
         }, (err, data) => {
             assert.ifError(err);
             done();

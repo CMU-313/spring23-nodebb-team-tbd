@@ -49,7 +49,7 @@ SocketTopics.createTopicFromPosts = async function (socket, data) {
 
     const result = await topics.createTopicFromPosts(socket.uid, data.title, data.pids, data.fromTid);
     await events.log({
-        type: `topic-fork`,
+        type: 'topic-fork',
         uid: socket.uid,
         ip: socket.ip,
         pids: String(data.pids),

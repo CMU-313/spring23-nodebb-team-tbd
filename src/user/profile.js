@@ -27,9 +27,9 @@ module.exports = function (User) {
         const updateUid = data.uid;
 
         const result = await plugins.hooks.fire('filter:user.updateProfile', {
-            uid: uid,
-            data: data,
-            fields: fields,
+            uid,
+            data,
+            fields,
         });
         fields = result.fields;
         data = result.data;
@@ -60,10 +60,10 @@ module.exports = function (User) {
         }
 
         plugins.hooks.fire('action:user.updateProfile', {
-            uid: uid,
-            data: data,
-            fields: fields,
-            oldData: oldData,
+            uid,
+            data,
+            fields,
+            oldData,
         });
 
         return await User.getUserFields(updateUid, [
@@ -330,6 +330,6 @@ module.exports = function (User) {
             User.email.expireValidation(data.uid),
         ]);
 
-        plugins.hooks.fire('action:password.change', { uid: uid, targetUid: data.uid });
+        plugins.hooks.fire('action:password.change', { uid, targetUid: data.uid });
     };
 };

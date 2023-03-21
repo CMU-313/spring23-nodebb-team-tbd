@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/fork', ['components', 'postSelect', 'alerts'], function (components, postSelect, alerts) {
     const Fork = {};
     let forkModal;
@@ -48,7 +47,7 @@ define('forum/topic/fork', ['components', 'postSelect', 'alerts'], function (com
         socket.emit('topics.createTopicFromPosts', {
             title: forkModal.find('#fork-title').val(),
             pids: postSelect.pids,
-            fromTid: fromTid,
+            fromTid,
         }, function (err, newTopic) {
             function fadeOutAndRemove(pid) {
                 components.get('post', 'pid', pid).fadeOut(500, function () {

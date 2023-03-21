@@ -308,7 +308,7 @@ module.exports = function (module) {
                     seen[value] = 1;
 
                     if (params.withScores) {
-                        returnData.push({ value: value, score: parseFloat(data[i + 1]) });
+                        returnData.push({ value, score: parseFloat(data[i + 1]) });
                     } else {
                         returnData.push(value);
                     }

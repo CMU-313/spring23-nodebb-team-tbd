@@ -7,7 +7,7 @@ const timestamp = Date.UTC(2019, 3, 1);
 
 module.exports = {
 	name: 'Convert all poll id votes and options votes to sorted sets',
-	timestamp: timestamp,
+	timestamp,
 	method: function (callback) {
 		NodeBB.db.getListRange('polls', 0, -1, (err, pollIds) => {
 			if (err) {

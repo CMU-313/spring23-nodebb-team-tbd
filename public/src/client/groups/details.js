@@ -40,9 +40,9 @@ define('forum/groups/details', [
                 components.get('groups/cover'),
                 function (imageData, position, callback) {
                     socket.emit('groups.cover.update', {
-                        groupName: groupName,
-                        imageData: imageData,
-                        position: position,
+                        groupName,
+                        imageData,
+                        position,
                     }, callback);
                 },
                 function () {
@@ -123,7 +123,7 @@ define('forum/groups/details', [
             case 'rejectAll':
                 socket.emit('groups.' + action, {
                     toUid: uid,
-                    groupName: groupName,
+                    groupName,
                 }, function (err) {
                     if (!err) {
                         ajaxify.refresh();
@@ -267,7 +267,7 @@ define('forum/groups/details', [
                 return false;
             }
             socket.emit('groups.issueMassInvite', {
-                usernames: usernames,
+                usernames,
                 groupName: ajaxify.data.group.name,
             }, function (err) {
                 if (err) {

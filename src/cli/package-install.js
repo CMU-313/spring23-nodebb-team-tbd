@@ -88,7 +88,7 @@ pkgInstall.getPackageManager = () => {
 
         return nconf.get('package_manager') || 'npm';
     } catch (e) {
-        // nconf not installed or other unexpected error/exception
+    // nconf not installed or other unexpected error/exception
         return getPackageManagerByLockfile() || 'npm';
     }
 };

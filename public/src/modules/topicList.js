@@ -41,7 +41,7 @@ define('topicList', [
         }
 
         categoryFilter.init($('[component="category/dropdown"]'), {
-            states: states,
+            states,
         });
 
         if (!config.usePagination) {
@@ -236,15 +236,15 @@ define('topicList', [
         }
 
         const tplData = {
-            topics: topics,
-            showSelect: showSelect,
+            topics,
+            showSelect,
             template: {
                 name: templateName,
             },
         };
         tplData.template[templateName] = true;
 
-        hooks.fire('action:topics.loading', { topics: topics, after: after, before: before });
+        hooks.fire('action:topics.loading', { topics, after, before });
 
         app.parseAndTranslate(templateName, 'topics', tplData, function (html) {
             topicListEl.removeClass('hidden');
@@ -270,7 +270,7 @@ define('topicList', [
             html.find('.timeago').timeago();
             app.createUserTooltips(html);
             utils.makeNumbersHumanReadable(html.find('.human-readable-number'));
-            hooks.fire('action:topics.loaded', { topics: topics, template: templateName });
+            hooks.fire('action:topics.loaded', { topics, template: templateName });
             callback();
         });
     }

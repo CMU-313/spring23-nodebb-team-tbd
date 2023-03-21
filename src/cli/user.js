@@ -204,7 +204,7 @@ ${pwGenerated ? ` Generated password: ${password}` : ''}`);
 
         const userExists = await user.exists(uid);
         if (!userExists) {
-            return winston.error(`[userCmd/reset] A user with given uid does not exists.`);
+            return winston.error('[userCmd/reset] A user with given uid does not exists.');
         }
 
         let pwGenerated = false;
@@ -240,7 +240,7 @@ ${pwGenerated ? ` Generated password: ${password}` : ''}`);
 
         const userExists = await user.exists(uids);
         if (!userExists || userExists.some(r => r === false)) {
-            return winston.error(`[userCmd/reset] A user with given uid does not exists.`);
+            return winston.error('[userCmd/reset] A user with given uid does not exists.');
         }
 
         await db.initSessionStore();
@@ -249,15 +249,15 @@ ${pwGenerated ? ` Generated password: ${password}` : ''}`);
         switch (type) {
         case 'purge':
             await Promise.all(uids.map(uid => user.delete(adminUid, uid)));
-            winston.info(`[userCmd/delete] User(s) with their content has been deleted.`);
+            winston.info('[userCmd/delete] User(s) with their content has been deleted.');
             break;
         case 'account':
             await Promise.all(uids.map(uid => user.deleteAccount(uid)));
-            winston.info(`[userCmd/delete] User(s) has been deleted, their content left intact.`);
+            winston.info('[userCmd/delete] User(s) has been deleted, their content left intact.');
             break;
         case 'content':
             await Promise.all(uids.map(uid => user.deleteContent(adminUid, uid)));
-            winston.info(`[userCmd/delete] User(s)' content has been deleted.`);
+            winston.info('[userCmd/delete] User(s)\' content has been deleted.');
             break;
         }
     }

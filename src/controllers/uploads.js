@@ -155,7 +155,7 @@ uploadsController.uploadFile = async function (uid, uploadedFile) {
     if (plugins.hooks.hasListeners('filter:uploadFile')) {
         return await plugins.hooks.fire('filter:uploadFile', {
             file: uploadedFile,
-            uid: uid,
+            uid,
             folder: 'files',
         });
     }
@@ -192,7 +192,7 @@ async function saveFileToLocal(uid, folder, uploadedFile) {
     };
 
     await user.associateUpload(uid, upload.url.replace(`${nconf.get('upload_url')}/`, ''));
-    const data = await plugins.hooks.fire('filter:uploadStored', { uid: uid, uploadedFile: uploadedFile, storedFile: storedFile });
+    const data = await plugins.hooks.fire('filter:uploadStored', { uid, uploadedFile, storedFile });
     return data.storedFile;
 }
 

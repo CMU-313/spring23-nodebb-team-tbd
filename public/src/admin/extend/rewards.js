@@ -1,9 +1,7 @@
 'use strict';
 
-
 define('admin/extend/rewards', ['alerts'], function (alerts) {
     const rewards = {};
-
 
     let available;
     let active;
@@ -28,7 +26,7 @@ define('admin/extend/rewards', ['alerts'], function (alerts) {
                 const parent = $(this).parents('[data-id]');
                 const id = parent.attr('data-id');
 
-                socket.emit('admin.rewards.delete', { id: id }, function (err) {
+                socket.emit('admin.rewards.delete', { id }, function (err) {
                     if (err) {
                         alerts.error(err);
                     } else {
@@ -134,8 +132,8 @@ define('admin/extend/rewards', ['alerts'], function (alerts) {
                 rid: null,
                 id: null,
             }],
-            conditions: conditions,
-            conditionals: conditionals,
+            conditions,
+            conditionals,
             rewards: available,
         };
 

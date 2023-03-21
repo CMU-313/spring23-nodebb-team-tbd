@@ -26,7 +26,7 @@ const forkChildAsync = util.promisify(forkChild);
 
 exports.hash = async function (rounds, password) {
     password = crypto.createHash('sha512').update(password).digest('hex');
-    return await forkChildAsync({ type: 'hash', rounds: rounds, password: password });
+    return await forkChildAsync({ type: 'hash', rounds, password });
 };
 
 exports.compare = async function (password, hash, shaWrapped) {
@@ -36,7 +36,7 @@ exports.compare = async function (password, hash, shaWrapped) {
         password = crypto.createHash('sha512').update(password).digest('hex');
     }
 
-    return await forkChildAsync({ type: 'compare', password: password, hash: hash || fakeHash });
+    return await forkChildAsync({ type: 'compare', password, hash: hash || fakeHash });
 };
 
 let fakeHashCache;
@@ -60,7 +60,7 @@ process.on('message', (msg) => {
 async function tryMethod(method, msg) {
     try {
         const result = await method(msg);
-        process.send({ result: result });
+        process.send({ result });
     } catch (err) {
         process.send({ err: err.message });
     } finally {

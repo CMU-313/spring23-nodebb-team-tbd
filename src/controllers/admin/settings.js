@@ -24,7 +24,7 @@ settingsController.email = async (req, res) => {
     const emails = await emailer.getTemplates(meta.config);
 
     res.render('admin/settings/email', {
-        emails: emails,
+        emails,
         sendable: emails.filter(e => !e.path.includes('_plaintext') && !e.path.includes('partials')).map(tpl => tpl.path),
         services: emailer.listServices(),
     });
@@ -37,7 +37,7 @@ settingsController.user = async (req, res) => {
         label: `[[notifications:${type}]]`,
     }));
     res.render('admin/settings/user', {
-        notificationSettings: notificationSettings,
+        notificationSettings,
     });
 };
 
@@ -99,12 +99,12 @@ settingsController.navigation = async function (req, res) {
 
 settingsController.homepage = async function (req, res) {
     const routes = await helpers.getHomePageRoutes(req.uid);
-    res.render('admin/settings/homepage', { routes: routes });
+    res.render('admin/settings/homepage', { routes });
 };
 
 settingsController.social = async function (req, res) {
     const posts = await social.getPostSharing();
     res.render('admin/settings/social', {
-        posts: posts,
+        posts,
     });
 };

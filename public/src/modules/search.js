@@ -39,8 +39,8 @@ define('search', ['translator', 'storage', 'hooks', 'alerts'], function (transla
         };
 
         Search.enableQuickSearch({
-            searchOptions: searchOptions,
-            searchElements: searchElements,
+            searchOptions,
+            searchElements,
         });
 
         searchButton.off('click').on('click', function (e) {
@@ -65,7 +65,7 @@ define('search', ['translator', 'storage', 'hooks', 'alerts'], function (transla
             data.in = searchOptions.in;
             hooks.fire('action:search.submit', {
                 searchOptions: data,
-                searchElements: searchElements,
+                searchElements,
             });
             Search.query(data, function () {
                 input.val('');
@@ -137,8 +137,8 @@ define('search', ['translator', 'storage', 'hooks', 'alerts'], function (transla
                     );
                     Search.highlightMatches(options.searchOptions.term, highlightEls);
                     hooks.fire('action:search.quick.complete', {
-                        data: data,
-                        options: options,
+                        data,
+                        options,
                     });
                 });
             });
@@ -242,7 +242,7 @@ define('search', ['translator', 'storage', 'hooks', 'alerts'], function (transla
         }
 
         const query = {
-            term: term,
+            term,
             in: searchIn,
         };
 
@@ -289,8 +289,8 @@ define('search', ['translator', 'storage', 'hooks', 'alerts'], function (transla
         }
 
         hooks.fire('action:search.createQueryString', {
-            query: query,
-            data: data,
+            query,
+            data,
         });
 
         return decodeURIComponent($.param(query));

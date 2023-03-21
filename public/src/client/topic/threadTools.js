@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/threadTools', [
     'components',
     'translator',
@@ -152,12 +151,12 @@ define('forum/topic/threadTools', [
 
                 alerts.alert({
                     alert_id: 'follow_thread',
-                    message: message,
+                    message,
                     type: 'success',
                     timeout: 5000,
                 });
 
-                hooks.fire('action:topics.changeWatching', { tid: tid, type: type });
+                hooks.fire('action:topics.changeWatching', { tid, type });
             }, () => {
                 alerts.alert({
                     type: 'danger',
@@ -329,7 +328,6 @@ define('forum/topic/threadTools', [
         posts.addTopicEvents(data.events);
     };
 
-
     ThreadTools.setPinnedState = function (data) {
         const threadEl = components.get('topic');
         if (parseInt(data.tid, 10) !== parseInt(threadEl.attr('data-tid'), 10)) {
@@ -376,7 +374,6 @@ define('forum/topic/threadTools', [
         menu.toggleClass('hidden', state !== 'ignore');
         components.get('topic/ignoring/check').toggleClass('fa-check', state === 'ignore');
     }
-
 
     return ThreadTools;
 });

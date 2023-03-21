@@ -69,16 +69,16 @@ process.on('message', async (msg) => {
         await fs.promises.writeFile(profilePath, JSON.stringify({
             user: userData,
             settings: userSettings,
-            ips: ips,
-            sessions: sessions,
-            usernames: usernames,
-            emails: emails,
+            ips,
+            sessions,
+            usernames,
+            emails,
             messages: chatData,
-            bookmarks: bookmarks,
-            watchedTopics: watchedTopics,
-            upvoted: upvoted,
-            downvoted: downvoted,
-            following: following,
+            bookmarks,
+            watchedTopics,
+            upvoted,
+            downvoted,
+            following,
         }, null, 4));
 
         await db.close();

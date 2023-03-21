@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/chats', [
     'components',
     'translator',
@@ -379,7 +378,7 @@ define('forum/chats', [
         }
 
         const data = {
-            element: element,
+            element,
             strategies: [],
             options: {
                 style: {
@@ -414,7 +413,7 @@ define('forum/chats', [
     };
 
     Chats.switchChat = function (roomid) {
-        // Allow empty arg for return to chat list/close chat
+    // Allow empty arg for return to chat list/close chat
         if (!roomid) {
             roomid = '';
         }
@@ -435,7 +434,7 @@ define('forum/chats', [
                                 messages.scrollToBottom($('.expanded-chat ul.chat-content'));
                                 if (history.pushState) {
                                     history.pushState({
-                                        url: url,
+                                        url,
                                     }, null, window.location.protocol + '//' + window.location.host + config.relative_path + '/' + url);
                                 }
                             });
@@ -515,7 +514,6 @@ define('forum/chats', [
 
         components.get('chat/nav-wrapper').attr('data-loaded', ajaxify.data.roomId ? '1' : '0');
     };
-
 
     return Chats;
 });

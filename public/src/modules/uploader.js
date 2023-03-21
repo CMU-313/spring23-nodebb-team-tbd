@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('uploader', ['jquery-form'], function () {
     const module = {};
 
@@ -8,7 +7,7 @@ define('uploader', ['jquery-form'], function () {
         const fileSize = data.hasOwnProperty('fileSize') && data.fileSize !== undefined ? parseInt(data.fileSize, 10) : false;
         app.parseAndTranslate('partials/modals/upload_file_modal', {
             showHelp: data.hasOwnProperty('showHelp') && data.showHelp !== undefined ? data.showHelp : true,
-            fileSize: fileSize,
+            fileSize,
             title: data.title || '[[global:upload_file]]',
             description: data.description || '',
             button: data.button || '[[global:upload]]',

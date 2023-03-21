@@ -44,7 +44,7 @@ module.exports = function (Posts) {
     }
 
     Posts.uploads.sync = async function (pid) {
-        // Scans a post's content and updates sorted set of uploads
+    // Scans a post's content and updates sorted set of uploads
 
         const [content, currentUploads, isMainPost] = await Promise.all([
             Posts.getPostField(pid, 'content'),
@@ -138,7 +138,7 @@ module.exports = function (Posts) {
     };
 
     Posts.uploads.getUsage = async function (filePaths) {
-        // Given an array of file names, determines which pids they are used in
+    // Given an array of file names, determines which pids they are used in
         if (!Array.isArray(filePaths)) {
             filePaths = [filePaths];
         }
@@ -148,7 +148,7 @@ module.exports = function (Posts) {
     };
 
     Posts.uploads.associate = async function (pid, filePaths) {
-        // Adds an upload to a post's sorted set of uploads
+    // Adds an upload to a post's sorted set of uploads
         filePaths = !Array.isArray(filePaths) ? [filePaths] : filePaths;
         if (!filePaths.length) {
             return;
@@ -168,7 +168,7 @@ module.exports = function (Posts) {
     };
 
     Posts.uploads.dissociate = async function (pid, filePaths) {
-        // Removes an upload from a post's sorted set of uploads
+    // Removes an upload from a post's sorted set of uploads
         filePaths = !Array.isArray(filePaths) ? [filePaths] : filePaths;
         if (!filePaths.length) {
             return;

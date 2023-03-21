@@ -41,8 +41,8 @@ module.exports = function (Posts) {
         const { pid, uid, oldContent, newContent, edited, topic } = data;
         const editTimestamp = edited || Date.now();
         const diffData = {
-            uid: uid,
-            pid: pid,
+            uid,
+            pid,
         };
         if (oldContent !== newContent) {
             diffData.patch = diff.createPatch('', newContent, oldContent);
@@ -74,10 +74,10 @@ module.exports = function (Posts) {
         const post = await postDiffLoad(pid, since, uid);
 
         return await Posts.edit({
-            uid: uid,
-            pid: pid,
+            uid,
+            pid,
             content: post.content,
-            req: req,
+            req,
             timestamp: since,
             title: post.topic.title,
             tags: post.topic.tags.map(tag => tag.value),
@@ -131,7 +131,7 @@ module.exports = function (Posts) {
     };
 
     async function postDiffLoad(pid, since, uid) {
-        // Retrieves all diffs made since `since` and replays them to reconstruct what the post looked like at `since`
+    // Retrieves all diffs made since `since` and replays them to reconstruct what the post looked like at `since`
         const [post, diffs] = await Promise.all([
             Posts.getPostSummaryByPids([pid], uid, { parse: false }),
             Posts.diffs.get(pid, since),

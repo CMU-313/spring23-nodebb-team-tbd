@@ -22,7 +22,7 @@ describe('Upgrade', () => {
     });
 
     it('should run all upgrades', async () => {
-        // for upgrade scripts to run
+    // for upgrade scripts to run
         await db.set('schemaDate', 1);
         await upgrade.run();
     });

@@ -89,7 +89,7 @@ Flags.init = async function () {
         },
         states: Flags._states,
         helpers: {
-            prepareSets: prepareSets,
+            prepareSets,
         },
     };
 
@@ -155,7 +155,7 @@ Flags.getFlagIdsWithFilters = async function ({ filters, uid, query }) {
     if (sets.length === 1) {
         flagIds = await db.getSortedSetRevRange(sets[0], 0, -1);
     } else if (sets.length > 1) {
-        flagIds = await db.getSortedSetRevIntersect({ sets: sets, start: 0, stop: -1, aggregate: 'MAX' });
+        flagIds = await db.getSortedSetRevIntersect({ sets, start: 0, stop: -1, aggregate: 'MAX' });
     }
 
     if (orSets.length) {
@@ -216,7 +216,7 @@ Flags.list = async function (data) {
     }));
 
     const payload = await plugins.hooks.fire('filter:flags.list', {
-        flags: flags,
+        flags,
         page: filters.page,
         uid: data.uid,
     });
@@ -224,7 +224,7 @@ Flags.list = async function (data) {
     return {
         flags: payload.flags,
         page: payload.page,
-        pageCount: pageCount,
+        pageCount,
     };
 };
 
@@ -394,7 +394,7 @@ Flags.create = async function (type, id, uid, reason, timestamp, forceFlag = fal
         doHistoryAppend = true;
     }
     const [flagExists, targetExists,, targetFlagged, targetUid, targetCid] = await Promise.all([
-        // Sanity checks
+    // Sanity checks
         Flags.exists(type, id, uid),
         Flags.targetExists(type, id),
         Flags.canFlag(type, id, uid, forceFlag),
@@ -426,10 +426,10 @@ Flags.create = async function (type, id, uid, reason, timestamp, forceFlag = fal
 
     batched.push(
         db.setObject(`flag:${flagId}`, {
-            flagId: flagId,
-            type: type,
+            flagId,
+            type,
             targetId: id,
-            targetUid: targetUid,
+            targetUid,
             datetime: timestamp,
         }),
         Flags.addReport(flagId, type, id, uid, reason, timestamp),
@@ -488,7 +488,7 @@ Flags.purge = async function (flagIds) {
     flagData.forEach((flagObj, i) => {
         if (Array.isArray(allReporterUids[i])) {
             allReporterUids[i].forEach((uid) => {
-                removeReporters.push([`flags:hash`, [flagObj.type, flagObj.targetId, uid].join(':')]);
+                removeReporters.push(['flags:hash', [flagObj.type, flagObj.targetId, uid].join(':')]);
                 removeReporters.push([`flags:byReporter:${uid}`, flagObj.flagId]);
             });
         }
@@ -717,7 +717,7 @@ Flags.update = async function (flagId, uid, changeset) {
     tasks.push(Flags.appendHistory(flagId, uid, changeset));
     await Promise.all(tasks);
 
-    plugins.hooks.fire('action:flags.update', { flagId: flagId, changeset: changeset, uid: uid });
+    plugins.hooks.fire('action:flags.update', { flagId, changeset, uid });
 };
 
 Flags.resolveFlag = async function (type, id, uid) {
@@ -806,7 +806,7 @@ Flags.appendNote = async function (flagId, uid, note, datetime) {
     await db.sortedSetAdd(`flag:${flagId}:notes`, datetime, payload);
     await Flags.appendHistory(flagId, uid, {
         notes: null,
-        datetime: datetime,
+        datetime,
     });
 };
 

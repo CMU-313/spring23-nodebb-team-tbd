@@ -57,7 +57,7 @@ module.exports = function (Groups) {
 
         plugins.hooks.fire('action:group.leave', {
             groupNames: groupsToLeave,
-            uid: uid,
+            uid,
         });
     };
 

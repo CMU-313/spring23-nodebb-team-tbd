@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/manage/tags', [
     'bootbox',
     'alerts',
@@ -126,7 +125,7 @@ define('admin/manage/tags', [
                     tags.push($(el).attr('data-tag'));
                 });
                 socket.emit('admin.tags.deleteTags', {
-                    tags: tags,
+                    tags,
                 }, function (err) {
                     if (err) {
                         return alerts.error(err);

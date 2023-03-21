@@ -216,7 +216,7 @@ describe('Topic thumbs', () => {
         });
     });
 
-    describe(`.delete()`, () => {
+    describe('.delete()', () => {
         it('should remove a file from sorted set', async () => {
             await topics.thumbs.associate({
                 id: 1,
@@ -268,7 +268,7 @@ describe('Topic thumbs', () => {
         });
 
         it('should have no more thumbs left', async () => {
-            const associated = await db.isSortedSetMembers(`topic:1:thumbs`, [relativeThumbPaths[0], relativeThumbPaths[1]]);
+            const associated = await db.isSortedSetMembers('topic:1:thumbs', [relativeThumbPaths[0], relativeThumbPaths[1]]);
             assert.strictEqual(associated.some(Boolean), false);
         });
 
@@ -296,7 +296,7 @@ describe('Topic thumbs', () => {
         });
 
         it('should have thumbs prior to tests', async () => {
-            const associated = await db.isSortedSetMembers(`topic:1:thumbs`, [relativeThumbPaths[0], relativeThumbPaths[1]]);
+            const associated = await db.isSortedSetMembers('topic:1:thumbs', [relativeThumbPaths[0], relativeThumbPaths[1]]);
             assert.strictEqual(associated.every(Boolean), true);
         });
 
@@ -305,7 +305,7 @@ describe('Topic thumbs', () => {
         });
 
         it('should remove all associated thumbs with that topic', async () => {
-            const associated = await db.isSortedSetMembers(`topic:1:thumbs`, [relativeThumbPaths[0], relativeThumbPaths[1]]);
+            const associated = await db.isSortedSetMembers('topic:1:thumbs', [relativeThumbPaths[0], relativeThumbPaths[1]]);
             assert.strictEqual(associated.some(Boolean), false);
         });
 

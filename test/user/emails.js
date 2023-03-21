@@ -17,11 +17,11 @@ const utils = require('../../src/utils');
 describe('email confirmation (library methods)', () => {
     let uid;
     async function dummyEmailerHook(data) {
-        // pretend to handle sending emails
+    // pretend to handle sending emails
     }
 
     before(() => {
-        // Attach an emailer hook so related requests do not error
+    // Attach an emailer hook so related requests do not error
         plugins.hooks.register('emailer-test', {
             hook: 'filter:email.send',
             method: dummyEmailerHook,
@@ -153,7 +153,7 @@ describe('email confirmation (v3 api)', () => {
     const login = util.promisify(helpers.loginUser);
 
     before(async () => {
-        // If you're running this file directly, uncomment these lines
+    // If you're running this file directly, uncomment these lines
         await register({
             username: 'fake-user',
             password: 'derpioansdosa',

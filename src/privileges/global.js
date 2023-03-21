@@ -112,7 +112,7 @@ privsGlobal.filterUids = async function (privilege, uids) {
 privsGlobal.give = async function (privileges, groupName) {
     await helpers.giveOrRescind(groups.join, privileges, 0, groupName);
     plugins.hooks.fire('action:privileges.global.give', {
-        privileges: privileges,
+        privileges,
         groupNames: Array.isArray(groupName) ? groupName : [groupName],
     });
 };
@@ -120,7 +120,7 @@ privsGlobal.give = async function (privileges, groupName) {
 privsGlobal.rescind = async function (privileges, groupName) {
     await helpers.giveOrRescind(groups.leave, privileges, 0, groupName);
     plugins.hooks.fire('action:privileges.global.rescind', {
-        privileges: privileges,
+        privileges,
         groupNames: Array.isArray(groupName) ? groupName : [groupName],
     });
 };

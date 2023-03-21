@@ -82,7 +82,7 @@ middleware.pageView = helpers.try(async (req, res, next) => {
     }
     next();
     await analytics.pageView({ ip: req.ip, uid: req.uid });
-    plugins.hooks.fire('action:middleware.pageView', { req: req });
+    plugins.hooks.fire('action:middleware.pageView', { req });
 });
 
 middleware.pluginHooks = helpers.try(async (req, res, next) => {
@@ -92,8 +92,8 @@ middleware.pluginHooks = helpers.try(async (req, res, next) => {
     });
 
     await plugins.hooks.fire('response:router.page', {
-        req: req,
-        res: res,
+        req,
+        res,
     });
 
     if (!res.headersSent) {

@@ -28,7 +28,7 @@ UserNotifications.get = async function (uid) {
     return await plugins.hooks.fire('filter:user.notifications.get', {
         uid,
         read: read.filter(Boolean),
-        unread: unread,
+        unread,
     });
 };
 
@@ -99,7 +99,7 @@ UserNotifications.getNotifications = async function (nids, uid) {
     await deleteUserNids(deletedNids, uid);
     notificationData = await notifications.merge(notificationData);
     const result = await plugins.hooks.fire('filter:user.notifications.getNotifications', {
-        uid: uid,
+        uid,
         notifications: notificationData,
     });
     return result && result.notifications;
@@ -136,7 +136,7 @@ UserNotifications.getUnreadCount = async function (uid) {
 
     // Collapse any notifications with identical mergeIds
     let count = mergeIds.reduce((count, mergeId, idx, arr) => {
-        // A missing (null) mergeId means that notification is counted separately.
+    // A missing (null) mergeId means that notification is counted separately.
         if (mergeId === null || idx === arr.indexOf(mergeId)) {
             count += 1;
         }
@@ -207,7 +207,7 @@ UserNotifications.sendWelcomeNotification = async function (uid) {
     const path = meta.config.welcomeLink ? meta.config.welcomeLink : '#';
     const notifObj = await notifications.create({
         bodyShort: meta.config.welcomeNotification,
-        path: path,
+        path,
         nid: `welcome_${uid}`,
         from: meta.config.welcomeUid ? meta.config.welcomeUid : null,
     });

@@ -101,8 +101,8 @@ async function initializeNodeBB() {
     await plugins.init(app, middleware);
     await plugins.hooks.fire('static:assets.prepare', {});
     await plugins.hooks.fire('static:app.preload', {
-        app: app,
-        middleware: middleware,
+        app,
+        middleware,
     });
     await routes(app, middleware);
     await privileges.init();
@@ -207,7 +207,6 @@ function setupHelmet(app) {
 
     app.use(helmet(options));
 }
-
 
 function setupFavicon(app) {
     let faviconPath = meta.config['brand:favicon'] || 'favicon.ico';

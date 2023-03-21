@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/manage/category-analytics', ['Chart'], function (Chart) {
     const CategoryAnalytics = {};
 

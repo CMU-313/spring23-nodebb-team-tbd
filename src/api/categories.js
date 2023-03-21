@@ -41,7 +41,7 @@ categoriesAPI.delete = async function (caller, data) {
         uid: caller.uid,
         ip: caller.ip,
         cid: data.cid,
-        name: name,
+        name,
     });
 };
 

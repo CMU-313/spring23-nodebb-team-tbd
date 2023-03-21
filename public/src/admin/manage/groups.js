@@ -104,7 +104,7 @@ define('admin/manage/groups', [
                 }
 
                 app.parseAndTranslate('admin/manage/groups', 'groups', {
-                    groups: groups,
+                    groups,
                     categories: ajaxify.data.categories,
                 }, function (html) {
                     groupsEl.find('[data-groupname]').remove();
@@ -116,7 +116,6 @@ define('admin/manage/groups', [
 
         queryEl.on('keyup', utils.debounce(doSearch, 200));
     }
-
 
     return Groups;
 });

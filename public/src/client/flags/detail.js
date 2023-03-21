@@ -6,7 +6,7 @@ define('forum/flags/detail', [
     const Detail = {};
 
     Detail.init = function () {
-        // Update attributes
+    // Update attributes
         $('#state').val(ajaxify.data.state).removeAttr('disabled');
         $('#assignee').val(ajaxify.data.assignee).removeAttr('disabled');
 
@@ -153,7 +153,7 @@ define('forum/flags/detail', [
     Detail.reloadNotes = function (notes) {
         ajaxify.data.notes = notes;
         Benchpress.render('flags/detail', {
-            notes: notes,
+            notes,
         }, 'notes').then(function (html) {
             const wrapperEl = components.get('flag/notes');
             wrapperEl.empty();
@@ -165,7 +165,7 @@ define('forum/flags/detail', [
 
     Detail.reloadHistory = function (history) {
         app.parseAndTranslate('flags/detail', 'history', {
-            history: history,
+            history,
         }, function (html) {
             const wrapperEl = components.get('flag/history');
             wrapperEl.empty();

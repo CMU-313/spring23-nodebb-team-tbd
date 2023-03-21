@@ -22,7 +22,7 @@ module.exports = function (User) {
     };
 
     User.blocks.can = async function (callerUid, blockerUid, blockeeUid, type) {
-        // Guests can't block
+    // Guests can't block
         if (blockerUid === 0 || blockeeUid === 0) {
             throw new Error('[[error:cannot-block-guest]]');
         } else if (blockerUid === blockeeUid) {
@@ -64,7 +64,7 @@ module.exports = function (User) {
         await db.sortedSetAdd(`uid:${uid}:blocked_uids`, Date.now(), targetUid);
         await User.incrementUserFieldBy(uid, 'blocksCount', 1);
         User.blocks._cache.del(parseInt(uid, 10));
-        plugins.hooks.fire('action:user.blocks.add', { uid: uid, targetUid: targetUid });
+        plugins.hooks.fire('action:user.blocks.add', { uid, targetUid });
     };
 
     User.blocks.remove = async function (targetUid, uid) {
@@ -72,7 +72,7 @@ module.exports = function (User) {
         await db.sortedSetRemove(`uid:${uid}:blocked_uids`, targetUid);
         await User.decrementUserFieldBy(uid, 'blocksCount', 1);
         User.blocks._cache.del(parseInt(uid, 10));
-        plugins.hooks.fire('action:user.blocks.remove', { uid: uid, targetUid: targetUid });
+        plugins.hooks.fire('action:user.blocks.remove', { uid, targetUid });
     };
 
     User.blocks.applyChecks = async function (type, targetUid, uid) {
@@ -90,8 +90,8 @@ module.exports = function (User) {
     };
 
     User.blocks.filter = async function (uid, property, set) {
-        // Given whatever is passed in, iterates through it, and removes entries made by blocked uids
-        // property is optional
+    // Given whatever is passed in, iterates through it, and removes entries made by blocked uids
+    // property is optional
         if (Array.isArray(property) && typeof set === 'undefined') {
             set = property;
             property = 'uid';
@@ -106,7 +106,7 @@ module.exports = function (User) {
         const blockedSet = new Set(blocked_uids);
 
         set = set.filter(item => !blockedSet.has(parseInt(isPlain ? item : (item && item[property]), 10)));
-        const data = await plugins.hooks.fire('filter:user.blocks.filter', { set: set, property: property, uid: uid, blockedSet: blockedSet });
+        const data = await plugins.hooks.fire('filter:user.blocks.filter', { set, property, uid, blockedSet });
 
         return data.set;
     };
