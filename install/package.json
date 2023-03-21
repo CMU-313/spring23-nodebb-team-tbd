@@ -200,5 +200,21 @@
       "email": "baris@nodebb.org",
       "url": "https://github.com/barisusakli"
     }
-  ]
+  ],
+  "standardx": {
+    "globals": [
+      "it",
+      "describe",
+      "before",
+      "after",
+      "$",
+      "app",
+      "define",
+      "socket",
+      "bootbox",
+      "ajaxify",
+      "config",
+      "utils"
+    ]
+  }
 }
