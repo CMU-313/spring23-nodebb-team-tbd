@@ -3,6 +3,7 @@ The guide below details testing procedures for Team TBD's added features to the 
 
 ## Poll Plugin
 - Polls feature is activated upon running `./nodebb setup` and `./nodebb build`
+- Works only for instructor accounts, to prevent misuse and trolling of polls by students
 - Click **New Topic** to generate a new post, and button with bar chart appears in toolbox
 - Click button to add poll to post. Select poll options, and click **Confirm** to add poll to post.
 - Poll options are rendered in post. 
