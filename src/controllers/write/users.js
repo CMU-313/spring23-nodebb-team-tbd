@@ -180,7 +180,7 @@ Users.revokeSession = async (req, res) => {
     const sids = await db.getSortedSetRange(`uid:${req.params.uid}:sessions`, 0, -1);
     let _id;
     for (const sid of sids) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const sessionObj = await getSessionAsync(sid);
         if (sessionObj && sessionObj.meta && sessionObj.meta.uuid === req.params.uuid) {
             _id = sid;
@@ -229,7 +229,7 @@ Users.invite = async (req, res) => {
     const emailsArr = emails.split(',').map(email => email.trim()).filter(Boolean);
 
     for (const email of emailsArr) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         let invites = 0;
         if (max) {
             invites = await user.getInvitesNumber(req.uid);

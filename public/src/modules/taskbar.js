@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('taskbar', ['benchpress', 'translator', 'hooks'], function (Benchpress, translator, hooks) {
     const taskbar = {};
 
@@ -38,7 +37,7 @@ define('taskbar', ['benchpress', 'translator', 'hooks'], function (Benchpress, t
     };
 
     taskbar.close = async function (moduleName, uuid) {
-        // Sends signal to the appropriate module's .close() fn (if present)
+    // Sends signal to the appropriate module's .close() fn (if present)
         const btnEl = taskbar.tasklist.find('[data-module="' + module + '"][data-uuid="' + uuid + '"]');
         let fnName = 'close';
 
@@ -56,7 +55,7 @@ define('taskbar', ['benchpress', 'translator', 'hooks'], function (Benchpress, t
     };
 
     taskbar.closeAll = function (module) {
-        // module is optional
+    // module is optional
         let selector = '[data-uuid]';
 
         if (module) {
@@ -80,10 +79,10 @@ define('taskbar', ['benchpress', 'translator', 'hooks'], function (Benchpress, t
         const element = taskbar.tasklist.find('li[data-uuid="' + uuid + '"]');
 
         const data = {
-            module: module,
-            uuid: uuid,
-            options: options,
-            element: element,
+            module,
+            uuid,
+            options,
+            element,
         };
 
         hooks.fire('filter:taskbar.push', data);
@@ -156,7 +155,7 @@ define('taskbar', ['benchpress', 'translator', 'hooks'], function (Benchpress, t
                     '<span aria-label="' + title + '" component="taskbar/title">' + title + '</span>' +
                     '</a>')
                 .attr({
-                    title: title,
+                    title,
                     'data-module': data.module,
                     'data-uuid': data.uuid,
                 })

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/move', ['categorySelector', 'alerts', 'hooks'], function (categorySelector, alerts, hooks) {
     const Move = {};
     let modal;
@@ -67,7 +66,7 @@ define('forum/topic/move', ['categorySelector', 'alerts', 'hooks'], function (ca
                 return alerts.alert({
                     alert_id: 'tids_move_' + (Move.tids ? Move.tids.join('-') : 'all'),
                     title: '[[topic:thread_tools.move]]',
-                    message: message,
+                    message,
                     type: 'success',
                     timeout: config.undoTimeout,
                     timeoutfn: function () {

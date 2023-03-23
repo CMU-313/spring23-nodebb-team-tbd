@@ -164,7 +164,7 @@ Interstitials.tou = async function (data) {
         throw new Error('[[error:invalid-data]]');
     }
     if (!meta.config.termsOfUse || data.userData.acceptTos) {
-        // no ToS or ToS accepted, nothing to do
+    // no ToS or ToS accepted, nothing to do
         return data;
     }
 

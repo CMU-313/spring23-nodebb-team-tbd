@@ -76,7 +76,6 @@ define('admin/manage/admins-mods', [
             });
         });
 
-
         categorySelector.init($('[component="category-selector"]'), {
             parentCid: ajaxify.data.selectedCategory ? ajaxify.data.selectedCategory.cid : 0,
             onSelect: function (selectedCategory) {

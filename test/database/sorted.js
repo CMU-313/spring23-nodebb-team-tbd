@@ -1,6 +1,5 @@
 'use strict';
 
-
 const async = require('async');
 const assert = require('assert');
 const db = require('../mocks/databasemock');
@@ -168,7 +167,6 @@ describe('Sorted Set methods', () => {
                 });
             });
         });
-
 
         it('should error if keys.length is different than scores.length', (done) => {
             db.sortedSetsAdd(['sorted1', 'sorted2'], [4], 'value4', (err) => {
@@ -1035,18 +1033,18 @@ describe('Sorted Set methods', () => {
             assert.deepStrictEqual(data, [1, 2, 3, 4]);
             assert.deepStrictEqual(
                 await db.getSortedSetRangeWithScores('sortedIncrBulk1', 0, -1),
-                [{ value: 'value1', score: 1 }],
+                [{ value: 'value1', score: 1 }]
             );
             assert.deepStrictEqual(
                 await db.getSortedSetRangeWithScores('sortedIncrBulk2', 0, -1),
-                [{ value: 'value2', score: 2 }],
+                [{ value: 'value2', score: 2 }]
             );
             assert.deepStrictEqual(
                 await db.getSortedSetRangeWithScores('sortedIncrBulk3', 0, -1),
                 [
                     { value: 'value3', score: 3 },
                     { value: 'value4', score: 4 },
-                ],
+                ]
             );
         });
 
@@ -1062,11 +1060,10 @@ describe('Sorted Set methods', () => {
                 await db.getSortedSetRangeWithScores('sortedIncrBulk5', 0, -1),
                 [
                     { value: 'value5', score: 10 },
-                ],
+                ]
             );
         });
     });
-
 
     describe('sortedSetRemove()', () => {
         before((done) => {

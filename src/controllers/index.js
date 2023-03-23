@@ -54,9 +54,9 @@ Controllers.reset = async function (req, res) {
 
     const renderReset = function (code, valid) {
         res.render('reset_code', {
-            valid: valid,
+            valid,
             displayExpiryNotice: req.session.passwordExpired,
-            code: code,
+            code,
             minimumPasswordLength: meta.config.minimumPasswordLength,
             minimumPasswordStrength: meta.config.minimumPasswordStrength,
             breadcrumbs: helpers.buildBreadcrumbs([
@@ -78,7 +78,7 @@ Controllers.reset = async function (req, res) {
     }
 
     if (req.session.reset_code) {
-        // Validate and save to local variable before removing from session
+    // Validate and save to local variable before removing from session
         const valid = await user.reset.validate(req.session.reset_code);
         renderReset(req.session.reset_code, valid);
         delete req.session.reset_code;
@@ -316,7 +316,6 @@ Controllers.manifest = async function (req, res) {
         });
     }
 
-
     if (meta.config['brand:maskableIcon']) {
         manifest.icons.push({
             src: `${nconf.get('relative_path')}/assets/uploads/system/maskableicon-orig.png`,
@@ -332,9 +331,9 @@ Controllers.manifest = async function (req, res) {
     }
 
     const data = await plugins.hooks.fire('filter:manifest.build', {
-        req: req,
-        res: res,
-        manifest: manifest,
+        req,
+        res,
+        manifest,
     });
     res.status(200).json(data.manifest);
 };
@@ -345,6 +344,7 @@ Controllers.outgoing = function (req, res, next) {
         'http', 'https', 'ftp', 'ftps', 'mailto', 'news', 'irc', 'gopher',
         'nntp', 'feed', 'telnet', 'mms', 'rtsp', 'svn', 'tel', 'fax', 'xmpp', 'webcal',
     ];
+    // eslint-disable-next-line
     const parsed = require('url').parse(url);
 
     if (!url || !parsed.protocol || !allowedProtocols.includes(parsed.protocol.slice(0, -1))) {

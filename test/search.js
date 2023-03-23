@@ -1,6 +1,5 @@
 'use strict';
 
-
 const assert = require('assert');
 const async = require('async');
 const request = require('request');

@@ -24,7 +24,7 @@ module.exports = function (User) {
     };
 
     User.updateCoverPosition = async function (uid, position) {
-        // Reject anything that isn't two percentages
+    // Reject anything that isn't two percentages
         if (!/^[\d.]+%\s[\d.]+%$/.test(position)) {
             winston.warn(`[user/updateCoverPosition] Invalid position received: ${position}`);
             throw new Error('[[error:invalid-data]]');

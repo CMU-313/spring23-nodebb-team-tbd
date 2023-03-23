@@ -32,6 +32,7 @@ async function rewrite(req, res, next) {
 
     let parsedUrl;
     try {
+        // eslint-disable-next-line
         parsedUrl = url.parse(route, true);
     } catch (err) {
         return next(err);
@@ -55,9 +56,9 @@ function pluginHook(req, res, next) {
     const hook = `action:homepage.get:${res.locals.homePageRoute}`;
 
     plugins.hooks.fire(hook, {
-        req: req,
-        res: res,
-        next: next,
+        req,
+        res,
+        next,
     });
 }
 

@@ -65,7 +65,7 @@ async function isModeratorOfCategory(cid, uid) {
 }
 
 async function filterIsModerator(cid, uid, isModerator) {
-    const data = await plugins.hooks.fire('filter:user.isModerator', { uid: uid, cid: cid, isModerator: isModerator });
+    const data = await plugins.hooks.fire('filter:user.isModerator', { uid, cid, isModerator });
     if ((Array.isArray(uid) || Array.isArray(cid)) && !Array.isArray(data.isModerator)) {
         throw new Error('filter:user.isModerator - i/o mismatch');
     }
@@ -84,12 +84,12 @@ privsUsers.canEdit = async function (callerUid, uid) {
     ]);
 
     const data = await plugins.hooks.fire('filter:user.canEdit', {
-        isAdmin: isAdmin,
-        isGlobalMod: isGlobalMod,
-        isTargetAdmin: isTargetAdmin,
+        isAdmin,
+        isGlobalMod,
+        isTargetAdmin,
         canEdit: isAdmin || (isGlobalMod && !isTargetAdmin),
-        callerUid: callerUid,
-        uid: uid,
+        callerUid,
+        uid,
     });
     return data.canEdit;
 };
@@ -103,8 +103,8 @@ privsUsers.canBanUser = async function (callerUid, uid) {
 
     const data = await plugins.hooks.fire('filter:user.canBanUser', {
         canBan: canBan && !isTargetAdmin,
-        callerUid: callerUid,
-        uid: uid,
+        callerUid,
+        uid,
     });
     return data.canBan;
 };
@@ -118,8 +118,8 @@ privsUsers.canMuteUser = async function (callerUid, uid) {
 
     const data = await plugins.hooks.fire('filter:user.canMuteUser', {
         canMute: canMute && !isTargetAdmin,
-        callerUid: callerUid,
-        uid: uid,
+        callerUid,
+        uid,
     });
     return data.canMute;
 };

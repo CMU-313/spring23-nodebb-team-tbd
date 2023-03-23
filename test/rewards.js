@@ -14,7 +14,7 @@ describe('rewards', () => {
     let herpUid;
 
     before((done) => {
-        // Create 3 users: 1 admin, 2 regular
+    // Create 3 users: 1 admin, 2 regular
         async.series([
             async.apply(User.create, { username: 'foo' }),
             async.apply(User.create, { username: 'baz' }),
@@ -69,7 +69,7 @@ describe('rewards', () => {
             rewards.checkConditionAndRewardUser({
                 uid: adminUid,
                 condition: 'essentials/user.postcount',
-                method: method,
+                method,
             }, (err, data) => {
                 assert.ifError(err);
                 done();

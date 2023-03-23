@@ -95,7 +95,7 @@ function forkAction(action) {
 
         proc.send({
             type: 'action',
-            action: action,
+            action,
         });
     });
 }
@@ -117,7 +117,7 @@ if (process.env.minifier_child) {
                 const result = await actions[action.act](action);
                 process.send({
                     type: 'end',
-                    result: result,
+                    result,
                 });
             } catch (err) {
                 process.send({
@@ -154,7 +154,7 @@ actions.minifyJS_batch = async function minifyJS_batch(data) {
             {
                 srcPath: fileObj.srcPath,
                 filename: fileObj.filename,
-                source: source,
+                source,
             },
         ];
 
@@ -172,7 +172,7 @@ actions.minifyJS = async function minifyJS(data) {
         return {
             srcPath: fileObj.srcPath,
             filename: fileObj.filename,
-            source: source,
+            source,
         };
     });
     await minifyAndSave({
@@ -247,9 +247,9 @@ Minifier.css = {};
 Minifier.css.bundle = async function (source, paths, minify, fork) {
     return await executeAction({
         act: 'buildCSS',
-        source: source,
-        paths: paths,
-        minify: minify,
+        source,
+        paths,
+        minify,
     }, fork);
 };
 

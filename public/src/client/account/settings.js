@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/account/settings', [
     'forum/account/header', 'components', 'translator', 'api', 'alerts',
 ], function (header, components, translator, api, alerts) {

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/extend/plugins', [
     'translator',
     'benchpress',
@@ -257,7 +256,7 @@ define('admin/extend/plugins', [
         btn.attr('disabled', true).find('i').attr('class', 'fa fa-refresh fa-spin');
         socket.emit('admin.plugins.upgrade', {
             id: pluginID,
-            version: version,
+            version,
         }, function (err, isActive) {
             if (err) {
                 return alerts.error(err);
@@ -289,7 +288,7 @@ define('admin/extend/plugins', [
 
         socket.emit('admin.plugins.toggleInstall', {
             id: pluginID,
-            version: version,
+            version,
         }, function (err, pluginData) {
             if (err) {
                 btn.removeAttr('disabled');

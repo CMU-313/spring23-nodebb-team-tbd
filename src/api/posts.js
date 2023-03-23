@@ -73,7 +73,7 @@ postsAPI.edit = async function (caller, data) {
     const selfPost = parseInt(caller.uid, 10) === parseInt(editResult.post.uid, 10);
     if (!selfPost && editResult.post.changed) {
         await events.log({
-            type: `post-edit`,
+            type: 'post-edit',
             uid: caller.uid,
             ip: caller.ip,
             pid: editResult.post.pid,
@@ -214,7 +214,7 @@ async function isMainAndLastPost(pid) {
         posts.getTopicFields(pid, ['postcount']),
     ]);
     return {
-        isMain: isMain,
+        isMain,
         isLast: topicData && topicData.postcount === 1,
     };
 }
@@ -240,7 +240,7 @@ postsAPI.move = async function (caller, data) {
         posts.getPostField(data.pid, 'deleted'),
         topics.getTopicField(data.tid, 'deleted'),
         await events.log({
-            type: `post-move`,
+            type: 'post-move',
             uid: caller.uid,
             ip: caller.ip,
             pid: data.pid,
@@ -306,9 +306,9 @@ postsAPI.getDiffs = async (caller, data) => {
     timestamps.push(String(post.timestamp));
 
     return {
-        timestamps: timestamps,
+        timestamps,
         revisions: timestamps.map((timestamp, idx) => ({
-            timestamp: timestamp,
+            timestamp,
             username: usernames[idx],
         })),
         // Only admins, global mods and moderator of that cid can delete a diff

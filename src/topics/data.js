@@ -29,10 +29,10 @@ module.exports = function (Topics) {
         const keys = tids.map(tid => `topic:${tid}`);
         const topics = await db.getObjects(keys, fields);
         const result = await plugins.hooks.fire('filter:topic.getFields', {
-            tids: tids,
-            topics: topics,
-            fields: fields,
-            keys: keys,
+            tids,
+            topics,
+            fields,
+            keys,
         });
         result.topics.forEach(topic => modifyTopic(topic, fields));
         return result.topics;

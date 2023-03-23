@@ -13,7 +13,7 @@ module.exports = {
 
         async function getTopicsTags(tids) {
             return await db.getSetsMembers(
-                tids.map(tid => `topic:${tid}:tags`),
+                tids.map(tid => `topic:${tid}:tags`)
             );
         }
 
@@ -40,7 +40,7 @@ module.exports = {
             progress.incr(tids.length);
         }, {
             batch: 500,
-            progress: progress,
+            progress,
         });
     },
 };

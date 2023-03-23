@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/advanced/errors', ['bootbox', 'alerts', 'Chart'], function (bootbox, alerts, Chart) {
     const Errors = {};
 

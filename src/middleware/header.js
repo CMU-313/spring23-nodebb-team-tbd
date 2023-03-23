@@ -37,7 +37,7 @@ middleware.buildHeader = helpers.try(async (req, res, next) => {
     const [config, canLoginIfBanned] = await Promise.all([
         controllers.api.loadConfig(req),
         user.bans.canLoginIfBanned(req.uid),
-        plugins.hooks.fire('filter:middleware.buildHeader', { req: req, locals: res.locals }),
+        plugins.hooks.fire('filter:middleware.buildHeader', { req, locals: res.locals }),
     ]);
 
     if (!canLoginIfBanned && req.loggedIn) {
@@ -149,10 +149,10 @@ middleware.renderHeader = async function renderHeader(req, res, data) {
     }
 
     const hookReturn = await plugins.hooks.fire('filter:middleware.renderHeader', {
-        req: req,
-        res: res,
-        templateValues: templateValues,
-        data: data,
+        req,
+        res,
+        templateValues,
+        data,
     });
 
     return await req.app.renderAsync('header', hookReturn.templateValues);
@@ -161,7 +161,7 @@ middleware.renderHeader = async function renderHeader(req, res, data) {
 async function appendUnreadCounts({ uid, navigation, unreadData, query }) {
     const originalRoutes = navigation.map(nav => nav.originalRoute);
     const calls = {
-        unreadData: topics.getUnreadData({ uid: uid, query: query }),
+        unreadData: topics.getUnreadData({ uid, query }),
         unreadChatCount: messaging.getUnreadCount(uid),
         unreadNotificationCount: user.notifications.getUnreadCount(uid),
         unreadFlagCount: (async function () {
@@ -232,9 +232,9 @@ async function appendUnreadCounts({ uid, navigation, unreadData, query }) {
 
 middleware.renderFooter = async function renderFooter(req, res, templateValues) {
     const data = await plugins.hooks.fire('filter:middleware.renderFooter', {
-        req: req,
-        res: res,
-        templateValues: templateValues,
+        req,
+        res,
+        templateValues,
     });
 
     const scripts = await plugins.hooks.fire('filter:scripts.get', []);

@@ -45,7 +45,7 @@ module.exports = function (Posts) {
         const result = await plugins.hooks.fire('filter:post.edit', {
             req: data.req,
             post: editPostData,
-            data: data,
+            data,
             uid: data.uid,
         });
 
@@ -63,7 +63,7 @@ module.exports = function (Posts) {
             await Posts.diffs.save({
                 pid: data.pid,
                 uid: data.uid,
-                oldContent: oldContent,
+                oldContent,
                 newContent: data.content,
                 edited: editPostData.edited,
                 topic,
@@ -89,7 +89,7 @@ module.exports = function (Posts) {
         });
         await topics.syncBacklinks(returnPostData);
 
-        plugins.hooks.fire('action:post.edit', { post: _.clone(returnPostData), data: data, uid: data.uid });
+        plugins.hooks.fire('action:post.edit', { post: _.clone(returnPostData), data, uid: data.uid });
 
         require('./cache').del(String(postData.pid));
         pubsub.publish('post:edit', String(postData.pid));
@@ -97,8 +97,8 @@ module.exports = function (Posts) {
         await Posts.parsePost(returnPostData);
 
         return {
-            topic: topic,
-            editor: editor,
+            topic,
+            editor,
             post: returnPostData,
         };
     };
@@ -110,7 +110,7 @@ module.exports = function (Posts) {
         const isMain = parseInt(data.pid, 10) === parseInt(topicData.mainPid, 10);
         if (!isMain) {
             return {
-                tid: tid,
+                tid,
                 cid: topicData.cid,
                 title: validator.escape(String(topicData.title)),
                 isMainPost: false,
@@ -120,7 +120,7 @@ module.exports = function (Posts) {
         }
 
         const newTopicData = {
-            tid: tid,
+            tid,
             cid: topicData.cid,
             uid: postData.uid,
             mainPid: data.pid,
@@ -145,7 +145,7 @@ module.exports = function (Posts) {
         const results = await plugins.hooks.fire('filter:topic.edit', {
             req: data.req,
             topic: newTopicData,
-            data: data,
+            data,
         });
         await db.setObject(`topic:${tid}`, results.topic);
         if (tagsupdated) {
@@ -162,16 +162,16 @@ module.exports = function (Posts) {
         const renamed = title && translator.escape(validator.escape(String(title))) !== topicData.title;
         plugins.hooks.fire('action:topic.edit', { topic: newTopicData, uid: data.uid });
         return {
-            tid: tid,
+            tid,
             cid: newTopicData.cid,
             uid: postData.uid,
             title: validator.escape(String(title)),
             oldTitle: topicData.title,
             slug: newTopicData.slug || topicData.slug,
             isMainPost: true,
-            renamed: renamed,
-            tagsupdated: tagsupdated,
-            tags: tags,
+            renamed,
+            tagsupdated,
+            tags,
             oldTags: topicData.tags,
             rescheduled: rescheduling(data, topicData),
         };

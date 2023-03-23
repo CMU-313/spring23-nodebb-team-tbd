@@ -31,7 +31,7 @@ describe('Flags', () => {
     let csrfToken;
     let category;
     before(async () => {
-        // Create some stuff to flag
+    // Create some stuff to flag
         uid1 = await User.create({ username: 'testUser', password: 'abcdef', email: 'b@c.com' });
 
         adminUid = await User.create({ username: 'testUser2', password: 'abcdef', email: 'c@d.com' });
@@ -845,7 +845,7 @@ describe('Flags', () => {
 
             it('should escape flag reason', async () => {
                 const postData = await Topics.reply({
-                    tid: tid,
+                    tid,
                     uid: 1,
                     content: 'This is flaggable content',
                 });

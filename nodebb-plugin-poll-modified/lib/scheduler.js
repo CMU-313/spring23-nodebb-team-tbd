@@ -41,9 +41,9 @@ const Poll = require('./poll');
 			} else {
 				const date = new Date(end);
 				NodeBB.winston.verbose(`[nodebb-plugin-poll/scheduler] Starting scheduler for poll with ID ${pollId} to end on ${date}`);
-				jobs[pollId] = new cron(date, (() => {
+				jobs[pollId] = new cron(date, () => {
 					Scheduler.end(pollId);
-				}), null, true);
+				}, null, true);
 			}
 		});
 	};

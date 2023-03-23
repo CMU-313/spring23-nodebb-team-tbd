@@ -15,12 +15,13 @@ define('forum/flags/list', [
         selectedCids = [];
         if (ajaxify.data.filters.hasOwnProperty('cid')) {
             selectedCids = Array.isArray(ajaxify.data.filters.cid) ?
-                ajaxify.data.filters.cid : [ajaxify.data.filters.cid];
+                ajaxify.data.filters.cid :
+                [ajaxify.data.filters.cid];
         }
 
         categoryFilter.init($('[component="category/dropdown"]'), {
             privilege: 'moderate',
-            selectedCids: selectedCids,
+            selectedCids,
             onHidden: function (data) {
                 selectedCids = data.selectedCids;
             },

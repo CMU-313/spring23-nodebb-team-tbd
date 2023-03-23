@@ -11,7 +11,6 @@ const batch = require('../batch');
 const meta = require('../meta');
 const cache = require('../cache');
 
-
 module.exports = function (Groups) {
     Groups.update = async function (groupName, values) {
         const exists = await db.exists(`group:${groupName}`);
@@ -20,8 +19,8 @@ module.exports = function (Groups) {
         }
 
         ({ values } = await plugins.hooks.fire('filter:group.update', {
-            groupName: groupName,
-            values: values,
+            groupName,
+            values,
         }));
 
         // Cast some values as bool (if not boolean already)
@@ -86,7 +85,7 @@ module.exports = function (Groups) {
 
         plugins.hooks.fire('action:group.update', {
             name: groupName,
-            values: values,
+            values,
         });
     };
 

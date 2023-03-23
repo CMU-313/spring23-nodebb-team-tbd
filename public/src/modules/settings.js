@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
     // eslint-disable-next-line prefer-const
     let Settings;
@@ -32,7 +31,7 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
 
     // eslint-disable-next-line prefer-const
     helper = {
-        /**
+    /**
          @returns Object A deep clone of the given object.
          */
         deepClone: function (obj) {
@@ -294,7 +293,7 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
                 settings._ = JSON.stringify(settings._);
             }
             socket.emit('admin.settings.set', {
-                hash: hash,
+                hash,
                 values: settings,
             }, function (err) {
                 if (notify) {
@@ -333,7 +332,7 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
 
     // eslint-disable-next-line prefer-const
     Settings = {
-        helper: helper,
+        helper,
         plugins: {},
         cfg: {},
 
@@ -394,7 +393,7 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
          */
         sync: function (hash, wrapper, callback) {
             socket.emit('admin.settings.get', {
-                hash: hash,
+                hash,
             }, function (err, values) {
                 if (err) {
                     if (typeof callback === 'function') {
@@ -463,7 +462,7 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
             const call = formEl.attr('data-socket-get');
 
             socket.emit(call || 'admin.settings.get', {
-                hash: hash,
+                hash,
             }, function (err, values) {
                 if (err) {
                     return callback(err);
@@ -537,8 +536,8 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
 
                 const call = formEl.attr('data-socket-set');
                 socket.emit(call || 'admin.settings.set', {
-                    hash: hash,
-                    values: values,
+                    hash,
+                    values,
                 }, function (err) {
                     // Remove unsaved flag to re-enable ajaxify
                     app.flags._unsaved = false;
@@ -586,7 +585,6 @@ define('settings', ['hooks', 'alerts'], function (hooks, alerts) {
             }).every(Boolean);
         },
     };
-
 
     helper.registerReadyJobs(1);
     require([

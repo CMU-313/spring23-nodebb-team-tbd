@@ -36,7 +36,7 @@ module.exports = function (User) {
     };
 
     async function onSettingsLoaded(uid, settings) {
-        const data = await plugins.hooks.fire('filter:user.getSettings', { uid: uid, settings: settings });
+        const data = await plugins.hooks.fire('filter:user.getSettings', { uid, settings });
         settings = data.settings;
 
         const defaultTopicsPerPage = meta.config.topicsPerPage;
@@ -117,7 +117,7 @@ module.exports = function (User) {
         }
         data.userLang = data.userLang || meta.config.defaultLang;
 
-        plugins.hooks.fire('action:user.saveSettings', { uid: uid, settings: data });
+        plugins.hooks.fire('action:user.saveSettings', { uid, settings: data });
 
         const settings = {
             showemail: data.showemail,
@@ -148,7 +148,7 @@ module.exports = function (User) {
                 settings[notificationType] = data[notificationType];
             }
         });
-        const result = await plugins.hooks.fire('filter:user.saveSettings', { uid: uid, settings: settings, data: data });
+        const result = await plugins.hooks.fire('filter:user.saveSettings', { uid, settings, data });
         await db.setObject(`user:${uid}:settings`, result.settings);
         await User.updateDigestSetting(uid, data.dailyDigestFreq);
         return await User.getSettings(uid);

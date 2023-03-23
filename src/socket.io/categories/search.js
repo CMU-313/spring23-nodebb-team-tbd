@@ -51,7 +51,7 @@ module.exports = function (SocketCategories) {
 
     async function findMatchedCids(uid, data) {
         const result = await categories.search({
-            uid: uid,
+            uid,
             query: data.search,
             qs: data.query,
             paginate: false,
@@ -72,7 +72,7 @@ module.exports = function (SocketCategories) {
 
         return {
             cids: _.uniq(rootCids.concat(allChildCids).concat(matchedCids)),
-            matchedCids: matchedCids,
+            matchedCids,
         };
     }
 

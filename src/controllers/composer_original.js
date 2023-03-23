@@ -22,8 +22,8 @@ exports.get = async function (req, res, callback) {
     };
 
     const data = await plugins.hooks.fire('filter:composer.build', {
-        req: req,
-        res: res,
+        req,
+        res,
         next: callback,
         templateData: {},
     });
@@ -49,7 +49,7 @@ exports.post = async function (req, res) {
     const { body } = req;
     const data = {
         uid: req.uid,
-        req: req,
+        req,
         timestamp: Date.now(),
         content: body.content,
         fromQueue: false,

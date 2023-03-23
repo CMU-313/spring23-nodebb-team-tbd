@@ -25,7 +25,7 @@ module.exports = function (Categories) {
             const translated = await translator.translate(modifiedFields.name);
             modifiedFields.slug = `${cid}/${slugify(translated)}`;
         }
-        const result = await plugins.hooks.fire('filter:category.update', { cid: cid, category: modifiedFields });
+        const result = await plugins.hooks.fire('filter:category.update', { cid, category: modifiedFields });
 
         const { category } = result;
         const fields = Object.keys(category);
@@ -39,7 +39,7 @@ module.exports = function (Categories) {
             // eslint-disable-next-line no-await-in-loop
             await updateCategoryField(cid, key, category[key]);
         }
-        plugins.hooks.fire('action:category.update', { cid: cid, modified: category });
+        plugins.hooks.fire('action:category.update', { cid, modified: category });
     }
 
     async function updateCategoryField(cid, key, value) {

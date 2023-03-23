@@ -11,7 +11,7 @@ const utils = require('../utils');
 
 module.exports = function (middleware) {
     middleware.exposeAdmin = async (req, res, next) => {
-        // Unlike `requireAdmin`, this middleware just checks the uid, and sets `isAdmin` in `res.locals`
+    // Unlike `requireAdmin`, this middleware just checks the uid, and sets `isAdmin` in `res.locals`
         res.locals.isAdmin = false;
 
         if (!req.user) {
@@ -23,7 +23,7 @@ module.exports = function (middleware) {
     };
 
     middleware.exposePrivileges = async (req, res, next) => {
-        // Exposes a hash of user's ranks (admin, gmod, etc.)
+    // Exposes a hash of user's ranks (admin, gmod, etc.)
         const hash = await utils.promiseParallel({
             isAdmin: user.isAdministrator(req.user.uid),
             isGmod: user.isGlobalModerator(req.user.uid),
@@ -39,7 +39,7 @@ module.exports = function (middleware) {
     };
 
     middleware.exposePrivilegeSet = async (req, res, next) => {
-        // Exposes a user's global/admin privilege set
+    // Exposes a user's global/admin privilege set
         res.locals.privileges = {
             ...await privileges.global.get(req.user.uid),
             ...await privileges.admin.get(req.user.uid),

@@ -27,9 +27,9 @@ categoriesController.get = async function (req, res, next) {
     category.parent = parent[0];
 
     const data = await plugins.hooks.fire('filter:admin.category.get', {
-        req: req,
-        res: res,
-        category: category,
+        req,
+        res,
+        category,
         customClasses: [],
     });
     data.category.name = translator.escape(String(data.category.name));
@@ -64,7 +64,7 @@ categoriesController.getAll = async function (req, res) {
         'color', 'bgColor', 'backgroundImage', 'imageClass', 'subCategoriesPerPage',
     ];
     const categoriesData = await categories.getCategoriesFields(cids, fields);
-    const result = await plugins.hooks.fire('filter:admin.categories.get', { categories: categoriesData, fields: fields });
+    const result = await plugins.hooks.fire('filter:admin.categories.get', { categories: categoriesData, fields });
     let tree = categories.getTree(result.categories, rootParent);
     const cidsCount = rootCid && tree[0] ? tree[0].children.length : tree.length;
 
@@ -97,7 +97,7 @@ categoriesController.getAll = async function (req, res) {
     const crumbs = await buildBreadcrumbs(selectedCategory, '/admin/manage/categories');
     res.render('admin/manage/categories', {
         categoriesTree: tree,
-        selectedCategory: selectedCategory,
+        selectedCategory,
         breadcrumbs: crumbs,
         pagination: pagination.create(page, pageCount, req.query),
         categoriesPerPage: meta.config.categoriesPerPage,
@@ -123,7 +123,7 @@ async function buildBreadcrumbs(categoryData, url) {
     });
     crumbs.unshift({
         text: '[[admin/manage/categories:top-level]]',
-        url: url,
+        url,
     });
 
     return crumbs.concat(breadcrumbs);
@@ -137,7 +137,7 @@ categoriesController.getAnalytics = async function (req, res) {
         analytics.getCategoryAnalytics(req.params.category_id),
     ]);
     res.render('admin/manage/category-analytics', {
-        name: name,
+        name,
         analytics: analyticsData,
     });
 };

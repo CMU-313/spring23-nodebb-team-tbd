@@ -30,7 +30,7 @@ module.exports = function (Topics) {
     };
 
     Topics.filterTags = async function (tags, cid) {
-        const result = await plugins.hooks.fire('filter:tags.filter', { tags: tags, cid: cid });
+        const result = await plugins.hooks.fire('filter:tags.filter', { tags, cid });
         tags = _.uniq(result.tags)
             .map(tag => utils.cleanUpTag(tag, meta.config.maximumTagLength))
             .filter(tag => tag && tag.length >= (meta.config.minimumTagLength || 3));
@@ -164,7 +164,7 @@ module.exports = function (Topics) {
                 }
             });
             await db.setObjectBulk(
-                topicData.map(t => [`topic:${t.tid}`, { tags: t.tags.join(',') }]),
+                topicData.map(t => [`topic:${t.tid}`, { tags: t.tags.join(',') }])
             );
         }, {});
         await Topics.deleteTag(tag);
@@ -237,7 +237,7 @@ module.exports = function (Topics) {
 
             await db.deleteObjectFields(
                 tids.map(tid => `topic:${tid}`),
-                ['tags'],
+                ['tags']
             );
         });
     }
@@ -283,7 +283,7 @@ module.exports = function (Topics) {
         }
 
         const payload = await plugins.hooks.fire('filter:tags.getAll', {
-            tags: tags,
+            tags,
         });
         return await Topics.getTagData(payload.tags);
     }
@@ -409,11 +409,11 @@ module.exports = function (Topics) {
         }
         let result;
         if (plugins.hooks.hasListeners('filter:topics.searchTags')) {
-            result = await plugins.hooks.fire('filter:topics.searchTags', { data: data });
+            result = await plugins.hooks.fire('filter:topics.searchTags', { data });
         } else {
             result = await findMatches(data);
         }
-        result = await plugins.hooks.fire('filter:tags.search', { data: data, matches: result.matches });
+        result = await plugins.hooks.fire('filter:tags.search', { data, matches: result.matches });
         return result.matches;
     };
 
@@ -423,7 +423,7 @@ module.exports = function (Topics) {
         }
         let result;
         if (plugins.hooks.hasListeners('filter:topics.autocompleteTags')) {
-            result = await plugins.hooks.fire('filter:topics.autocompleteTags', { data: data });
+            result = await plugins.hooks.fire('filter:topics.autocompleteTags', { data });
         } else {
             result = await findMatches(data);
         }
@@ -481,7 +481,7 @@ module.exports = function (Topics) {
             }
             return 0;
         });
-        return { matches: matches };
+        return { matches };
     }
 
     Topics.searchAndLoadTags = async function (data) {
@@ -510,7 +510,7 @@ module.exports = function (Topics) {
 
     Topics.getRelatedTopics = async function (topicData, uid) {
         if (plugins.hooks.hasListeners('filter:topic.getRelatedTopics')) {
-            const result = await plugins.hooks.fire('filter:topic.getRelatedTopics', { topic: topicData, uid: uid, topics: [] });
+            const result = await plugins.hooks.fire('filter:topic.getRelatedTopics', { topic: topicData, uid, topics: [] });
             return result.topics;
         }
 

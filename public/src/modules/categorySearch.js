@@ -68,7 +68,7 @@ define('categorySearch', ['alerts'], function (alerts) {
 
         function loadList(search, callback) {
             socket.emit('categories.categorySearch', {
-                search: search,
+                search,
                 query: utils.params(),
                 parentCid: options.parentCid || 0,
                 selectedCids: options.selectedCids,

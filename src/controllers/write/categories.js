@@ -9,7 +9,7 @@ const helpers = require('../helpers');
 const Categories = module.exports;
 
 const hasAdminPrivilege = async (uid) => {
-    const ok = await privileges.admin.can(`admin:categories`, uid);
+    const ok = await privileges.admin.can('admin:categories', uid);
     if (!ok) {
         throw new Error('[[error:no-privileges]]');
     }

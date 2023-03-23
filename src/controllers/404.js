@@ -15,8 +15,8 @@ exports.handle404 = function handle404(req, res) {
 
     if (plugins.hooks.hasListeners('action:meta.override404')) {
         return plugins.hooks.fire('action:meta.override404', {
-            req: req,
-            res: res,
+            req,
+            res,
             error: {},
         });
     }

@@ -106,7 +106,7 @@ describe('meta', () => {
         const anotherList = [];
 
         it('should set setting with sorted list', (done) => {
-            socketAdmin.settings.set({ uid: fooUid }, { hash: 'another:hash', values: { foo: '1', derp: 'value', someList: someList, anotherList: anotherList } }, (err) => {
+            socketAdmin.settings.set({ uid: fooUid }, { hash: 'another:hash', values: { foo: '1', derp: 'value', someList, anotherList } }, (err) => {
                 if (err) {
                     return done(err);
                 }
@@ -184,7 +184,6 @@ describe('meta', () => {
             });
         });
     });
-
 
     describe('config', () => {
         const socketAdmin = require('../src/socket.io/admin');
@@ -393,7 +392,6 @@ describe('meta', () => {
         });
     });
 
-
     describe('session TTL', () => {
         it('should return 14 days in seconds', (done) => {
             assert(meta.getSessionTTLSeconds(), 1209600);
@@ -494,7 +492,7 @@ describe('meta', () => {
             request.get(`${nconf.get('url')}/api/search?term=bug`, {
                 form: {},
                 json: true,
-                jar: jar,
+                jar,
             }, (err, response, body) => {
                 assert.ifError(err);
                 assert.equal(response.headers['access-control-allow-origin'], undefined);
@@ -510,7 +508,7 @@ describe('meta', () => {
                 form: {
                 },
                 json: true,
-                jar: jar,
+                jar,
                 headers: {
                     origin: 'mydomain.com',
                 },
@@ -530,7 +528,7 @@ describe('meta', () => {
                 form: {
                 },
                 json: true,
-                jar: jar,
+                jar,
                 headers: {
                     origin: 'notallowed.com',
                 },
@@ -550,7 +548,7 @@ describe('meta', () => {
                 form: {
                 },
                 json: true,
-                jar: jar,
+                jar,
                 headers: {
                     origin: 'match.this.anything123.domain.com',
                 },
@@ -570,7 +568,7 @@ describe('meta', () => {
                 form: {
                 },
                 json: true,
-                jar: jar,
+                jar,
                 headers: {
                     origin: 'notallowed.com',
                 },
@@ -590,7 +588,7 @@ describe('meta', () => {
                 form: {
                 },
                 json: true,
-                jar: jar,
+                jar,
                 headers: {
                     origin: 'mydomain.com',
                 },

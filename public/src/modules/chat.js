@@ -35,7 +35,7 @@ define('chat', [
 
     module.newChat = function (touid, callback) {
         function createChat() {
-            api.post(`/chats`, {
+            api.post('/chats', {
                 uids: [touid],
             }).then(({ roomId }) => {
                 if (!ajaxify.data.template.chats) {
@@ -90,7 +90,7 @@ define('chat', [
                     rooms[i].teaser.timeago = $.timeago(new Date(parseInt(rooms[i].teaser.timestamp, 10)));
                 }
                 translator.toggleTimeagoShorthand();
-                app.parseAndTranslate('partials/chats/dropdown', { rooms: rooms }, function (html) {
+                app.parseAndTranslate('partials/chats/dropdown', { rooms }, function (html) {
                     chatsListEl.find('*').not('.navigation-link').remove();
                     chatsListEl.prepend(html);
                     app.createUserTooltips(chatsListEl, 'right');
@@ -117,7 +117,6 @@ define('chat', [
             });
         });
     };
-
 
     module.onChatMessageReceived = function (data) {
         const isSelf = data.self === 1;
@@ -182,7 +181,7 @@ define('chat', [
             title: newTitle,
         });
         hooks.fire('action:chat.renamed', Object.assign(data, {
-            modal: modal,
+            modal,
         }));
     };
 
@@ -346,7 +345,7 @@ define('chat', [
         }
 
         hooks.fire('action:chat.closed', {
-            uuid: uuid,
+            uuid,
             modal: chatModal,
         });
     };
@@ -412,7 +411,7 @@ define('chat', [
     };
 
     module.calculateChatListHeight = function (modalEl) {
-        // Formula: modal height minus header height. Simple(tm).
+    // Formula: modal height minus header height. Simple(tm).
         return modalEl.find('.modal-content').outerHeight() - modalEl.find('.modal-header').outerHeight();
     };
 
@@ -423,7 +422,7 @@ define('chat', [
         clearInterval(chatModal.attr('intervalId'));
         chatModal.attr('intervalId', 0);
         hooks.fire('action:chat.minimized', {
-            uuid: uuid,
+            uuid,
             modal: chatModal,
         });
     };

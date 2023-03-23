@@ -15,7 +15,6 @@ const util = require('util');
 process.env.NODE_ENV = process.env.TEST_ENV || 'production';
 global.env = process.env.NODE_ENV || 'production';
 
-
 const winston = require('winston');
 const packageInfo = require('../../package.json');
 
@@ -44,7 +43,7 @@ nconf.defaults({
     views_dir: path.join(__dirname, '../../build/public/templates'),
     relative_path: '',
 });
-
+// eslint-disable-next-line
 const urlObject = url.parse(nconf.get('url'));
 const relativePath = urlObject.pathname !== '/' ? urlObject.pathname : '';
 nconf.set('relative_path', relativePath);
@@ -134,6 +133,7 @@ before(async function () {
     this.timeout(30000);
 
     // Parse out the relative_url and other goodies from the configured URL
+    // eslint-disable-next-line
     const urlObject = url.parse(nconf.get('url'));
 
     nconf.set('core_templates_path', path.join(__dirname, '../../src/views'));
@@ -144,7 +144,6 @@ before(async function () {
     nconf.set('version', packageInfo.version);
     nconf.set('runJobs', false);
     nconf.set('jobsDisabled', false);
-
 
     await db.init();
     if (db.hasOwnProperty('createIndices')) {

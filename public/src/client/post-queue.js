@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/post-queue', [
     'categoryFilter', 'categorySelector', 'api', 'alerts', 'bootbox',
 ], function (categoryFilter, categorySelector, api, alerts, bootbox) {
@@ -46,7 +45,7 @@ define('forum/post-queue', [
             }
 
             socket.emit('posts.' + action, {
-                id: id,
+                id,
                 message: action === 'notify' ? await getMessage() : undefined,
             }, function (err) {
                 if (err) {
@@ -78,14 +77,14 @@ define('forum/post-queue', [
                     Promise.all([
                         api.get(`/categories/${selectedCategory.cid}`, {}),
                         socket.emit('posts.editQueuedContent', {
-                            id: id,
+                            id,
                             cid: selectedCategory.cid,
                         }),
                     ]).then(function (result) {
                         const category = result[0];
                         app.parseAndTranslate('post-queue', 'posts', {
                             posts: [{
-                                category: category,
+                                category,
                             }],
                         }, function (html) {
                             if ($this.find('.category-text').length) {
@@ -127,7 +126,7 @@ define('forum/post-queue', [
             const titleEdit = displayClass === '.topic-title';
 
             socket.emit('posts.editQueuedContent', {
-                id: id,
+                id,
                 title: titleEdit ? textarea.val() : undefined,
                 content: titleEdit ? undefined : textarea.val(),
             }, function (err, data) {
@@ -166,7 +165,7 @@ define('forum/post-queue', [
                 return;
             }
             const action = bulkAction.split('-')[0];
-            const promises = ids.map(id => socket.emit('posts.' + action, { id: id }));
+            const promises = ids.map(id => socket.emit('posts.' + action, { id }));
 
             Promise.allSettled(promises).then(function (results) {
                 const fulfilled = results.filter(res => res.status === 'fulfilled').length;

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/search', [
     'search',
     'autocomplete',
@@ -58,7 +57,7 @@ define('forum/search', [
         }
 
         hooks.fire('action:search.getSearchDataFromDOM', {
-            form: form,
+            form,
             data: searchData,
         });
 

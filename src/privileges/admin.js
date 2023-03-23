@@ -188,7 +188,7 @@ privsAdmin.canGroup = async function (privilege, groupName) {
 privsAdmin.give = async function (privileges, groupName) {
     await helpers.giveOrRescind(groups.join, privileges, 0, groupName);
     plugins.hooks.fire('action:privileges.admin.give', {
-        privileges: privileges,
+        privileges,
         groupNames: Array.isArray(groupName) ? groupName : [groupName],
     });
 };
@@ -196,7 +196,7 @@ privsAdmin.give = async function (privileges, groupName) {
 privsAdmin.rescind = async function (privileges, groupName) {
     await helpers.giveOrRescind(groups.leave, privileges, 0, groupName);
     plugins.hooks.fire('action:privileges.admin.rescind', {
-        privileges: privileges,
+        privileges,
         groupNames: Array.isArray(groupName) ? groupName : [groupName],
     });
 };

@@ -73,10 +73,10 @@ module.exports = function (User) {
         }
         const uids = await db.getSortedSetRevRange(`${type}:${uid}`, start, stop);
         const data = await plugins.hooks.fire(`filter:user.${type}`, {
-            uids: uids,
-            uid: uid,
-            start: start,
-            stop: stop,
+            uids,
+            uid,
+            start,
+            stop,
         });
         return await User.getUsers(data.uids, uid);
     }

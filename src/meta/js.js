@@ -72,8 +72,8 @@ JS.buildModules = async function () {
 
     const fse = require('fs-extra');
     await fse.copy(
-        path.join(__dirname, `../../public/src`),
-        path.join(__dirname, `../../build/public/src`)
+        path.join(__dirname, '../../public/src'),
+        path.join(__dirname, '../../build/public/src')
     );
 
     await linkModules();
@@ -114,7 +114,7 @@ async function getBundleScriptList(target) {
     pluginScripts = JS.scripts.base.concat(pluginScripts).map((script) => {
         const srcPath = path.resolve(basePath, script).replace(/\\/g, '/');
         return {
-            srcPath: srcPath,
+            srcPath,
             filename: path.relative(basePath, srcPath).replace(/\\/g, '/'),
         };
     });
@@ -129,8 +129,8 @@ JS.buildBundle = async function (target, fork) {
     const filePath = path.join(__dirname, '../../build/public', filename);
 
     await minifier.js.bundle({
-        files: files,
-        filename: filename,
+        files,
+        filename,
         destPath: filePath,
     }, minify, fork);
 };

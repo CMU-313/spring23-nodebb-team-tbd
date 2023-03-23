@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('uploadHelpers', ['alerts'], function (alerts) {
     const uploadHelpers = {};
 
@@ -17,7 +16,7 @@ define('uploadHelpers', ['alerts'], function (alerts) {
                 callback: function (upload) {
                     uploadHelpers.ajaxSubmit({
                         uploadForm: formEl,
-                        upload: upload,
+                        upload,
                         callback: options.callback,
                     });
                 },
@@ -30,7 +29,7 @@ define('uploadHelpers', ['alerts'], function (alerts) {
                 callback: function (upload) {
                     uploadHelpers.ajaxSubmit({
                         uploadForm: formEl,
-                        upload: upload,
+                        upload,
                         callback: options.callback,
                     });
                 },
@@ -66,13 +65,13 @@ define('uploadHelpers', ['alerts'], function (alerts) {
                 let formData;
                 if (window.FormData) {
                     formData = new FormData();
-                    for (var i = 0; i < files.length; ++i) {
+                    for (let i = 0; i < files.length; ++i) {
                         formData.append('files[]', files[i], files[i].name);
                     }
                 }
                 options.callback({
-                    files: files,
-                    formData: formData,
+                    files,
+                    formData,
                 });
             }
 
@@ -123,9 +122,9 @@ define('uploadHelpers', ['alerts'], function (alerts) {
 
             if (files.length) {
                 options.callback({
-                    files: files,
-                    fileNames: fileNames,
-                    formData: formData,
+                    files,
+                    fileNames,
+                    formData,
                 });
             }
         });
@@ -167,7 +166,7 @@ define('uploadHelpers', ['alerts'], function (alerts) {
 
                 uploadProgress: function (event, position, total, percent) {
                     alerts.alert({
-                        alert_id: alert_id,
+                        alert_id,
                         message: '[[modules:composer.uploading, ' + percent + '%]]',
                     });
                 },
@@ -175,7 +174,7 @@ define('uploadHelpers', ['alerts'], function (alerts) {
                 success: function (res) {
                     const uploads = res.response.images;
                     if (uploads && uploads.length) {
-                        for (var i = 0; i < uploads.length; ++i) {
+                        for (let i = 0; i < uploads.length; ++i) {
                             uploads[i].filename = files[i].name;
                             uploads[i].isImage = /image./.test(files[i].type);
                         }

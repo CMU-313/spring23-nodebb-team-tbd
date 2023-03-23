@@ -21,7 +21,7 @@ module.exports = function (Posts) {
 
     async function deleteOrRestore(type, pid, uid) {
         const isDeleting = type === 'delete';
-        await plugins.hooks.fire(`filter:post.${type}`, { pid: pid, uid: uid });
+        await plugins.hooks.fire(`filter:post.${type}`, { pid, uid });
         await Posts.setPostFields(pid, {
             deleted: isDeleting ? 1 : 0,
             deleterUid: isDeleting ? uid : 0,
@@ -37,7 +37,7 @@ module.exports = function (Posts) {
                 db.sortedSetAdd(`cid:${topicData.cid}:pids`, postData.timestamp, pid),
         ]);
         await categories.updateRecentTidForCid(postData.cid);
-        plugins.hooks.fire(`action:post.${type}`, { post: _.clone(postData), uid: uid });
+        plugins.hooks.fire(`action:post.${type}`, { post: _.clone(postData), uid });
         if (type === 'delete') {
             await flags.resolveFlag('post', pid, uid);
         }
@@ -62,13 +62,13 @@ module.exports = function (Posts) {
         });
 
         // deprecated hook
-        await Promise.all(postData.map(p => plugins.hooks.fire('filter:post.purge', { post: p, pid: p.pid, uid: uid })));
+        await Promise.all(postData.map(p => plugins.hooks.fire('filter:post.purge', { post: p, pid: p.pid, uid })));
 
         // new hook
         await plugins.hooks.fire('filter:posts.purge', {
             posts: postData,
             pids: postData.map(p => p.pid),
-            uid: uid,
+            uid,
         });
 
         await Promise.all([
@@ -86,10 +86,10 @@ module.exports = function (Posts) {
         await resolveFlags(postData, uid);
 
         // deprecated hook
-        Promise.all(postData.map(p => plugins.hooks.fire('action:post.purge', { post: p, uid: uid })));
+        Promise.all(postData.map(p => plugins.hooks.fire('action:post.purge', { post: p, uid })));
 
         // new hook
-        plugins.hooks.fire('action:posts.purge', { posts: postData, uid: uid });
+        plugins.hooks.fire('action:posts.purge', { posts: postData, uid });
 
         await db.deleteAll(postData.map(p => `post:${p.pid}`));
     };

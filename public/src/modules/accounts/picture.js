@@ -22,8 +22,8 @@ define('accounts/picture', [
             }, false);
 
             app.parseAndTranslate('partials/modals/change_picture_modal', {
-                pictures: pictures,
-                uploaded: uploaded,
+                pictures,
+                uploaded,
                 icon: { text: ajaxify.data['icon:text'], bgColor: ajaxify.data['icon:bgColor'] },
                 defaultAvatar: ajaxify.data.defaultAvatar,
                 allowProfileImageUploads: ajaxify.data.allowProfileImageUploads,
@@ -183,7 +183,7 @@ define('accounts/picture', [
                     uploadModal.modal('hide');
 
                     pictureCropper.handleImageCrop({
-                        url: url,
+                        url,
                         socketMethod: 'user.uploadCroppedPicture',
                         aspectRatio: 1,
                         allowSkippingCrop: false,

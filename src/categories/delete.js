@@ -23,7 +23,7 @@ module.exports = function (Categories) {
         });
         const categoryData = await Categories.getCategoryData(cid);
         await purgeCategory(cid, categoryData);
-        plugins.hooks.fire('action:category.delete', { cid: cid, uid: uid, category: categoryData });
+        plugins.hooks.fire('action:category.delete', { cid, uid, category: categoryData });
     };
 
     async function purgeCategory(cid, categoryData) {

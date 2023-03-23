@@ -143,7 +143,7 @@ describe('Upload Controllers', () => {
                 assert(Array.isArray(body.response.images));
                 assert(body.response.images[0].url);
                 const name = body.response.images[0].url.replace(`${nconf.get('relative_path') + nconf.get('upload_url')}/`, '');
-                socketUser.deleteUpload({ uid: regularUid }, { uid: regularUid, name: name }, (err) => {
+                socketUser.deleteUpload({ uid: regularUid }, { uid: regularUid, name }, (err) => {
                     assert.ifError(err);
                     db.getSortedSetRange(`uid:${regularUid}:uploads`, 0, -1, (err, uploads) => {
                         assert.ifError(err);
@@ -351,7 +351,7 @@ describe('Upload Controllers', () => {
         });
 
         it('should fail to upload invalid file type', (done) => {
-            helpers.uploadFile(`${nconf.get('url')}/api/admin/category/uploadpicture`, path.join(__dirname, '../test/files/503.html'), { params: JSON.stringify({ cid: cid }) }, jar, csrf_token, (err, res, body) => {
+            helpers.uploadFile(`${nconf.get('url')}/api/admin/category/uploadpicture`, path.join(__dirname, '../test/files/503.html'), { params: JSON.stringify({ cid }) }, jar, csrf_token, (err, res, body) => {
                 assert.ifError(err);
                 assert.equal(body.error, '[[error:invalid-image-type, image/png&#44; image/jpeg&#44; image/pjpeg&#44; image/jpg&#44; image/gif&#44; image/svg+xml]]');
                 done();
@@ -367,7 +367,7 @@ describe('Upload Controllers', () => {
         });
 
         it('should upload category image', (done) => {
-            helpers.uploadFile(`${nconf.get('url')}/api/admin/category/uploadpicture`, path.join(__dirname, '../test/files/test.png'), { params: JSON.stringify({ cid: cid }) }, jar, csrf_token, (err, res, body) => {
+            helpers.uploadFile(`${nconf.get('url')}/api/admin/category/uploadpicture`, path.join(__dirname, '../test/files/test.png'), { params: JSON.stringify({ cid }) }, jar, csrf_token, (err, res, body) => {
                 assert.ifError(err);
                 assert.equal(res.statusCode, 200);
                 assert(Array.isArray(body));

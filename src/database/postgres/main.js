@@ -4,12 +4,12 @@ module.exports = function (module) {
     const helpers = require('./helpers');
 
     module.flushdb = async function () {
-        await module.pool.query(`DROP SCHEMA "public" CASCADE`);
-        await module.pool.query(`CREATE SCHEMA "public"`);
+        await module.pool.query('DROP SCHEMA "public" CASCADE');
+        await module.pool.query('CREATE SCHEMA "public"');
     };
 
     module.emptydb = async function () {
-        await module.pool.query(`DELETE FROM "legacy_object"`);
+        await module.pool.query('DELETE FROM "legacy_object"');
     };
 
     module.exists = async function (key) {

@@ -95,7 +95,7 @@ describe('API', async () => {
         return [1];
     }
     async function dummyEmailerHook(data) {
-        // pretend to handle sending emails
+    // pretend to handle sending emails
     }
 
     after(async () => {
@@ -221,7 +221,7 @@ describe('API', async () => {
         const config = await request({
             url: `${nconf.get('url')}/api/config`,
             json: true,
-            jar: jar,
+            jar,
         });
         csrfToken = config.csrf_token;
 
@@ -279,7 +279,6 @@ describe('API', async () => {
         ];
         paths = paths.filter(path => path.method !== '_all' && !exclusionPrefixes.some(prefix => path.path.startsWith(prefix)));
 
-
         // For each express path, query for existence in read and write api schemas
         paths.forEach((pathObj) => {
             describe(`${pathObj.method.toUpperCase()} ${pathObj.path}`, () => {
@@ -307,8 +306,8 @@ describe('API', async () => {
     generateTests(writeApi, Object.keys(writeApi.paths), writeApi.servers[0].url);
 
     function generateTests(api, paths, prefix) {
-        // Iterate through all documented paths, make a call to it,
-        // and compare the result body with what is defined in the spec
+    // Iterate through all documented paths, make a call to it,
+    // and compare the result body with what is defined in the spec
         const pathLib = path; // for calling path module from inside this forEach
         paths.forEach((path) => {
             const context = api.paths[path];
@@ -400,15 +399,15 @@ describe('API', async () => {
                     try {
                         if (type === 'json') {
                             response = await request(url, {
-                                method: method,
+                                method,
                                 jar: !unauthenticatedRoutes.includes(path) ? jar : undefined,
                                 json: true,
                                 followRedirect: false, // all responses are significant (e.g. 302)
                                 simple: false, // don't throw on non-200 (e.g. 302)
                                 resolveWithFullResponse: true, // send full request back (to check statusCode)
-                                headers: headers,
-                                qs: qs,
-                                body: body,
+                                headers,
+                                qs,
+                                body,
                             });
                         } else if (type === 'form') {
                             response = await new Promise((resolve, reject) => {
@@ -475,7 +474,7 @@ describe('API', async () => {
                         const config = await request({
                             url: `${nconf.get('url')}/api/config`,
                             json: true,
-                            jar: jar,
+                            jar,
                         });
                         csrfToken = config.csrf_token;
                     }

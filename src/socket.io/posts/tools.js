@@ -84,9 +84,9 @@ module.exports = function (SocketPosts) {
             uid: socket.uid,
             ip: socket.ip,
             targetUid: data.toUid,
-            pid: pid,
+            pid,
             originalUid: uid,
-            cid: cid,
+            cid,
         })));
 
         await Promise.all(logs);

@@ -21,7 +21,7 @@ User.makeAdmins = async function (socket, uids) {
         throw new Error('[[error:cant-make-banned-users-admin]]');
     }
     for (const uid of uids) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         await groups.join('administrators', uid);
         await events.log({
             type: 'user-makeAdmin',
@@ -37,7 +37,7 @@ User.removeAdmins = async function (socket, uids) {
         throw new Error('[[error:invalid-data]]');
     }
     for (const uid of uids) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const count = await groups.getMemberCount('administrators');
         if (count === 1) {
             throw new Error('[[error:cant-remove-last-admin]]');

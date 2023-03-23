@@ -60,7 +60,7 @@ module.exports = function (Posts) {
             return postData;
         }
 
-        const data = await plugins.hooks.fire('filter:parse.post', { postData: postData });
+        const data = await plugins.hooks.fire('filter:parse.post', { postData });
         data.postData.content = translator.escape(data.postData.content);
         if (data.postData.pid) {
             cache.set(pid, data.postData.content);
@@ -70,7 +70,7 @@ module.exports = function (Posts) {
 
     Posts.parseSignature = async function (userData, uid) {
         userData.signature = sanitizeSignature(userData.signature || '');
-        return await plugins.hooks.fire('filter:parse.signature', { userData: userData, uid: uid });
+        return await plugins.hooks.fire('filter:parse.signature', { userData, uid });
     };
 
     Posts.relativeToAbsolute = function (content, regex) {
@@ -84,6 +84,7 @@ module.exports = function (Posts) {
         while (current !== null) {
             if (current[1]) {
                 try {
+                    // eslint-disable-next-line
                     parsed = url.parse(current[1]);
                     if (!parsed.protocol) {
                         if (current[1].startsWith('/')) {
@@ -95,8 +96,8 @@ module.exports = function (Posts) {
                         }
 
                         content = content.slice(0, current.index + regex.length) +
-                        absolute +
-                        content.slice(current.index + regex.length + current[1].length);
+                            absolute +
+                            content.slice(current.index + regex.length + current[1].length);
                     }
                 } catch (err) {
                     winston.verbose(err.messsage);

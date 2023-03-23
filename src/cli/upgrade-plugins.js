@@ -48,7 +48,6 @@ async function getInstalledPlugins() {
     bundled = Object.keys(JSON.parse(bundled).dependencies)
         .filter(pkgName => pluginNamePattern.test(pkgName));
 
-
     // Whittle down deps to send back only extraneously installed plugins/themes/etc
     const checklist = deps.filter((pkgName) => {
         if (bundled.includes(pkgName)) {
@@ -109,8 +108,8 @@ async function checkPlugins() {
         if (suggestObj.code === 'match-found' && semver.gt(suggested, current)) {
             return {
                 name: suggestObj.package,
-                current: current,
-                suggested: suggested,
+                current,
+                suggested,
             };
         }
         return null;

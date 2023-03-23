@@ -71,8 +71,8 @@ module.exports = function (middleware) {
         }
 
         await plugins.hooks.fire('response:middleware.authenticate', {
-            req: req,
-            res: res,
+            req,
+            res,
             next: function () {}, // no-op for backwards compatibility
         });
 
@@ -112,7 +112,7 @@ module.exports = function (middleware) {
     });
 
     async function ensureSelfOrMethod(method, req, res, next) {
-        /*
+    /*
             The "self" part of this middleware hinges on you having used
             middleware.exposeUid prior to invoking this middleware.
         */
@@ -158,7 +158,7 @@ module.exports = function (middleware) {
     });
 
     middleware.checkAccountPermissions = helpers.try(async (req, res, next) => {
-        // This middleware ensures that only the requested user and admins can pass
+    // This middleware ensures that only the requested user and admins can pass
 
         // This check if left behind for legacy purposes. Older plugins may call this middleware without ensureLoggedIn
         if (!req.loggedIn) {
@@ -224,7 +224,7 @@ module.exports = function (middleware) {
     };
 
     middleware.registrationComplete = async function registrationComplete(req, res, next) {
-        // If the user's session contains registration data, redirect the user to complete registration
+    // If the user's session contains registration data, redirect the user to complete registration
         if (!req.session.hasOwnProperty('registration')) {
             return setImmediate(next);
         }

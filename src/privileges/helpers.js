@@ -22,7 +22,7 @@ helpers.isUsersAllowedTo = async function (privilege, uids, cid) {
         groups.isMembersOfGroupList(uids, `cid:${cid}:privileges:groups:${privilege}`),
     ]);
     const allowed = uids.map((uid, index) => hasUserPrivilege[index] || hasGroupPrivilege[index]);
-    const result = await plugins.hooks.fire('filter:privileges:isUsersAllowedTo', { allowed: allowed, privilege: privilege, uids: uids, cid: cid });
+    const result = await plugins.hooks.fire('filter:privileges:isUsersAllowedTo', { allowed, privilege, uids, cid });
     return result.allowed;
 };
 
@@ -34,7 +34,7 @@ helpers.isAllowedTo = async function (privilege, uidOrGroupName, cid) {
         allowed = await isAllowedToCids(privilege, uidOrGroupName, cid);
     }
     if (allowed) {
-        ({ allowed } = await plugins.hooks.fire('filter:privileges:isAllowedTo', { allowed: allowed, privilege: privilege, uid: uidOrGroupName, cid: cid }));
+        ({ allowed } = await plugins.hooks.fire('filter:privileges:isAllowedTo', { allowed, privilege, uid: uidOrGroupName, cid }));
         return allowed;
     }
     throw new Error('[[error:invalid-data]]');

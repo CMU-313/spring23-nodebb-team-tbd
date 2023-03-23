@@ -21,7 +21,7 @@ module.exports = {
                     await db.deleteObjectField(`post:${id}`, 'reputation');
                 }));
             }, {
-                progress: progress,
+                progress,
             });
         }
 

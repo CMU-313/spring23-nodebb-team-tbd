@@ -43,7 +43,7 @@ define('admin/modules/dashboard-line-graph', ['Chart', 'translator', 'benchpress
 
                 Graph._current = new Chart(canvasCtx, {
                     type: 'line',
-                    data: data,
+                    data,
                     options: {
                         responsive: true,
                         legend: {
@@ -178,7 +178,7 @@ define('admin/modules/dashboard-line-graph', ['Chart', 'translator', 'benchpress
                 const apiEl = $('#view-as-json');
                 const newHref = $.param({
                     units: units || 'hours',
-                    until: until,
+                    until,
                     count: amount,
                 });
                 apiEl.attr('href', `${config.relative_path}/api/v3/admin/analytics/${ajaxify.data.set}?${newHref}`);

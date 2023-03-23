@@ -15,7 +15,7 @@ const image = module.exports;
 function requireSharp() {
     const sharp = require('sharp');
     if (os.platform() === 'win32') {
-        // https://github.com/lovell/sharp/issues/1259
+    // https://github.com/lovell/sharp/issues/1259
         sharp.cache(false);
     }
     return sharp;
@@ -80,7 +80,7 @@ image.resizeImage = async function (data) {
 image.normalise = async function (path) {
     if (plugins.hooks.hasListeners('filter:image.normalise')) {
         await plugins.hooks.fire('filter:image.normalise', {
-            path: path,
+            path,
         });
     } else {
         const sharp = requireSharp();
@@ -93,7 +93,7 @@ image.size = async function (path) {
     let imageData;
     if (plugins.hooks.hasListeners('filter:image.size')) {
         imageData = await plugins.hooks.fire('filter:image.size', {
-            path: path,
+            path,
         });
     } else {
         const sharp = requireSharp();
@@ -109,7 +109,7 @@ image.stripEXIF = async function (path) {
     try {
         if (plugins.hooks.hasListeners('filter:image.stripEXIF')) {
             await plugins.hooks.fire('filter:image.stripEXIF', {
-                path: path,
+                path,
             });
             return;
         }
@@ -167,7 +167,7 @@ image.uploadImage = async function (filename, folder, imageData) {
         return await plugins.hooks.fire('filter:uploadImage', {
             image: imageData,
             uid: imageData.uid,
-            folder: folder,
+            folder,
         });
     }
     await image.isFileTypeAllowed(imageData.path);

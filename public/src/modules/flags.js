@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('flags', ['hooks', 'components', 'api', 'alerts'], function (hooks, components, api, alerts) {
     const Flag = {};
     let flagModal;
@@ -58,7 +57,7 @@ define('flags', ['hooks', 'components', 'api', 'alerts'], function (hooks, compo
             state: 'resolved',
         }).then(() => {
             alerts.success('[[flags:resolved]]');
-            hooks.fire('action:flag.resolved', { flagId: flagId });
+            hooks.fire('action:flag.resolved', { flagId });
         }).catch(alerts.error);
     };
 
@@ -66,7 +65,7 @@ define('flags', ['hooks', 'components', 'api', 'alerts'], function (hooks, compo
         if (!type || !id || !reason) {
             return;
         }
-        const data = { type: type, id: id, reason: reason };
+        const data = { type, id, reason };
         api.post('/flags', data, function (err, flagId) {
             if (err) {
                 return alerts.error(err);
@@ -79,7 +78,7 @@ define('flags', ['hooks', 'components', 'api', 'alerts'], function (hooks, compo
                 postEl.find('[component="post/flag"]').addClass('hidden').parent().attr('hidden', '');
                 postEl.find('[component="post/already-flagged"]').removeClass('hidden').parent().attr('hidden', null);
             }
-            hooks.fire('action:flag.create', { flagId: flagId, data: data });
+            hooks.fire('action:flag.create', { flagId, data });
         });
     }
 

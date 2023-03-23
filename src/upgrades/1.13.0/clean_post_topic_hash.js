@@ -51,7 +51,7 @@ async function cleanPost(progress) {
         }));
     }, {
         batch: 500,
-        progress: progress,
+        progress,
     });
 }
 
@@ -90,6 +90,6 @@ async function cleanTopic(progress) {
         }));
     }, {
         batch: 500,
-        progress: progress,
+        progress,
     });
 }

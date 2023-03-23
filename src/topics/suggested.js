@@ -51,7 +51,7 @@ module.exports = function (Topics) {
             searchIn: 'titles',
             matchWords: 'any',
             categories: [topicData.cid],
-            uid: uid,
+            uid,
             returnIds: true,
             timeRange: cutoff !== 0 ? cutoff / 1000 : 0,
             timeFilter: 'newer',

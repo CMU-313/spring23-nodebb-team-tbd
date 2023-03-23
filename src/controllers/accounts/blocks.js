@@ -20,10 +20,10 @@ blocksController.getBlocks = async function (req, res, next) {
     }
     const uids = await user.blocks.list(userData.uid);
     const data = await plugins.hooks.fire('filter:user.getBlocks', {
-        uids: uids,
+        uids,
         uid: userData.uid,
-        start: start,
-        stop: stop,
+        start,
+        stop,
     });
 
     data.uids = data.uids.slice(start, stop + 1);

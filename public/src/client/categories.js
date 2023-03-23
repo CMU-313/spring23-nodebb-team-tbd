@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/categories', ['components', 'categorySelector', 'hooks'], function (components, categorySelector, hooks) {
     const categories = {};
 

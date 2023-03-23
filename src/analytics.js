@@ -42,13 +42,13 @@ Analytics.init = async function () {
         ttl: 0,
     });
 
-    new cronJob('*/10 * * * * *', (async () => {
+    new cronJob('*/10 * * * * *', async () => {
         publishLocalAnalytics();
         if (runJobs) {
             await sleep(2000);
             await Analytics.writeData();
         }
-    }), null, true);
+    }, null, true);
 
     if (runJobs) {
         pubsub.on('analytics:publish', (data) => {
@@ -59,7 +59,7 @@ Analytics.init = async function () {
 
 function publishLocalAnalytics() {
     pubsub.publish('analytics:publish', {
-        local: local,
+        local,
     });
     local = _.cloneDeep(empty);
 }
@@ -78,7 +78,7 @@ function incrementProperties(obj1, obj2) {
 Analytics.increment = function (keys, callback) {
     keys = Array.isArray(keys) ? keys : [keys];
 
-    plugins.hooks.fire('action:analytics.increment', { keys: keys });
+    plugins.hooks.fire('action:analytics.increment', { keys });
 
     keys.forEach((key) => {
         local.counters[key] = local.counters[key] || 0;
@@ -104,7 +104,7 @@ Analytics.pageView = async function (payload) {
     }
 
     if (payload.ip) {
-        // Retrieve hash or calculate if not present
+    // Retrieve hash or calculate if not present
         let hash = ipCache.get(payload.ip + secret);
         if (!hash) {
             hash = crypto.createHash('sha1').update(payload.ip + secret).digest('hex');
@@ -244,7 +244,7 @@ Analytics.getDailyStatsForSet = async function (set, day, numDays) {
     day.setHours(0, 0, 0, 0);
 
     while (numDays > 0) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const dayData = await Analytics.getHourlyStatsForSet(
             set,
             day.getTime() - (1000 * 60 * 60 * 24 * (numDays - 1)),

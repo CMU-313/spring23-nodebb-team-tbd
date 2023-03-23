@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/chats/recent', ['alerts'], function (alerts) {
     const recent = {};
 
@@ -56,7 +55,6 @@ define('forum/chats/recent', ['alerts'], function (alerts) {
             callback();
         });
     }
-
 
     return recent;
 });

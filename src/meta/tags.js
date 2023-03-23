@@ -66,7 +66,7 @@ Tags.parse = async (req, data, meta, link) => {
     }, {
         rel: 'manifest',
         href: `${relative_path}/manifest.webmanifest`,
-        crossorigin: `use-credentials`,
+        crossorigin: 'use-credentials',
     }];
 
     if (plugins.hooks.hasListeners('filter:search.query')) {
@@ -144,8 +144,8 @@ Tags.parse = async (req, data, meta, link) => {
     }
 
     const results = await utils.promiseParallel({
-        tags: plugins.hooks.fire('filter:meta.getMetaTags', { req: req, data: data, tags: defaultTags }),
-        links: plugins.hooks.fire('filter:meta.getLinkTags', { req: req, data: data, links: defaultLinks }),
+        tags: plugins.hooks.fire('filter:meta.getMetaTags', { req, data, tags: defaultTags }),
+        links: plugins.hooks.fire('filter:meta.getLinkTags', { req, data, links: defaultLinks }),
     });
 
     meta = results.tags.tags.concat(meta || []).map((tag) => {

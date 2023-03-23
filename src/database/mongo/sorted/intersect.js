@@ -37,8 +37,8 @@ module.exports = function (module) {
         const index = counts.indexOf(minCount);
         const smallestSet = sets[index];
         return {
-            minCount: minCount,
-            smallestSet: smallestSet,
+            minCount,
+            smallestSet,
         };
     }
 

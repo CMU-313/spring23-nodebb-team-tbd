@@ -25,19 +25,19 @@ module.exports = function (Categories) {
         const colours = Categories.assignColours();
 
         let category = {
-            cid: cid,
+            cid,
             name: data.name,
             description: data.description ? data.description : '',
             descriptionParsed: data.descriptionParsed ? data.descriptionParsed : '',
             icon: data.icon ? data.icon : '',
             bgColor: data.bgColor || colours[0],
             color: data.color || colours[1],
-            slug: slug,
-            parentCid: parentCid,
+            slug,
+            parentCid,
             topic_count: 0,
             post_count: 0,
             disabled: data.disabled ? 1 : 0,
-            order: order,
+            order,
             link: data.link || '',
             numRecentReplies: 1,
             class: (data.class ? data.class : 'col-md-3 col-xs-6'),
@@ -72,11 +72,11 @@ module.exports = function (Categories) {
         const guestPrivileges = ['groups:find', 'groups:read', 'groups:topics:read'];
 
         const result = await plugins.hooks.fire('filter:category.create', {
-            category: category,
-            data: data,
-            defaultPrivileges: defaultPrivileges,
-            modPrivileges: modPrivileges,
-            guestPrivileges: guestPrivileges,
+            category,
+            data,
+            defaultPrivileges,
+            modPrivileges,
+            guestPrivileges,
         });
         category = result.category;
 
@@ -108,7 +108,7 @@ module.exports = function (Categories) {
             await duplicateCategoriesChildren(category.cid, data.cloneFromCid, data.uid);
         }
 
-        plugins.hooks.fire('action:category.create', { category: category });
+        plugins.hooks.fire('action:category.create', { category });
         return category;
     };
 
@@ -178,9 +178,9 @@ module.exports = function (Categories) {
             destination.parentCid = source.parentCid || 0;
         }
         await plugins.hooks.fire('filter:categories.copySettingsFrom', {
-            source: source,
-            destination: destination,
-            copyParent: copyParent,
+            source,
+            destination,
+            copyParent,
         });
 
         await db.setObject(`category:${toCid}`, destination);
@@ -213,9 +213,9 @@ module.exports = function (Categories) {
 
         const data = await plugins.hooks.fire('filter:categories.copyPrivilegesFrom', {
             privileges: privsToCopy,
-            fromCid: fromCid,
-            toCid: toCid,
-            group: group,
+            fromCid,
+            toCid,
+            group,
         });
         if (group) {
             await copyPrivilegesByGroup(data.privileges, data.fromCid, data.toCid, group);

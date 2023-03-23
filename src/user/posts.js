@@ -59,7 +59,7 @@ module.exports = function (User) {
     }
 
     User.onNewPostMade = async function (postData) {
-        // For scheduled posts, use "action" time. It'll be updated in related cron job when post is published
+    // For scheduled posts, use "action" time. It'll be updated in related cron job when post is published
         const lastposttime = postData.timestamp > Date.now() ? Date.now() : postData.timestamp;
 
         await Promise.all([

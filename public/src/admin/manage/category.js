@@ -174,7 +174,7 @@ define('admin/manage/category', [
             uploader.show({
                 title: '[[admin/manage/categories:alert.upload-image]]',
                 route: config.relative_path + '/api/admin/category/uploadpicture',
-                params: { cid: cid },
+                params: { cid },
             }, function (imageUrlOnServer) {
                 $('#category-image').val(imageUrlOnServer);
                 const previewBox = inputEl.parent().parent().siblings('.category-preview');
@@ -289,7 +289,7 @@ define('admin/manage/category', [
                     return;
                 }
                 api.put('/categories/' + ajaxify.data.category.cid, {
-                    parentCid: parentCid,
+                    parentCid,
                 }).then(() => {
                     api.get(`/categories/${parentCid}`, {}).then(function (parent) {
                         if (parent && parent.icon && parent.name) {

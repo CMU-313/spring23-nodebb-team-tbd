@@ -1,23 +1,23 @@
 'use strict';
 
 (function (Poll) {
-	var Actions = [
+	const Actions = [
 		{
 			// Voting
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.voteButton.off('click').on('click', function () {
 					self.handle(view);
 				});
 			},
 			handle: function (view) {
-				var form = view.dom.votingPanel.find('form');
-				var votes = form.serializeArray().map(function (option) {
+				const form = view.dom.votingPanel.find('form');
+				const votes = form.serializeArray().map(function (option) {
 					return parseInt(option.value, 10);
 				});
 
 				if (votes.length > 0) {
-					var voteData = {
+					const voteData = {
 						pollId: view.pollData.info.pollId,
 						options: votes,
 					};
@@ -39,19 +39,19 @@
 		{
 			// Voting
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.updateVoteButton.off('click').on('click', function () {
 					self.handle(view);
 				});
 			},
 			handle: function (view) {
-				var form = view.dom.votingPanel.find('form');
-				var votes = form.serializeArray().map(function (option) {
+				const form = view.dom.votingPanel.find('form');
+				const votes = form.serializeArray().map(function (option) {
 					return parseInt(option.value, 10);
 				});
 
 				if (votes.length > 0) {
-					var voteData = {
+					const voteData = {
 						pollId: view.pollData.info.pollId,
 						options: votes,
 					};
@@ -68,13 +68,13 @@
 		{
 			// Remove vote
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.removeVoteButton.off('click').on('click', function () {
 					self.handle(view);
 				});
 			},
 			handle: function (view) {
-				var voteData = { pollId: view.pollData.info.pollId };
+				const voteData = { pollId: view.pollData.info.pollId };
 
 				Poll.sockets.removeVote(voteData, function (err) {
 					if (err) {
@@ -87,7 +87,7 @@
 		{
 			// Results button
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.resultsPanelButton.off('click').on('click', function () {
 					self.handle(view);
 				});
@@ -99,7 +99,7 @@
 		{
 			// To Voting button
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.votingPanelButton.off('click').on('click', function () {
 					self.handle(view);
 				});
@@ -111,17 +111,17 @@
 		{
 			// Option details
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.resultsPanel.off('click').on('click', '.poll-result-votecount', function (e) {
 					self.handle(view, e);
 				});
 			},
 			handle: function (view, e) {
-				var optionId = $(e.currentTarget).parents('[data-poll-option-id]').data('poll-option-id');
+				const optionId = $(e.currentTarget).parents('[data-poll-option-id]').data('poll-option-id');
 
 				Poll.sockets.getOptionDetails({
 					pollId: view.pollData.info.pollId,
-					optionId: optionId,
+					optionId,
 				}, function (err, details) {
 					if (err) {
 						return Poll.alertError(err.message);
@@ -134,7 +134,7 @@
 		{
 			// Editing
 			register: function (view) {
-				var self = this;
+				const self = this;
 				view.dom.editButton.off('click').on('click', function () {
 					self.handle(view);
 				});
@@ -150,21 +150,21 @@
 		},
 	];
 
-	var View = function (pollData) {
+	const View = function (pollData) {
 		this.pollData = pollData;
 	};
 
 	View.prototype.load = function () {
-		var self = this;
+		const self = this;
 
 		require(['components'], function (components) {
-			var posts = components.get('post');
+			const posts = components.get('post');
 			if (posts.length > 0 && parseInt(posts.eq(0).data('pid'), 10) === parseInt(self.pollData.info.pid, 10)) {
 				app.parseAndTranslate('poll/view', { poll: self.pollData }, function (panel) {
 					posts.eq(0).find('[component="post/content"]').prepend(panel);
 
 					self.dom = {
-						panel: panel,
+						panel,
 						votingForm: panel.find('.poll-voting-form'),
 						messages: panel.find('.poll-view-messages'),
 						votingPanel: panel.find('.poll-view-voting'),
@@ -226,7 +226,7 @@
 		this.pollEndedOrDeleted();
 
 		this.pollData.options.forEach(function (option) {
-			var el = this.dom.resultsPanel.find('[data-poll-option-id=' + option.id + ']');
+			const el = this.dom.resultsPanel.find('[data-poll-option-id=' + option.id + ']');
 			el.find('.poll-result-votecount span').text(option.voteCount);
 			el.find('.tbd_vertical_progressbar').css('top', (100 - option.percentage) + '%');
 			el.find('.poll-result-progressbar').css('width', option.percentage + '%')
@@ -235,9 +235,9 @@
 	};
 
 	View.prototype.showMessage = function (title, content) {
-		var self = this;
+		const self = this;
 
-		app.parseAndTranslate('poll/view/messages', { title: title, content: content }, function (html) {
+		app.parseAndTranslate('poll/view/messages', { title, content }, function (html) {
 			self.dom.messages.html(html).removeClass('hidden');
 		});
 	};
@@ -260,7 +260,7 @@
 	};
 
 	View.prototype.fillVotingForm = function () {
-		var self = this;
+		const self = this;
 		this.resetVotingForm();
 		if (this.pollData.vote && this.pollData.vote.options) {
 			this.pollData.vote.options.forEach(function (id) {
@@ -357,13 +357,13 @@
 	Poll.view = {
 		polls: {},
 		load: function (pollData) {
-			var view = new View(pollData);
+			const view = new View(pollData);
 			this.polls[pollData.info.pollId] = view;
 
 			view.load();
 		},
 		update: function (pollData) {
-			var pollId = pollData.info.pollId;
+			const pollId = pollData.info.pollId;
 			if (this.polls.hasOwnProperty(pollId)) {
 				this.polls[pollId].update(pollData);
 			}

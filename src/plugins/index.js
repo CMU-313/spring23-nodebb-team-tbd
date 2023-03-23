@@ -52,9 +52,9 @@ Plugins.requireLibrary = function (pluginData) {
         libraryPath = pluginData.path;
         Plugins.libraries[pluginData.id] = require(libraryPath);
     } catch (e) {
-        // DEPRECATED: @1.15.0, remove in version >=1.17
-        // for backwards compatibility
-        // if that fails, fall back to `pluginData.library`
+    // DEPRECATED: @1.15.0, remove in version >=1.17
+    // for backwards compatibility
+    // if that fails, fall back to `pluginData.library`
         if (pluginData.library) {
             winston.warn(`   [plugins/${pluginData.id}] The plugin.json field "library" is deprecated. Please use the package.json field "main" instead.`);
             winston.verbose(`[plugins/${pluginData.id}] See https://github.com/NodeBB/NodeBB/issues/8686`);
@@ -109,7 +109,7 @@ Plugins.reload = async function () {
 
     const paths = await Plugins.getPluginPaths();
     for (const path of paths) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         await Plugins.loadPlugin(path);
     }
 
@@ -149,7 +149,7 @@ Plugins.reload = async function () {
 
 Plugins.reloadRoutes = async function (params) {
     const controllers = require('../controllers');
-    await Plugins.hooks.fire('static:app.load', { app: app, router: params.router, middleware: middleware, controllers: controllers });
+    await Plugins.hooks.fire('static:app.load', { app, router: params.router, middleware, controllers });
     winston.verbose('[plugins] All plugins reloaded and rerouted');
 };
 
@@ -204,7 +204,7 @@ Plugins.normalise = async function (apiReturn) {
     installedPlugins = installedPlugins.filter(plugin => plugin && !plugin.system);
 
     installedPlugins.forEach((plugin) => {
-        // If it errored out because a package.json or plugin.json couldn't be read, no need to do this stuff
+    // If it errored out because a package.json or plugin.json couldn't be read, no need to do this stuff
         if (plugin.error) {
             pluginMap[plugin.id] = pluginMap[plugin.id] || {};
             pluginMap[plugin.id].installed = true;

@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic', [
     'forum/infinitescroll',
     'forum/topic/threadTools',
@@ -195,7 +194,7 @@ define('forum/topic', [
     };
 
     function addDropupHandler() {
-        // Locate all dropdowns
+    // Locate all dropdowns
         const target = $('#content .dropdown-menu').parent();
         $(target).on('shown.bs.dropdown', function () {
             const dropdownEl = this.querySelector('.dropdown-menu');
@@ -234,7 +233,7 @@ define('forum/topic', [
             const link = $(this);
 
             async function renderPost(pid) {
-                const postData = postCache[pid] || await socket.emit('posts.getPostSummaryByPid', { pid: pid });
+                const postData = postCache[pid] || await socket.emit('posts.getPostSummaryByPid', { pid });
                 $('#post-tooltip').remove();
                 if (postData && ajaxify.data.template.topic) {
                     postCache[pid] = postData;
@@ -341,7 +340,7 @@ define('forum/topic', [
             if (app.user.uid) {
                 socket.emit('topics.bookmark', {
                     tid: ajaxify.data.tid,
-                    index: index,
+                    index,
                 }, function (err) {
                     if (err) {
                         return alerts.error(err);
@@ -358,7 +357,6 @@ define('forum/topic', [
             alerts.remove('bookmark');
         }
     }
-
 
     return Topic;
 });

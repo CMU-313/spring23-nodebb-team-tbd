@@ -140,7 +140,7 @@ module.exports = function (Posts) {
     }
 
     async function checkVoteLimitation(pid, uid, type) {
-        // type = 'upvote' or 'downvote'
+    // type = 'upvote' or 'downvote'
         const oneDay = 86400000;
         const [reputation, targetUid, votedPidsToday] = await Promise.all([
             user.getUserField(uid, 'reputation'),
@@ -217,9 +217,9 @@ module.exports = function (Posts) {
         // action:post.unvote
         plugins.hooks.fire(`action:post.${hook}`, {
             pid: postData.pid,
-            uid: uid,
+            uid,
             owner: postData.uid,
-            current: current,
+            current,
         });
     }
 

@@ -1,7 +1,6 @@
 
 'use strict';
 
-
 define('forum/category/tools', [
     'topicSelect',
     'forum/topic/threadTools',

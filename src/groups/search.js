@@ -53,7 +53,7 @@ module.exports = function (Groups) {
     Groups.searchMembers = async function (data) {
         if (!data.query) {
             const users = await Groups.getOwnersAndMembers(data.groupName, data.uid, 0, 19);
-            return { users: users };
+            return { users };
         }
 
         const results = await user.search({

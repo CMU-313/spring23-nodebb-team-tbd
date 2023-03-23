@@ -35,10 +35,10 @@ AdminsMods.get = async function (req, res) {
     ]);
 
     res.render('admin/manage/admins-mods', {
-        admins: admins,
-        globalMods: globalMods,
+        admins,
+        globalMods,
         categoryMods: moderators,
-        selectedCategory: selectedCategory,
+        selectedCategory,
         pagination: pagination.create(page, pageCount, req.query),
         breadcrumbs: crumbs,
     });

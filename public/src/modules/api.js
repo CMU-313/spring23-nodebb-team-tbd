@@ -18,7 +18,9 @@ define('api', ['hooks'], (hooks) => {
                     cb(null, (
                         res &&
                         res.hasOwnProperty('status') &&
-                        res.hasOwnProperty('response') ? res.response : (res || {})
+                        res.hasOwnProperty('response') ?
+                            res.response :
+                            (res || {})
                     ));
                 })
                 .fail((ev) => {

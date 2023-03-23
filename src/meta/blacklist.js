@@ -33,7 +33,7 @@ Blacklist.load = async function () {
 pubsub.on('blacklist:reload', Blacklist.load);
 
 Blacklist.save = async function (rules) {
-    await db.setObject('ip-blacklist-rules', { rules: rules });
+    await db.setObject('ip-blacklist-rules', { rules });
     await Blacklist.load();
     pubsub.publish('blacklist:reload');
 };
@@ -151,12 +151,12 @@ Blacklist.validate = function (rules) {
 
     return {
         numRules: rules.length + invalid.length,
-        ipv4: ipv4,
-        ipv6: ipv6,
-        cidr: cidr,
+        ipv4,
+        ipv6,
+        cidr,
         valid: rules,
-        invalid: invalid,
-        duplicateCount: duplicateCount,
+        invalid,
+        duplicateCount,
     };
 };
 

@@ -49,4 +49,3 @@ module.exports.render = function (template) {
         hooks.fire('action:widgets.loaded', {});
     });
 };
-

@@ -40,7 +40,7 @@ infoController.get = function (req, res) {
             info: data,
             infoJSON: JSON.stringify(data, null, 4),
             host: os.hostname(),
-            port: port,
+            port,
             nodeCount: data.length,
             timeout: timeoutMS,
             ip: req.ip,
@@ -52,7 +52,7 @@ pubsub.on('sync:node:info:start', async () => {
     try {
         const data = await getNodeInfo();
         data.id = `${os.hostname()}:${nconf.get('port')}`;
-        pubsub.publish('sync:node:info:end', { data: data, id: data.id });
+        pubsub.publish('sync:node:info:end', { data, id: data.id });
     } catch (err) {
         winston.error(err.stack);
     }
@@ -140,5 +140,5 @@ async function getGitInfo() {
         getAsync('git rev-parse HEAD'),
         getAsync('git rev-parse --abbrev-ref HEAD'),
     ]);
-    return { hash: hash, hashShort: hash.slice(0, 6), branch: branch };
+    return { hash, hashShort: hash.slice(0, 6), branch };
 }

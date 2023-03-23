@@ -33,7 +33,7 @@ module.exports = function (SocketTopics) {
     };
 
     SocketTopics.markCategoryTopicsRead = async function (socket, cid) {
-        const tids = await topics.getUnreadTids({ cid: cid, uid: socket.uid, filter: '' });
+        const tids = await topics.getUnreadTids({ cid, uid: socket.uid, filter: '' });
         await SocketTopics.markAsRead(socket, tids);
     };
 

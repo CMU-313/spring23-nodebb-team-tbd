@@ -147,9 +147,9 @@ module.exports = async function (app, middleware) {
     // homepage handled by `action:homepage.get:[route]`
     setupPageRoute(router, '/', [], controllers.home.pluginHook);
 
-    await plugins.reloadRoutes({ router: router });
-    await authRoutes.reloadRoutes({ router: router });
-    await writeRoutes.reload({ router: router });
+    await plugins.reloadRoutes({ router });
+    await authRoutes.reloadRoutes({ router });
+    await writeRoutes.reload({ router });
     addCoreRoutes(app, router, middleware, mounts);
 
     winston.info('[router] Routes added');

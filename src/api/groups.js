@@ -60,7 +60,7 @@ groupsAPI.delete = async function (caller, data) {
 
     await groups.destroy(groupName);
     logGroupEvent(caller, 'group-delete', {
-        groupName: groupName,
+        groupName,
     });
 };
 
@@ -97,10 +97,10 @@ groupsAPI.join = async function (caller, data) {
 
     const isSelf = parseInt(caller.uid, 10) === parseInt(data.uid, 10);
     if (!meta.config.allowPrivateGroups && isSelf) {
-        // all groups are public!
+    // all groups are public!
         await groups.join(groupName, data.uid);
         logGroupEvent(caller, 'group-join', {
-            groupName: groupName,
+            groupName,
             targetUid: data.uid,
         });
         return;
@@ -113,13 +113,13 @@ groupsAPI.join = async function (caller, data) {
     if ((!groupData.private && isSelf) || isCallerAdmin || isCallerOwner) {
         await groups.join(groupName, data.uid);
         logGroupEvent(caller, 'group-join', {
-            groupName: groupName,
+            groupName,
             targetUid: data.uid,
         });
     } else if (isSelf) {
         await groups.requestMembership(groupName, caller.uid);
         logGroupEvent(caller, 'group-request-membership', {
-            groupName: groupName,
+            groupName,
             targetUid: data.uid,
         });
     }
@@ -184,7 +184,7 @@ groupsAPI.leave = async function (caller, data) {
     await notifications.push(notification, uids);
 
     logGroupEvent(caller, 'group-leave', {
-        groupName: groupName,
+        groupName,
         targetUid: data.uid,
     });
 };
@@ -195,7 +195,7 @@ groupsAPI.grant = async (caller, data) => {
 
     await groups.ownership.grant(data.uid, groupName);
     logGroupEvent(caller, 'group-owner-grant', {
-        groupName: groupName,
+        groupName,
         targetUid: data.uid,
     });
 };
@@ -206,7 +206,7 @@ groupsAPI.rescind = async (caller, data) => {
 
     await groups.ownership.rescind(data.uid, groupName);
     logGroupEvent(caller, 'group-owner-rescind', {
-        groupName: groupName,
+        groupName,
         targetUid: data.uid,
     });
 };

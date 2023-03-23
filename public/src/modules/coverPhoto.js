@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('coverPhoto', [
     'alerts',
     'vendor/jquery/draggable-background/backgroundDraggable',

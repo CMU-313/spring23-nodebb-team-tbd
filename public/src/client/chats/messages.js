@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/chats/messages', [
     'components', 'translator', 'benchpress', 'hooks',
     'bootbox', 'alerts', 'messages', 'api',
@@ -54,7 +53,7 @@ define('forum/chats/messages', [
         parent.find('[component="chat/message/length"]').text(element.val().length);
         parent.find('[component="chat/message/remaining"]').text(config.maximumChatMessageLength - element.val().length);
         hooks.fire('action:chat.updateRemainingLength', {
-            parent: parent,
+            parent,
         });
     };
 
@@ -85,7 +84,6 @@ define('forum/chats/messages', [
             messageEl: newMessage,
         });
     }
-
 
     messages.parseMessage = function (data, callback) {
         function done(html) {
@@ -129,7 +127,7 @@ define('forum/chats/messages', [
     };
 
     messages.prepEdit = function (inputEl, messageId, roomId) {
-        socket.emit('modules.chats.getRaw', { mid: messageId, roomId: roomId }, function (err, raw) {
+        socket.emit('modules.chats.getRaw', { mid: messageId, roomId }, function (err, raw) {
             if (err) {
                 return alerts.error(err);
             }
@@ -141,9 +139,9 @@ define('forum/chats/messages', [
                 inputEl.val(raw).focus();
 
                 hooks.fire('action:chat.prepEdit', {
-                    inputEl: inputEl,
-                    messageId: messageId,
-                    roomId: roomId,
+                    inputEl,
+                    messageId,
+                    roomId,
                 });
             }
         });

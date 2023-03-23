@@ -61,11 +61,11 @@ async function renderWidget(widget, uid, options) {
     }
 
     const userLang = config.userLang || meta.config.defaultLang || 'en-GB';
-    const templateData = _.assign({ }, options.templateData, { config: config });
+    const templateData = _.assign({ }, options.templateData, { config });
     const data = await plugins.hooks.fire(`filter:widget.render:${widget.widget}`, {
-        uid: uid,
+        uid,
         area: options,
-        templateData: templateData,
+        templateData,
         data: widget.data,
         req: options.req,
         res: options.res,
@@ -196,7 +196,7 @@ widgets.reset = async function () {
 
     let saveDrafts = drafts || [];
     for (const area of areas) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         const areaData = await widgets.getArea(area.template, area.location);
         saveDrafts = saveDrafts.concat(areaData);
         area.widgets = [];
@@ -223,7 +223,7 @@ widgets.resetTemplate = async function (template) {
 
 widgets.resetTemplates = async function (templates) {
     for (const template of templates) {
-        /* eslint-disable no-await-in-loop */
+    /* eslint-disable no-await-in-loop */
         await widgets.resetTemplate(template);
     }
 };

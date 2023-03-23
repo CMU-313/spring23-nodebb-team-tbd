@@ -107,9 +107,9 @@ module.exports = function (Posts) {
             'lastonline', 'groupTitle', 'mutedUntil',
         ];
         const result = await plugins.hooks.fire('filter:posts.addUserFields', {
-            fields: fields,
-            uid: uid,
-            uids: uids,
+            fields,
+            uid,
+            uids,
         });
         return await user.getUsersFields(result.uids, _.uniq(result.fields));
     }
@@ -183,7 +183,7 @@ module.exports = function (Posts) {
 
         plugins.hooks.fire('action:post.changeOwner', {
             posts: _.cloneDeep(postData),
-            toUid: toUid,
+            toUid,
         });
         return postData;
     };
@@ -245,7 +245,7 @@ module.exports = function (Posts) {
         const changedTopics = mainPosts.map(p => tidToTopic[p.tid]);
         plugins.hooks.fire('action:topic.changeOwner', {
             topics: _.cloneDeep(changedTopics),
-            toUid: toUid,
+            toUid,
         });
     }
 

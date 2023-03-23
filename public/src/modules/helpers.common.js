@@ -68,7 +68,7 @@ module.exports = function (utils, Benchpress, relative_path) {
     }
 
     function stringify(obj) {
-        // Turns the incoming object into a JSON string
+    // Turns the incoming object into a JSON string
         return JSON.stringify(obj).replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;')
             .replace(/"/g, '&quot;');
     }
@@ -209,7 +209,7 @@ module.exports = function (utils, Benchpress, relative_path) {
                 if (!event.user.system) {
                     html += `<span><a href="${relative_path}/user/${event.user.userslug}">${buildAvatar(event.user, 'xs', true)}&nbsp;${event.user.username}</a></span>&nbsp;`;
                 } else {
-                    html += `<span class="timeline-text">[[global:system-user]]</span>&nbsp;`;
+                    html += '<span class="timeline-text">[[global:system-user]]</span>&nbsp;';
                 }
             }
 
@@ -289,7 +289,7 @@ module.exports = function (utils, Benchpress, relative_path) {
     }
 
     function buildAvatar(userObj, size, rounded, classNames, component) {
-        /**
+    /**
          * userObj requires:
          *   - uid, picture, icon:bgColor, icon:text (getUserField w/ "picture" should return all 4), username
          * size: one of "xs", "sm", "md", "lg", or "xl" (required), or an integer

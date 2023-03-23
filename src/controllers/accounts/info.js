@@ -50,5 +50,5 @@ async function getNotes(userData, start, stop) {
         user.getModerationNotes(userData.uid, start, stop),
         db.sortedSetCard(`uid:${userData.uid}:moderation:notes`),
     ]);
-    return { notes: notes, count: count };
+    return { notes, count };
 }

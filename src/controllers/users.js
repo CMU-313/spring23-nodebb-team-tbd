@@ -141,8 +141,8 @@ usersController.getUsers = async function (set, uid, query) {
         title: setToData[set].title || '[[pages:users/latest]]',
         breadcrumbs: helpers.buildBreadcrumbs(breadcrumbs),
         isAdminOrGlobalMod: isAdmin || isGlobalMod,
-        isAdmin: isAdmin,
-        isGlobalMod: isGlobalMod,
+        isAdmin,
+        isGlobalMod,
         displayUserSearch: canSearch,
         [`section_${query.section || 'joindate'}`]: true,
     };
@@ -185,7 +185,7 @@ usersController.getUsersAndCount = async function (set, uid, start, stop) {
     ]);
     return {
         users: usersData.filter(user => user && parseInt(user.uid, 10)),
-        count: count,
+        count,
     };
 };
 

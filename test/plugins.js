@@ -96,7 +96,7 @@ describe('Plugins', () => {
                 reject(new Error('nope'));
             });
         }
-        plugins.hooks.register('test-plugin', { hook: 'filter:test.hook4', method: method });
+        plugins.hooks.register('test-plugin', { hook: 'filter:test.hook4', method });
         plugins.hooks.fire('filter:test.hook4', { foo: 1 }, (err) => {
             assert(err);
             done();
@@ -133,7 +133,7 @@ describe('Plugins', () => {
                 resolve();
             });
         }
-        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method: method });
+        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method });
         plugins.hooks.fire('static:test.hook', { bar: 'test' }, (err) => {
             assert.ifError(err);
             done();
@@ -147,7 +147,7 @@ describe('Plugins', () => {
                 reject(new Error('just because'));
             });
         }
-        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method: method });
+        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method });
         plugins.hooks.fire('static:test.hook', { bar: 'test' }, (err) => {
             assert.strictEqual(err.message, 'just because');
             plugins.hooks.unregister('test-plugin', 'static:test.hook', method);
@@ -162,7 +162,7 @@ describe('Plugins', () => {
                 setTimeout(resolve, 6000);
             });
         }
-        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method: method });
+        plugins.hooks.register('test-plugin', { hook: 'static:test.hook', method });
         plugins.hooks.fire('static:test.hook', { bar: 'test' }, (err) => {
             assert.ifError(err);
             plugins.hooks.unregister('test-plugin', 'static:test.hook', method);
@@ -399,5 +399,3 @@ describe('Plugins', () => {
         });
     });
 });
-
-

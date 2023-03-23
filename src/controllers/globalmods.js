@@ -20,12 +20,11 @@ globalModsController.ipBlacklist = async function (req, res, next) {
     ]);
     res.render('ip-blacklist', {
         title: '[[pages:ip-blacklist]]',
-        rules: rules,
+        rules,
         analytics: analyticsData,
         breadcrumbs: helpers.buildBreadcrumbs([{ text: '[[pages:ip-blacklist]]' }]),
     });
 };
-
 
 globalModsController.registrationQueue = async function (req, res, next) {
     const isAdminOrGlobalMod = await user.isAdminOrGlobalMod(req.uid);

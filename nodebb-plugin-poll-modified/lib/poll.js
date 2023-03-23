@@ -17,7 +17,7 @@ const Scheduler = require('./scheduler');
 			}
 
 			const poll = {
-				pollId: pollId,
+				pollId,
 				uid: postData.editor || postData.uid,
 				tid: postData.tid,
 				pid: postData.pid,

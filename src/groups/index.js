@@ -191,9 +191,9 @@ Groups.getOwnersAndMembers = async function (groupName, uid, start, stop) {
     returnUsers = countToReturn > 0 ? returnUsers.slice(0, countToReturn) : returnUsers;
     const result = await plugins.hooks.fire('filter:group.getOwnersAndMembers', {
         users: returnUsers,
-        uid: uid,
-        start: start,
-        stop: stop,
+        uid,
+        start,
+        stop,
     });
     return result.users;
 };

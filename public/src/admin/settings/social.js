@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('admin/settings/social', ['alerts'], function (alerts) {
     const social = {};
 

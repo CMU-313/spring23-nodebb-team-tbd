@@ -1,6 +1,5 @@
 'use strict';
 
-
 const nconf = require('nconf');
 const validator = require('validator');
 const qs = require('querystring');
@@ -73,14 +72,14 @@ categoryController.get = async function (req, res, next) {
 
     const categoryData = await categories.getCategoryById({
         uid: req.uid,
-        cid: cid,
-        start: start,
-        stop: stop,
+        cid,
+        start,
+        stop,
         sort: req.query.sort || userSettings.categoryTopicSort,
         settings: userSettings,
         query: req.query,
         tag: req.query.tag,
-        targetUid: targetUid,
+        targetUid,
     });
     if (!categoryData) {
         return next();

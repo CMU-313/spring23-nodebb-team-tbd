@@ -10,7 +10,7 @@ define('topicThumbs', [
     Thumbs.getByPid = pid => api.get(`/posts/${pid}`, {}).then(post => Thumbs.get(post.tid));
 
     Thumbs.delete = (id, path) => api.del(`/topics/${id}/thumbs`, {
-        path: path,
+        path,
     });
 
     Thumbs.deleteAll = (id) => {
@@ -96,7 +96,7 @@ define('topicThumbs', [
                     const id = ev.target.closest('.media[data-id]').getAttribute('data-id');
                     const path = ev.target.closest('.media[data-path]').getAttribute('data-path');
                     api.del(`/topics/${id}/thumbs`, {
-                        path: path,
+                        path,
                     }).then(() => {
                         Thumbs.modal.open(payload);
                     }).catch(alerts.error);

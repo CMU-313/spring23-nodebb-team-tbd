@@ -184,14 +184,16 @@ define('admin/manage/users', [
                                     data[cur.name] = cur.value;
                                     return data;
                                 }, {});
-                                const until = formData.length > 0 ? (
-                                    Date.now() +
+                                const until = formData.length > 0 ?
+                                    (
+                                        Date.now() +
                                     (formData.length * 1000 * 60 * 60 * (parseInt(formData.unit, 10) ? 24 : 1))
-                                ) : 0;
+                                    ) :
+                                    0;
 
                                 Promise.all(uids.map(function (uid) {
                                     return api.put('/users/' + uid + '/ban', {
-                                        until: until,
+                                        until,
                                         reason: formData.reason,
                                     });
                                 })).then(() => {
@@ -389,9 +391,9 @@ define('admin/manage/users', [
             }
 
             const user = {
-                username: username,
-                email: email,
-                password: password,
+                username,
+                email,
+                password,
             };
 
             api.post('/users', user)
@@ -437,7 +439,7 @@ define('admin/manage/users', [
             const url = config.relative_path + '/admin/manage/users?' + qs;
             if (history.pushState) {
                 history.pushState({
-                    url: url,
+                    url,
                 }, null, window.location.protocol + '//' + window.location.host + url);
             }
         }).fail(function (xhrErr) {

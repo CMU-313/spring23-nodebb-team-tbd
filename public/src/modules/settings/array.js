@@ -89,7 +89,6 @@ define('settings/array', function () {
         element.append(add);
     }
 
-
     const SettingsArray = {
         types: ['array', 'div'],
         use: function () {

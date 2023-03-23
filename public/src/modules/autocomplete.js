@@ -85,7 +85,7 @@ define('autocomplete', ['api', 'alerts'], function (api, alerts) {
                             return group && {
                                 label: group.name,
                                 value: group.name,
-                                group: group,
+                                group,
                             };
                         });
                         response(names);

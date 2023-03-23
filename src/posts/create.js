@@ -13,7 +13,7 @@ const utils = require('../utils');
 
 module.exports = function (Posts) {
     Posts.create = async function (data) {
-        // This is an internal method, consider using Topics.reply instead
+    // This is an internal method, consider using Topics.reply instead
         const { uid } = data;
         const { tid } = data;
         const content = data.content.toString();
@@ -30,11 +30,11 @@ module.exports = function (Posts) {
 
         const pid = await db.incrObjectField('global', 'nextPid');
         let postData = {
-            pid: pid,
-            uid: uid,
-            tid: tid,
-            content: content,
-            timestamp: timestamp,
+            pid,
+            uid,
+            tid,
+            content,
+            timestamp,
         };
 
         if (data.toPid) {
@@ -47,7 +47,7 @@ module.exports = function (Posts) {
             postData.handle = data.handle;
         }
 
-        let result = await plugins.hooks.fire('filter:post.create', { post: postData, data: data });
+        let result = await plugins.hooks.fire('filter:post.create', { post: postData, data });
         postData = result.post;
         await db.setObject(`post:${postData.pid}`, postData);
 

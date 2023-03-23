@@ -16,10 +16,10 @@ module.exports = function (Messaging) {
         uids = await user.blocks.filterUids(fromUid, uids);
 
         let data = {
-            roomId: roomId,
-            fromUid: fromUid,
+            roomId,
+            fromUid,
             message: messageObj,
-            uids: uids,
+            uids,
         };
         data = await plugins.hooks.fire('filter:messaging.notify', data);
         if (!data || !data.uids || !data.uids.length) {

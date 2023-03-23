@@ -77,7 +77,7 @@ middleware.renderHeader = async (req, res, data) => {
         env: !!process.env.NODE_ENV,
         title: `${acpPath || 'Dashboard'} | NodeBB Admin Control Panel`,
         bodyClass: data.bodyClass,
-        version: version,
+        version,
         latestVersion: results.latestVersion,
         upgradeAvailable: results.latestVersion && semver.gt(results.latestVersion, version),
         showManageMenu: results.privileges.superadmin || ['categories', 'privileges', 'users', 'admins-mods', 'groups', 'tags', 'settings'].some(priv => results.privileges[`admin:${priv}`]),
@@ -128,7 +128,7 @@ middleware.checkPrivileges = helpers.try(async (req, res, next) => {
             return controllers.helpers.notAllowed(req, res);
         }
     } else {
-        // If accessing /admin, check for any valid admin privs
+    // If accessing /admin, check for any valid admin privs
         const privilegeSet = await privileges.admin.get(req.uid);
         if (!Object.values(privilegeSet).some(Boolean)) {
             return controllers.helpers.notAllowed(req, res);

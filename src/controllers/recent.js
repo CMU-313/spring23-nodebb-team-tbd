@@ -46,13 +46,13 @@ recentController.getData = async function (req, url, sort) {
 
     const data = await topics.getSortedTopics({
         cids: cid,
-        tags: tags,
+        tags,
         uid: req.uid,
-        start: start,
-        stop: stop,
-        filter: filter,
-        term: term,
-        sort: sort,
+        start,
+        stop,
+        filter,
+        term,
+        sort,
         floatPinned: req.query.pinned,
         query: req.query,
     });
@@ -86,7 +86,7 @@ recentController.getData = async function (req, url, sort) {
 
     const pageCount = Math.max(1, Math.ceil(data.topicCount / settings.topicsPerPage));
     data.pagination = pagination.create(page, pageCount, req.query);
-    helpers.addLinkTags({ url: url, res: req.res, tags: data.pagination.rel });
+    helpers.addLinkTags({ url, res: req.res, tags: data.pagination.rel });
     return data;
 };
 

@@ -45,7 +45,7 @@ Topics.getTopicsFromSet = async function (set, uid, start, stop) {
     const tids = await db.getSortedSetRevRange(set, start, stop);
     const topics = await Topics.getTopics(tids, uid);
     Topics.calculateTopicIndices(topics, start);
-    return { topics: topics, nextStart: stop + 1 };
+    return { topics, nextStart: stop + 1 };
 };
 
 Topics.getTopics = async function (tids, options) {
@@ -149,7 +149,7 @@ Topics.getTopicsByTids = async function (tids, options) {
 
     const filteredTopics = result.topics.filter(topic => topic && topic.category && !topic.category.disabled);
 
-    const hookResult = await plugins.hooks.fire('filter:topics.get', { topics: filteredTopics, uid: uid });
+    const hookResult = await plugins.hooks.fire('filter:topics.get', { topics: filteredTopics, uid });
     return hookResult.topics;
 };
 
@@ -171,7 +171,7 @@ Topics.getTopicWithPosts = async function (topicData, set, uid, start, stop, rev
         Topics.getTopicPosts(topicData, set, start, stop, uid, reverse),
         categories.getCategoryData(topicData.cid),
         categories.getTagWhitelist([topicData.cid]),
-        plugins.hooks.fire('filter:topic.thread_tools', { topic: topicData, uid: uid, tools: [] }),
+        plugins.hooks.fire('filter:topic.thread_tools', { topic: topicData, uid, tools: [] }),
         Topics.getFollowData([topicData.tid], uid),
         Topics.getUserBookmark(topicData.tid, uid),
         social.getActivePostSharing(),
@@ -213,7 +213,7 @@ Topics.getTopicWithPosts = async function (topicData, set, uid, start, stop, rev
     topicData.unreplied = topicData.postcount === 1;
     topicData.icons = [];
 
-    const result = await plugins.hooks.fire('filter:topic.get', { topic: topicData, uid: uid });
+    const result = await plugins.hooks.fire('filter:topic.get', { topic: topicData, uid });
     return result.topic;
 };
 
@@ -278,8 +278,8 @@ Topics.search = async function (tid, term) {
         throw new Error('[[error:invalid-data]]');
     }
     const result = await plugins.hooks.fire('filter:topic.search', {
-        tid: tid,
-        term: term,
+        tid,
+        term,
         ids: [],
     });
     return Array.isArray(result) ? result : result.ids;

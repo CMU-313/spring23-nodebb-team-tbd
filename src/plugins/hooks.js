@@ -82,9 +82,9 @@ Hooks.register = function (id, data) {
     }
 
     if (Array.isArray(data.method) && data.method.every(method => typeof method === 'function' || typeof method === 'string')) {
-        // Go go gadget recursion!
+    // Go go gadget recursion!
         data.method.forEach((method) => {
-            const singularData = { ...data, method: method };
+            const singularData = { ...data, method };
             Hooks.register(id, singularData);
         });
     } else if (typeof data.method === 'string' && data.method.length > 0) {
@@ -132,7 +132,7 @@ Hooks.fire = async function (hook, params) {
     const result = await hookTypeToMethod[hookType](hook, hookList, params);
 
     if (hook !== 'action:plugins.firehook' && hook !== 'filter:plugins.firehook') {
-        const payload = await Hooks.fire('filter:plugins.firehook', { hook: hook, params: result || params });
+        const payload = await Hooks.fire('filter:plugins.firehook', { hook, params: result || params });
         Hooks.fire('action:plugins.firehook', payload);
     }
     if (result !== undefined) {
@@ -191,7 +191,7 @@ async function fireFilterHook(hook, hookList, params) {
     }
 
     for (const hookObj of hookList) {
-        // eslint-disable-next-line
+    // eslint-disable-next-line
         params = await fireMethod(hookObj, params);
     }
     return params;

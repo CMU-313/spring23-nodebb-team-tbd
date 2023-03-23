@@ -85,10 +85,10 @@ async function buildTargets(targets, parallel, options) {
     const otherTargets = targets.filter(target => !targetHandlers.javascript.includes(target));
 
     // Compile TypeScript into JavaScript
-    winston.info(`[build] Building TypeScript files`);
+    winston.info('[build] Building TypeScript files');
     const execAsync = util.promisify(exec);
     await execAsync('npx tsc');
-    winston.info(`[build] TypeScript building complete`);
+    winston.info('[build] TypeScript building complete');
 
     async function buildJSTargets() {
         await Promise.all(
@@ -146,7 +146,7 @@ exports.build = async function (targets, options) {
 
     let series = nconf.get('series') || options.series;
     if (series === undefined) {
-        // Detect # of CPUs and select strategy as appropriate
+    // Detect # of CPUs and select strategy as appropriate
         winston.verbose('[build] Querying CPU core count for build strategy');
         const cpus = os.cpus();
         series = cpus.length < 4;

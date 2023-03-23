@@ -62,7 +62,6 @@ postgresModule.init = async function () {
     }
 };
 
-
 async function checkUpgrade(client) {
     const res = await client.query(`
 SELECT EXISTS(SELECT *
@@ -84,7 +83,7 @@ SELECT EXISTS(SELECT *
         return;
     }
 
-    await client.query(`BEGIN`);
+    await client.query('BEGIN');
     try {
         if (!res.rows[0].b) {
             await client.query(`
@@ -257,8 +256,8 @@ SELECT "data"->>'_key',
           FROM jsonb_object_keys("data" - 'expireAt')) = 2
    AND (("data" ? 'value')
      OR ("data" ? 'data'))`);
-                await client.query(`DROP TABLE "objects" CASCADE`);
-                await client.query(`DROP FUNCTION "fun__objects__expireAt"() CASCADE`);
+                await client.query('DROP TABLE "objects" CASCADE');
+                await client.query('DROP FUNCTION "fun__objects__expireAt"() CASCADE');
             }
             await client.query(`
 CREATE VIEW "legacy_object_live" AS
@@ -283,10 +282,10 @@ STRICT
 PARALLEL SAFE`);
         }
     } catch (ex) {
-        await client.query(`ROLLBACK`);
+        await client.query('ROLLBACK');
         throw ex;
     }
-    await client.query(`COMMIT`);
+    await client.query('COMMIT');
 }
 
 postgresModule.createSessionStore = async function (options) {
@@ -335,8 +334,8 @@ postgresModule.createIndices = function (callback) {
 
     winston.info('[database] Checking database indices.');
     async.series([
-        async.apply(query, `CREATE INDEX IF NOT EXISTS "idx__legacy_zset__key__score" ON "legacy_zset"("_key" ASC, "score" DESC)`),
-        async.apply(query, `CREATE INDEX IF NOT EXISTS "idx__legacy_object__expireAt" ON "legacy_object"("expireAt" ASC)`),
+        async.apply(query, 'CREATE INDEX IF NOT EXISTS "idx__legacy_zset__key__score" ON "legacy_zset"("_key" ASC, "score" DESC)'),
+        async.apply(query, 'CREATE INDEX IF NOT EXISTS "idx__legacy_object__expireAt" ON "legacy_object"("expireAt" ASC)'),
     ], (err) => {
         if (err) {
             winston.error(`Error creating index ${err.message}`);

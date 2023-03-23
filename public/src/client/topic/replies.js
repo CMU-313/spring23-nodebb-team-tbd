@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/replies', ['forum/topic/posts', 'hooks', 'alerts'], function (posts, hooks, alerts) {
     const Replies = {};
 

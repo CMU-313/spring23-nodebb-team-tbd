@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/posts', [
     'forum/pagination',
     'forum/infinitescroll',
@@ -204,7 +203,7 @@ define('forum/topic/posts', [
             before = repliesSelector.first();
         }
 
-        hooks.fire('action:posts.loading', { posts: data.posts, after: after, before: before });
+        hooks.fire('action:posts.loading', { posts: data.posts, after, before });
 
         app.parseAndTranslate('topic', 'posts', Object.assign({}, ajaxify.data, data), function (html) {
             html = html.filter(function () {
@@ -263,10 +262,10 @@ define('forum/topic/posts', [
         }
 
         infinitescroll.loadMore('topics.loadMore', {
-            tid: tid,
+            tid,
             after: after + (direction > 0 ? 1 : 0),
             count: config.postsPerPage,
-            direction: direction,
+            direction,
             topicPostSort: config.topicPostSort,
         }, function (data, done) {
             indicatorEl.fadeOut();

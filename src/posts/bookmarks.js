@@ -42,8 +42,8 @@ module.exports = function (Posts) {
         await Posts.setPostField(pid, 'bookmarks', postData.bookmarks);
 
         plugins.hooks.fire(`action:post.${type}`, {
-            pid: pid,
-            uid: uid,
+            pid,
+            uid,
             owner: postData.uid,
             current: hasBookmarked ? 'bookmarked' : 'unbookmarked',
         });

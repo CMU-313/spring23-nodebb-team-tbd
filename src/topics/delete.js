@@ -8,7 +8,6 @@ const categories = require('../categories');
 const plugins = require('../plugins');
 const batch = require('../batch');
 
-
 module.exports = function (Topics) {
     Topics.delete = async function (tid, uid) {
         await removeTopicPidsFromCid(tid);
@@ -94,7 +93,7 @@ module.exports = function (Topics) {
             Topics.thumbs.deleteAll(tid),
             reduceCounters(tid),
         ]);
-        plugins.hooks.fire('action:topic.purge', { topic: deletedTopic, uid: uid });
+        plugins.hooks.fire('action:topic.purge', { topic: deletedTopic, uid });
         await db.delete(`topic:${tid}`);
     };
 

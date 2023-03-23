@@ -2,7 +2,6 @@
 
 // see https://gist.github.com/jfromaniello/4087861#gistcomment-1447029
 
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const util = require('util');
@@ -50,7 +49,6 @@ describe('socket.io', () => {
 
         cid = data[2].cid;
     });
-
 
     it('should connect and auth properly', (done) => {
         request.get({
@@ -277,7 +275,6 @@ describe('socket.io', () => {
             done();
         });
     });
-
 
     it('should error if the room is missing', (done) => {
         io.emit('meta.rooms.enter', null, (err) => {

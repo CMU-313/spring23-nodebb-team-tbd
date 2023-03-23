@@ -21,7 +21,7 @@ tagsController.getTag = async function (req, res) {
 
     const templateData = {
         topics: [],
-        tag: tag,
+        tag,
         breadcrumbs: helpers.buildBreadcrumbs([{ text: '[[tags:tags]]', url: '/tags' }, { text: tag }]),
         title: `[[pages:tag, ${tag}]]`,
     };

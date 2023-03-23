@@ -1,6 +1,5 @@
 'use strict';
 
-
 define('forum/topic/merge', ['search', 'alerts', 'api'], function (search, alerts, api) {
     const Merge = {};
     let modal;
@@ -87,7 +86,7 @@ define('forum/topic/merge', ['search', 'alerts', 'api'], function (search, alert
             options.newTopicTitle = modal.find('.merge-new-title-input').val();
         }
 
-        socket.emit('topics.merge', { tids: tids, options: options }, function (err, tid) {
+        socket.emit('topics.merge', { tids, options }, function (err, tid) {
             btn.removeAttr('disabled');
             if (err) {
                 return alerts.error(err);
@@ -107,13 +106,13 @@ define('forum/topic/merge', ['search', 'alerts', 'api'], function (search, alert
         });
 
         const topics = tids.map(function (tid) {
-            return { tid: tid, title: selectedTids[tid] };
+            return { tid, title: selectedTids[tid] };
         });
 
         if (tids.length) {
             app.parseAndTranslate('partials/merge_topics_modal', {
-                config: config,
-                topics: topics,
+                config,
+                topics,
             }, function (html) {
                 modal.find('.topics-section').html(html.find('.topics-section').html());
                 modal.find('.merge-main-topic-select').html(html.find('.merge-main-topic-select').html());

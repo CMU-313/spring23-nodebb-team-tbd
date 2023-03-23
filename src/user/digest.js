@@ -33,7 +33,7 @@ Digest.execute = async function (payload) {
         winston.info(`[user/jobs] Digest (${payload.interval}) scheduling completed (${subscribers.length} subscribers). Sending emails; this may take some time...`);
         await Digest.send({
             interval: payload.interval,
-            subscribers: subscribers,
+            subscribers,
         });
         winston.info(`[user/jobs] Digest (${payload.interval}) complete.`);
     } catch (err) {
@@ -74,8 +74,8 @@ Digest.getSubscribers = async function (interval) {
     });
 
     const results = await plugins.hooks.fire('filter:digest.subscribers', {
-        interval: interval,
-        subscribers: subscribers,
+        interval,
+        subscribers,
     });
     return results.subscribers;
 };
@@ -150,7 +150,7 @@ Digest.getDeliveryTimes = async (start, stop) => {
     }
 
     const [scores, settings] = await Promise.all([
-        // Grab the last time a digest was successfully delivered to these uids
+    // Grab the last time a digest was successfully delivered to these uids
         db.sortedSetScores('digest:delivery', uids),
         // Get users' digest settings
         Digest.getUsersInterval(uids),
@@ -166,16 +166,16 @@ Digest.getDeliveryTimes = async (start, stop) => {
 
     return {
         users: userData,
-        count: count,
+        count,
     };
 };
 
 async function getTermTopics(term, uid) {
     const data = await topics.getSortedTopics({
-        uid: uid,
+        uid,
         start: 0,
         stop: 199,
-        term: term,
+        term,
         sort: 'votes',
         teaserPost: 'first',
     });
@@ -202,7 +202,8 @@ async function getTermTopics(term, uid) {
             }
             // Fix relative paths in topic data
             const user = topicObj.hasOwnProperty('teaser') && topicObj.teaser && topicObj.teaser.user ?
-                topicObj.teaser.user : topicObj.user;
+                topicObj.teaser.user :
+                topicObj.user;
             if (user && user.picture && utils.isRelativeUrl(user.picture)) {
                 user.picture = baseUrl + user.picture;
             }

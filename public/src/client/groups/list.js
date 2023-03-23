@@ -13,7 +13,7 @@ define('forum/groups/list', [
             bootbox.prompt('[[groups:new-group.group_name]]', function (name) {
                 if (name && name.length) {
                     api.post('/groups', {
-                        name: name,
+                        name,
                     }).then((res) => {
                         ajaxify.go('groups/' + res.slug);
                     }).catch(alerts.error);
@@ -78,7 +78,7 @@ define('forum/groups/list', [
                 return group.name !== 'registered-users' && group.name !== 'guests';
             });
             Benchpress.render('partials/groups/list', {
-                groups: groups,
+                groups,
             }).then(function (html) {
                 groupsEl.empty().append(html);
             });

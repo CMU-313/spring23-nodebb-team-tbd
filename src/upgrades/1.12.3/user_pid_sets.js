@@ -1,7 +1,6 @@
 
 'use strict';
 
-
 const db = require('../../database');
 const batch = require('../../batch');
 const posts = require('../../posts');
@@ -29,7 +28,7 @@ module.exports = {
             });
             await db.sortedSetAddBulk(bulk);
         }, {
-            progress: progress,
+            progress,
         });
     },
 };

@@ -11,14 +11,14 @@ const { Translator } = require('../translator');
 
 function filterDirectories(directories) {
     return directories.map(
-        // get the relative path
-        // convert dir to use forward slashes
+    // get the relative path
+    // convert dir to use forward slashes
         dir => dir.replace(/^.*(admin.*?).tpl$/, '$1').split(path.sep).join('/')
     ).filter(
-        // exclude .js files
-        // exclude partials
-        // only include subpaths
-        // exclude category.tpl, group.tpl, category-analytics.tpl
+    // exclude .js files
+    // exclude partials
+    // only include subpaths
+    // exclude category.tpl, group.tpl, category-analytics.tpl
         dir => (
             !dir.endsWith('.js') &&
             !dir.includes('/partials/') &&
@@ -68,9 +68,9 @@ async function initFallback(namespace) {
     translations += `\n${title}`;
 
     return {
-        namespace: namespace,
-        translations: translations,
-        title: title,
+        namespace,
+        translations,
+        title,
     };
 }
 
@@ -104,19 +104,21 @@ async function buildNamespace(language, namespace) {
         title = title.match(/admin\/(.+?)\/(.+?)$/);
         title = `[[admin/menu:section-${
             title[1] === 'development' ? 'advanced' : title[1]
-        }]]${title[2] ? (` > [[admin/menu:${
-            title[1]}/${title[2]}]]`) : ''}`;
+        }]]${title[2] ?
+            (` > [[admin/menu:${
+                title[1]}/${title[2]}]]`) :
+            ''}`;
 
         title = await translator.translate(title);
         return {
-            namespace: namespace,
+            namespace,
             translations: `${str}\n${title}`,
-            title: title,
+            title,
         };
     } catch (err) {
         winston.error(err.stack);
         return {
-            namespace: namespace,
+            namespace,
             translations: '',
         };
     }

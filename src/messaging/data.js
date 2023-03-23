@@ -124,11 +124,11 @@ module.exports = function (Messaging) {
         }
 
         const data = await plugins.hooks.fire('filter:messaging.getMessages', {
-            messages: messages,
-            uid: uid,
-            roomId: roomId,
-            isNew: isNew,
-            mids: mids,
+            messages,
+            uid,
+            roomId,
+            isNew,
+            mids,
         });
 
         return data && data.messages;
@@ -147,9 +147,9 @@ async function modifyMessage(message, fields, mid) {
     }
 
     const payload = await plugins.hooks.fire('filter:messaging.getFields', {
-        mid: mid,
-        message: message,
-        fields: fields,
+        mid,
+        message,
+        fields,
     });
 
     return payload.message;
