@@ -147,6 +147,8 @@
     "zxcvbn": "4.4.2"
   },
   "devDependencies": {
+    "@stryker-mutator/core": "^6.4.1",
+    "@stryker-mutator/mocha-runner": "^6.4.1",
     "@types/mocha": "^10.0.1",
     "@apidevtools/swagger-parser": "^10.1.0",
     "@commitlint/cli": "17.3.0",
