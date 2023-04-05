@@ -18,4 +18,4 @@ def json_example():
 
 if __name__ == '__main__':
     # run app in debug mode on port 8000
-    app.run(debug=True, port=8000)
+    app.run(debug=True, port=8000, host='0.0.0.0')
