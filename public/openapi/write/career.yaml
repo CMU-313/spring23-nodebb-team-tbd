@@ -15,9 +15,11 @@ post:
               example: '0000'
             major:
               type: string
+              example: 'Computer Science'
             age:
               type: number
               enum: [18, 25]
+              example: 25
             gender: 
               type: string
               example: "M"
@@ -31,9 +33,11 @@ post:
             num_programming_languages:
               type: number
               enum: [1, 5]
+              example: 5
             num_past_internships:
               type: number
               enum: [0, 4]
+              example: 4
           required:
             - student_id
             - major
