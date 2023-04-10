@@ -22,12 +22,30 @@ Career.register = async (req, res) => {
             num_past_internships: userData.num_past_internships,
         };
 
-        // TODO: update URL
-        const URL = `https://www.microserver_URL.fly.io:8000/api?data=${encodeURI(JSON.stringify(userCareerData))}`;
+        const URL = `https://tbd-ml.fly.dev/api?data=${encodeURI(JSON.stringify(userCareerData))}`;
         
-        userCareerData.prediction = await request(URL);
-   
-        
+        const requestPromise = new Promise((resolve, reject) => {
+            https.get(URL, (response) => {
+                let data = '';
+                response.on('data', (chunk) => {
+                    data += chunk;
+                });
+                response.on('end', () => {
+                    console.log(data);
+                    resolve(JSON.parse(data));
+                });
+            }).on('error', (error) => {
+                reject(error);
+            });
+        });
+
+        const response = await requestPromise;
+        console.log(response);
+
+        if (response['result']) {throw new Error("invalid result, microservice error.");}
+
+        userCareerData.prediction = response['result'];
+
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);
         res.json({});
