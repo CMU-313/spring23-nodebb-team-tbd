@@ -3,8 +3,10 @@
 const helpers = require('../helpers');
 const user = require('../../user');
 const db = require('../../database');
+const http = require('http');
 
 const Career = module.exports;
+
 
 Career.register = async (req, res) => {
     const userData = req.body;
@@ -20,9 +22,11 @@ Career.register = async (req, res) => {
             num_past_internships: userData.num_past_internships,
         };
 
-        userCareerData.prediction = Math.round(Math.random()); 
-        // TODO: Change this line to do call and retrieve actual candidate 
-        // success prediction from the model instead of using a random number
+        // TODO: update URL
+        const URL = `https://www.microserver_URL.fly.io:8000/api?data=${encodeURI(JSON.stringify(userCareerData))}`;
+        
+        userCareerData.prediction = await request(URL);
+   
         
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);

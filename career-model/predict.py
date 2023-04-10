@@ -46,6 +46,10 @@ def predict(student):
     
     student = student.dict(by_alias=True)
     query = pd.DataFrame(student, index=[0])
-    prediction = clf.predict(query) # TODO: Error handling ??
+
+    try: 
+        prediction = clf.predict(query)
+    except ValueError as e:
+        return {'error': f'Invalid query input: {e}'}
 
     return { 'good_employee': prediction[0] }
