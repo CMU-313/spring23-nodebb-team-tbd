@@ -1,21 +1,26 @@
-# import main Flask class 
-from flask import Flask
+from flask import Flask, request
+import json
+import predict
 
-# create the Flask app
 app = Flask(__name__)
 
-@app.route('/query-example')
+
+@app.route("/api")
 def query_example():
-    return 'Query String Example'
+    try:
+        user_config = request.args.get("data")
+        print("RECEIVED_CONFIG: ", user_config)
+        student = json.loads(user_config)
+        result = int(predict.predict(student)["good_employee"])
+        print("RESULT: ", result)
+        response = {"result": result}
+    except Exception as e:
+        print(e)
+        response = {"result": -1}
+    finally:
+        return json.dumps(response)
 
-@app.route('/form-example')
-def form_example():
-    return 'Form Data Example'
 
-@app.route('/json-example')
-def json_example():
-    return 'JSON Object Example'
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000, threaded=True)
 
-if __name__ == '__main__':
-    # run app in debug mode on port 8000
-    app.run(debug=True, port=8000, host='0.0.0.0')

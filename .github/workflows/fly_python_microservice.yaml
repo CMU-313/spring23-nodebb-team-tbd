@@ -1,0 +1,31 @@
+name: Deploy Python Microservice
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    permissions:
+      contents: read
+    name: Deploy Python Microservice To Fly
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: cd python-microservice && flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
