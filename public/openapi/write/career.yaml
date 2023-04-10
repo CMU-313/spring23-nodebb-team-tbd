@@ -1,0 +1,48 @@
+post:
+  tags:
+    - career
+  summary: create a career post
+  description: This operation creates a new career post
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            student_id:
+              type: number
+              example: '0000'
+            major:
+              type: string
+            age:
+              type: number
+              enum: [18, 25]
+            gender: 
+              type: string
+              example: "M"
+            gpa:
+              type: number
+              enum: [0.0, 4.0]
+              example: 4.0
+            extra_curricular:
+              type: string
+              example: "Buggy"
+            num_programming_languages:
+              type: number
+              enum: [1, 5]
+            num_past_internships:
+              type: number
+              enum: [0, 4]
+          required:
+            - student_id
+            - major
+            - age
+            - gender
+            - gpa
+            - extra_curricular
+            - num_programming_languages
+            - num_past_internships
+  responses:
+    '200':
+      description: career post successfully created
