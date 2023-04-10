@@ -1,9 +1,9 @@
 'use strict';
 
+const https = require('https');
 const helpers = require('../helpers');
 const user = require('../../user');
 const db = require('../../database');
-const http = require('http');
 
 const Career = module.exports;
 
@@ -23,7 +23,7 @@ Career.register = async (req, res) => {
         };
 
         const URL = `https://tbd-ml.fly.dev/api?data=${encodeURI(JSON.stringify(userCareerData))}`;
-        
+
         const requestPromise = new Promise((resolve, reject) => {
             https.get(URL, (response) => {
                 let data = '';
@@ -42,9 +42,9 @@ Career.register = async (req, res) => {
         const response = await requestPromise;
         console.log(response);
 
-        if (response['result']) {throw new Error("invalid result, microservice error.");}
+        if (response.result === -1) { throw new Error('invalid result, microservice error.'); }
 
-        userCareerData.prediction = response['result'];
+        userCareerData.prediction = response.result;
 
         await user.setCareerData(req.uid, userCareerData);
         db.sortedSetAdd('users:career', req.uid, req.uid);
