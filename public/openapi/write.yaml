@@ -178,5 +178,5 @@ paths:
     $ref: 'write/files.yaml'
   /files/folder:
     $ref: 'write/files/folder.yaml'
-  /career/:
+  /career/register:
     $ref: 'write/career.yaml'
