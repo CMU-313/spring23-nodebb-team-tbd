@@ -48,3 +48,5 @@ post:
       description: career post successfully created
     '404':
       description: invalid API call
+    '400':
+      description: invalid result, microservice error
