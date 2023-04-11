@@ -6,13 +6,11 @@ app = Flask(__name__)
 
 
 @app.route("/api")
-def query_example():
+def get_example():
     try:
         user_config = request.args.get("data")
-        print("RECEIVED_CONFIG: ", user_config)
         student = json.loads(user_config)
         result = int(predict.predict(student)["good_employee"])
-        print("RESULT: ", result)
         response = {"result": result}
     except Exception as e:
         print(e)
